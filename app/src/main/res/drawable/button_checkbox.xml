@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 点击之后的图标 -->
+    <item
+        android:state_checked="true"
+        android:drawable="@drawable/ic_check_circle"
+        />
+    <!-- 点击之前的图标 -->
+    <item
+        android:state_checked="false"
+        android:drawable="@drawable/ic_unchecked_circle"
+        />
+</selector>

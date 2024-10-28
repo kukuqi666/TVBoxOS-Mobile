@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV Box Links</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .search-box {
+            margin-bottom: 20px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: box-shadow 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        .card h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+        }
+        .card a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .card button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .card button:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>TV Box 解析源</h1>
+
+        <!-- 搜索框 -->
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="搜索链接..." onkeyup="filterCards()">
+        </div>
+
+        <!-- 卡片区域 -->
+        <div id="cardContainer">
+            <!-- 卡片模板将通过 JavaScript 动态生成 -->
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>© 2024 kukuqi666. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // JSON 链接数组
+        const jsonLinks = [
+            { name: "TV Box JS", link: "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/js.json" },
+            { name: "0827 JSON", link: "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/0827.json" },
+            { name: "Gaoyun JSON", link: "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/gaoyun.json" },
+            { name: "Jiqiao JSON", link: "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/maintvbox/jiqiao.json" },
+            { name: "Top98 JSON", link: "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/top98.json" },
+            { name: "TV4K JSON", link: "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/tv4k.json" },
+            { name: "TVBox JSON", link: "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/tvbox.json" },
+            { name: "YSC JSON", link: "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/ysc.json" },
+            { name: "XYQ JSON", link: "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/XYQ.json" },
+            { name: "XYQ TVBox", link: "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/XYQTVBox.json" },
+            { name: "PG-One JSON", link: "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/PG-one.json" },
+            { name: "全能解析源", link: "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/1.json" },
+            { name: "饭太硬", link: "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/fantaiying.json" },
+            { name: "王二小放牛娃", link: "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/erxiao.json" },
+            { name: "肥猫", link: "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/fatcat.json" }
+        ];
+
+        // 动态生成卡片
+        function loadCards() {
+            const cardContainer = document.getElementById('cardContainer');
+            jsonLinks.forEach(item => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.innerHTML = `
+                    <h3>${item.name}</h3>
+                    <a href="${item.link}" target="_blank">打开链接</a>
+                    <button onclick="copyLink('${item.link}', '${item.name}')">复制链接</button>
+                `;
+                cardContainer.appendChild(card);
+            });
+        }
+
+        // 复制链接到剪贴板
+        function copyLink(link, name) {
+            navigator.clipboard.writeText(link).then(() => {
+                alert(name + ' :链接已复制');
+            }).catch(err => {
+                console.error('复制失败', err);
+            });
+        }
+
+        // 搜索过滤卡片
+        function filterCards() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const cardTitle = card.querySelector('h3').textContent.toLowerCase();
+                card.style.display = cardTitle.includes(searchInput) ? '' : 'none';
+            });
+        }
+
+        // 加载卡片
+        window.onload = loadCards;
+    </script>
+
+</body>
+</html>

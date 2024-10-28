@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center"
+    android:background="@drawable/bg_bottom_dialog"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingBottom="10dp"
+    android:gravity="center_horizontal">
+
+    <com.lihang.ShadowLayout
+        android:id="@+id/v_gesture_line"
+        android:layout_width="30dp"
+        android:layout_height="2dp"
+        app:hl_cornerRadius="10dp"
+        app:hl_layoutBackground="@color/gray_darker" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        tools:listitem="@layout/item_series"
+        />
+
+</LinearLayout>

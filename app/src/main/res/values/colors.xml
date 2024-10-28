@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!--应用的主要色调,actionBar默认使用该颜色,Toolbar导航栏的底色-->
+    <color name="colorPrimary">#567df4</color>
+    <!--CheckBox,RadioButton,SwitchCompat等一般控件的选中效果默认采用该颜色-->
+    <color name="colorAccent">#3e4fb1</color>
+    <!--    默认window窗口(activity)背景颜色-->
+    <color name="windowBackground">#fff</color>
+
+    <color name="bg_gray">#f7f7f7</color>
+    <color name="gray_darker">#7f7b79</color>
+    <!--    深灰点击透明度-->
+    <color name="gray_darker_press_alpha">#3C808080</color>
+
+    <!--    通用颜色-->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="text_foreground">#050505</color>
+    <color name="text_sub_foreground">#787878</color>
+    <color name="light_gray_color">#e6e6e6</color>
+    <!--    警示黄色-->
+    <color name="warn">#ffcb6b</color>
+    <color name="red">#ff4444</color>
+
+    <color name="disable_text">#b3b3b3</color>
+
+    <!--    带点透明度(e6 90/100不透明)的pop-->
+    <color name="bg_popup">#FFFFFF</color>
+
+    <!--    制定颜色-->
+    <!--    页面背景色,activity.fragment等-->
+    <color name="bg_page">#000000</color>
+    <!--    不可用灰色颜色-->
+    <color name="disable_gray">#cccccc</color>
+
+    <color name="orange">#ff4600</color>
+
+    <color name="color_6200EE">#6200EE</color>
+    <color name="color_3700B3">#3700B3</color>
+    <color name="color_03DAC5">#03DAC5</color>
+    <color name="title_fouse_n">#ffce7900</color>
+    <color name="color_1890FF">#1890FF</color>
+    <color name="color_FFB800">#FF6600</color>
+    <color name="color_00FF0A">#00FF0A</color>
+    <color name="color_CBF46A">#CBF46A</color>
+    <color name="color_FF90CA09">#90CA09</color>
+    <color name="color_BD0CADE2">#BD0CADE2</color>
+    <color name="color_FF0057">#FF0057</color>
+    <color name="color_FF5F00">#FF5F00</color>
+    <color name="color_FFB6C1">#FFB6C1</color>
+    <color name="color_3D3D3D">#3D3D3D</color>
+    <color name="color_32364E">#32364E</color>
+    <color name="color_6632364E">#6632364E</color>
+    <color name="color_CCFFFFFF">#BBFFFFFF</color>
+    <color name="color_0CADE2">#0CADE2</color>
+    <color name="color_6CFFFFFF">#6CFFFFFF</color>
+    <color name="color_66000000">#66000000</color>
+    <color name="color_99000000">#99000000</color>
+    <color name="color_02F8E1">#02F8E1</color>
+    <color name="color_353744">#353744</color>
+    <color name="color_CC353744">#CC353744</color>
+    <color name="color_6C3D3D3D">#6c3d3d3d</color>
+    <color name="color_BBFFFFFF">#bbffffff</color>
+    <color name="color_FFFFFF">#ffffffff</color>
+    <color name="color_33FFFFFF">#33ffffff</color>
+    <color name="color_99FFFFFF">#4D777373</color>
+    <color name="color_59353744">#59353744</color>
+    <color name="color_80FF0057">#66FF0057</color>
+
+</resources>

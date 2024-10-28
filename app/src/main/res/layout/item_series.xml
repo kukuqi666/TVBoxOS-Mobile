@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.lihang.ShadowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:hl_cornerRadius="@dimen/common_corners"
+    app:hl_layoutBackground="@android:color/transparent"
+    app:hl_strokeWith="0.6dp"
+    app:hl_strokeColor="@color/colorPrimary"
+    app:hl_layoutBackground_true="@color/colorPrimary"
+    app:hl_shapeMode="selected"
+    app:hl_bindTextView="@+id/tvSeries"
+    app:hl_textColor_true="#fff"
+    app:hl_textColor="@color/colorPrimary">
+
+    <TextView
+        android:id="@+id/tvSeries"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:text="第210集"
+        android:singleLine="true"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="6dp"
+        android:textSize="12dp"/>
+</com.lihang.ShadowLayout>

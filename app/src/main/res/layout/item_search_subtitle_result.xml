@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_r_common_solid_primary"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_setting_sort_focus"
+        android:focusable="true"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:visibility="visible"
+        >
+
+        <TextView
+            android:id="@+id/subtitleName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:text="字幕搜索结果"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/subtitleNameInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:text="压缩包"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+</FrameLayout>

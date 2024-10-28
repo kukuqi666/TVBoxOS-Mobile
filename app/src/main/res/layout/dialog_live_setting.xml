@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center"
+    android:background="@color/bg_popup"
+    android:paddingTop="20dp"
+    android:paddingBottom="10dp"
+    android:gravity="center_horizontal"
+    >
+
+    <com.owen.tvrecyclerview.widget.TvRecyclerView
+        android:id="@+id/mSettingGroupView"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:gravity= "center"
+        app:tv_selectedItemIsCentered="true"
+        app:tv_verticalSpacingWithMargins="10dp" />
+
+
+    <com.owen.tvrecyclerview.widget.TvRecyclerView
+        android:id="@+id/mSettingItemView"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:visibility="visible"
+        android:gravity= "center"
+        app:tv_selectedItemIsCentered="true"
+        app:tv_verticalSpacingWithMargins="10dp" />
+
+</LinearLayout>

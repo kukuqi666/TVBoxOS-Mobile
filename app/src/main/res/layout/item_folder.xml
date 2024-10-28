@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:foreground="?android:selectableItemBackground"
+    android:orientation="horizontal"
+    android:paddingHorizontal="10dp"
+    android:layout_marginTop="10dp"
+    >
+
+    <!-- 定义一个用于显示图像的 ImageView -->
+    <com.lihang.ShadowLayout
+        android:id="@+id/iv_container"
+        android:layout_width="120dp"
+        android:layout_height="72dp"
+        android:layout_gravity="center_horizontal"
+        android:baselineAlignBottom="true"
+        app:clickable="false"
+        app:hl_cornerRadius="10dp"
+        app:hl_layoutBackground="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/iv_video" />
+
+    </com.lihang.ShadowLayout>
+
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="1"
+        android:textColor="@color/text_foreground"
+        android:textSize="16sp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_container"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="默认文件夹"/>
+
+
+    <TextView
+        android:id="@+id/tv_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/text_foreground"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_name"
+        tools:text="10 视频"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

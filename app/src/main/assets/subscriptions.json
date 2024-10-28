@@ -1,0 +1,62 @@
+[
+    {
+        "name": "TV Box JS",
+        "url": "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/js.json"
+    },
+    {
+        "name": "0827 JSON",
+        "url": "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/0827.json"
+    },
+    {
+        "name": "Gaoyun JSON",
+        "url": "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/gaoyun.json"
+    },
+    {
+        "name": "Jiqiao JSON",
+        "url": "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/maintvbox/jiqiao.json"
+    },
+    {
+        "name": "Top98 JSON",
+        "url": "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/top98.json"
+    },
+    {
+        "name": "TV4K JSON",
+        "url": "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/tv4k.json"
+    },
+    {
+        "name": "TVBox JSON",
+        "url": "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/tvbox.json"
+    },
+    {
+        "name": "YSC JSON",
+        "url": "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/ysc.json"
+    },
+    {
+        "name": "XYQ JSON",
+        "url": "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/XYQ.json"
+    },
+    {
+        "name": "XYQ TVBox",
+        "url": "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/XYQTVBox.json"
+    },
+    {
+        "name": "PG-One JSON",
+        "url": "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/PG-one.json"
+    },
+    {
+        "name": "全能解析源",
+        "url": "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/1.json"
+    },
+    {
+        "name": "饭太硬",
+        "url": "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/fantaiying.json"
+    },
+    {
+        "name": "王二小放牛娃",
+        "url": "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/erxiao.json"
+    },
+    {
+        "name": "肥猫",
+        "url": "https://ghp.ci/raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/fatcat.json"
+    }
+]

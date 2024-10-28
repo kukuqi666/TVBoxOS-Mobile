@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="30dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/bg_last_viewed_popup"
+        android:paddingHorizontal="18dp"
+        android:paddingVertical="16dp"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:drawableRight="@drawable/ic_play"
+        tools:text="上次"/>
+</LinearLayout>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/dkplayer_shape_standard_controller_right_bg"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_gravity="end"
+        android:paddingLeft="4dp"
+        android:paddingEnd="10dp"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/cast"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:padding="6dp"
+            android:src="@drawable/ic_cast"
+            app:tint="@color/white"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/expand"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:padding="6dp"
+            android:src="@drawable/ic_expand"
+            android:tint="@color/white"
+            android:layout_marginTop="30dp"
+            android:rotation="180"
+            />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/setting"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:padding="6dp"
+            android:src="@drawable/ic_player_setting"
+            android:tint="@color/white"
+            android:layout_marginTop="30dp"
+            />
+
+    </LinearLayout>
+
+</FrameLayout>
