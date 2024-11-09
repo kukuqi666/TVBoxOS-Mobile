@@ -1,6 +1,6 @@
 ## Mbox使用方法
 
-* 先下载Mbox app[点击下载](https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v1.1.1.1/MBox_1.1.1_pro.apk)
+* 先下载Mbox app[点击下载](https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v1.1.1.1/MBox_1.1.1.apk)
 
 * 如果国内网络下载比较慢的话可以下载123云盘里面的[123云盘](https://www.123865.com/s/1JcLVv-pKgld)
 
