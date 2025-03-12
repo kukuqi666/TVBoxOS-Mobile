@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:paddingHorizontal="10dp"
+    android:background="@drawable/bg_r_25_stroke_primary">
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:ellipsize="middle"
+        android:focusable="true"
+        android:padding="@dimen/dp_10"
+        android:singleLine="true"
+        android:text="@{name}"
+        tools:text="11111111111111"
+        android:textColor="@color/text_foreground"/>
+
+    <ImageView
+        android:id="@+id/tvDel"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="4dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="12dp"
+        android:src="@drawable/icon_delete"
+        app:tint="@color/red" />
+
+</LinearLayout>
+

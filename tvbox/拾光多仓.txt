@@ -1,0 +1,104 @@
+﻿{
+  "urls": [
+    {
+      "name": "📚公众号：拾光趣乐屋📚",
+      "url": "https://4708.kstore.space/tvbox/api.json"
+    },
+    {
+      "name": "拾光📚拾光仓库",
+      "url": "https://gitea.moe/omg/omg/raw/branch/main/api.json"
+    },
+    {
+      "name": "拾光📚拾光仓库",
+      "url": "https://gitlab.com/xmbjm/omg/-/raw/main/api.json"
+    },
+    {
+      "name": "拾光短剧📚拾光仓库",
+      "url": "https://4708.kstore.space/DJ/dj.json"
+    },
+    {
+      "name": "饭太硬📚拾光仓库",
+      "url": "http://www.饭太硬.com/tv/"
+    },
+    {
+      "name": "菜妮丝📚拾光仓库",
+      "url": "https://tv.xn--yhqu5zs87a.top"
+    },
+    {
+      "name": "动漫城📚拾光仓库",
+      "url": "https://www.yingm.cc/dm/dm.json"
+    },
+    {
+      "name": "喵影视📚拾光仓库",
+      "url": "http://meowtv.cn/tv"
+    },
+    {
+      "name": "小脑斧📚拾光仓库",
+      "url": "https://6492.kstore.space/xnf/xnf.json"
+    },
+    {
+      "name": "摸鱼📚拾光仓库",
+      "url": "http://我不是.摸鱼儿.xyz"
+    },
+    {
+      "name": "肥猫📚拾光仓库",
+      "url": "http://肥猫.com/"
+    },
+    {
+      "name": "欧歌📚拾光仓库",
+      "url": "http://tv.nxog.top/m"
+    },
+    {
+      "name": "小米📚拾光仓库",
+      "url": "https://mpanso.me/DEMO.json"
+    },
+    {
+      "name": "玉儿📚拾光仓库",
+      "url": "https://fmbox.cc"
+    },
+    {
+      "name": "O  K📚拾光仓库",
+      "url": "http://ok321.top/ok"
+    },
+    {
+      "name": "短剧📚拾光仓库",
+      "url": "http://74.120.175.78/JK/XYQTVBox/dj.json"
+    },
+    {
+      "name": "玉玉📚拾光仓库",
+      "url": "http://47.99.102.252/dc.json"
+    },
+    {
+      "name": "南风📚拾光仓库",
+      "url": "https://github.moeyy.xyz/https://raw.githubusercontent.com/yoursmile66/TVBox/main/XC.json"
+    },
+    {
+      "name": "二小📚拾光仓库",
+      "url": "http://tvbox.王二小放牛娃.top"
+    },
+    {
+      "name": "飘零📚拾光仓库",
+      "url": "https://100km.top/0"
+    },
+    {
+      "name": "星辰📚拾光仓库",
+      "url": "https://fmbox.cc"
+    },
+    {
+      "name": "龙伊📚拾光仓库",
+      "url": "https://龙伊.top"
+    },
+    {
+      "name": "PG📚拾光仓库",
+      "url": "http://www.fish2018.us.kg/p/jsm.json"
+    },
+    {
+      "name": "真心📚拾光仓库",
+      "url": "http://www.fish2018.us.kg/z/FongMi.json"
+    },
+    {
+      "name": "请勿贩卖📚拾光仓库",
+      "url": "https://9071.kstore.vip/fhzx.txt"
+    }
+  ]
+}

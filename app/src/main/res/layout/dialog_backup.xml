@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_bottom_dialog">
+
+        <LinearLayout
+            android:id="@+id/backup_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/backupNow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/dp_5"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_weight="1"
+                android:background="@drawable/bg_r_common_solid_primary"
+                android:focusable="true"
+                android:gravity="center"
+                android:padding="@dimen/dp_10"
+                android:text="立即备份"
+                android:textColor="@color/color_FFFFFF"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/restore_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="0"
+            android:padding="20dp"
+            android:singleLine="true"
+            android:text="点击下方数据还原"
+            android:textColor="@color/text_foreground"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textStyle="bold"/>
+
+        <com.owen.tvrecyclerview.widget.TvRecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_200"
+            android:layout_marginHorizontal="30dp"
+            android:orientation="vertical"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintHeight_max="@dimen/dp_480"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/backup_buttons"
+            app:tv_layoutManager="V7LinearLayoutManager"
+            app:tv_selectedItemIsCentered="true"
+            app:tv_verticalSpacingWithMargins="@dimen/dp_10"
+            app:layout_constraintTop_toBottomOf="@+id/restore_tip"
+            android:paddingBottom="10dp"
+            tools:listitem="@layout/item_stroke_button"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

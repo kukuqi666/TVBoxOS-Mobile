@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_bottom_dialog"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <com.hjq.bar.TitleBar
+            android:id="@+id/title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:leftIcon="@null"
+            android:background="@android:color/transparent"
+            app:leftTitle="提示"
+            app:leftTitleStyle="bold"
+            app:leftTitleSize="16sp"
+            app:leftTitleColor="@color/text_foreground"
+            app:titleColor="@color/text_foreground"
+            app:rightTitle="切换订阅"
+            app:rightTitleColor="@color/colorPrimary">
+
+
+        </com.hjq.bar.TitleBar>
+
+        <TextView
+            android:id="@+id/tipInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:layout_gravity="center"
+            android:lineSpacingExtra="30dp"
+            android:lineSpacingMultiplier="0"
+            android:textAlignment="gravity"
+            android:textColor="@color/text_foreground"
+            tools:text="解析失败解析失败解析失败解析失败解析失败解析失败解析失败解析失败" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/leftBtn"
+                style="@style/mbOutline"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="33dp"
+                android:layout_marginRight="20dp"
+                android:text="重 试"
+                app:strokeColor="@color/colorPrimary"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/rightBtn"
+                style="@style/mbOutline"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:layout_height="33dp"
+                android:textColor="@color/text_sub_foreground"
+                app:strokeColor="@color/text_sub_foreground"
+                android:text="取 消"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

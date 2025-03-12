@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingHorizontal="30dp"
+    android:orientation="vertical"
+    android:paddingVertical="20dp"
+    android:background="@drawable/bg_large_round_popup">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:text="直播源"
+            android:textColor="@color/text_foreground"
+            android:layout_width="wrap_content"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
+
+        <ImageView
+            android:id="@+id/iv_history"
+            android:layout_width="34dp"
+            android:layout_height="24dp"
+            android:paddingHorizontal="6dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_history_48"
+            app:tint="@color/text_foreground"/>
+    </RelativeLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:textColorHint="@color/text_sub_foreground">
+
+        <EditText
+            android:id="@+id/et_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:layout_marginTop="10dp"
+            android:hint="清空则跟随订阅"
+            android:ellipsize="middle"
+            android:singleLine="true"
+            android:textColor="@color/text_foreground"
+            android:textSize="14sp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:layout_height="33dp"
+            android:layout_marginRight="20dp"
+            android:text="取 消"
+            android:textColor="@color/text_sub_foreground"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_confirm"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:layout_height="33dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:strokeColor="@color/colorPrimary"
+            android:text="设 置"/>
+
+    </LinearLayout>
+</LinearLayout>

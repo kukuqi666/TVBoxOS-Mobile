@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tvParse"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_r_common_solid_primary"
+    android:ellipsize="end"
+    android:focusable="true"
+    android:gravity="center"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="6dp"
+    android:singleLine="true"
+    android:textSize="12sp"
+    tools:text="解析"/>

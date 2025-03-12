@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <!--  设置背景⾊（透明）  -->
+        <shape>
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <!--  设置进度条颜  -->
+            <shape>
+                <solid android:color="@color/white"/>
+            </shape>
+        </clip>
+    </item>
+</layer-list>

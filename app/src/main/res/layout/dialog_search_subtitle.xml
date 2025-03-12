@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="100dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <com.lihang.ShadowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hl_layoutBackground="#6632364E"
+        app:hl_cornerRadius="10dp"
+        android:layout_marginHorizontal="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginVertical="10dp"
+                android:gravity="center_vertical">
+
+                <EditText
+                    android:id="@+id/input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/input_search"
+                    android:hint="请输入字幕名称"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/dp_20"
+                    android:paddingTop="8dp"
+                    android:paddingRight="@dimen/dp_2"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:textColor="@color/color_FFFFFF"
+                    android:textColorHint="@color/color_6CFFFFFF"
+                    android:textSize="14sp"
+                    android:imeOptions="actionSearch"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/inputSubmit"
+                    style="@style/mbSolid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="33dp"
+                    android:layout_marginLeft="8dp"
+                    android:textSize="15dp"
+                    android:text="搜索" />
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:scrollbars="none"
+                android:paddingBottom="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|center_horizontal"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="vertical">
+
+                    <com.owen.tvrecyclerview.widget.TvRecyclerView
+                        android:id="@+id/mGridView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        app:tv_horizontalSpacingWithMargins="@dimen/dp_5"
+                        app:tv_selectedItemIsCentered="true"
+                        app:tv_verticalSpacingWithMargins="@dimen/dp_5"
+                        tools:listitem="@layout/item_search_subtitle_result"/>
+
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+    </com.lihang.ShadowLayout>
+    <ProgressBar
+        android:id="@+id/loadingBar"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:indeterminateBehavior="repeat"
+        android:indeterminateDrawable="@drawable/anim_loading"
+        android:indeterminateOnly="true"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+</FrameLayout>

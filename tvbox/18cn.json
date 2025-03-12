@@ -1,0 +1,868 @@
+﻿{
+  "spider": "./CFlLnSbJ",
+  "sites": [
+    {
+      "key": "转点",
+      "name": "🔞直转点播",
+      "type": 3,
+      "api": "./lib/apiv2542直转点.js",
+      "searchable": 0,
+      "quickSearch": 0,
+      "filterable": 0,
+      "ext": "./lib/直转点.txt"
+    },
+        {
+            "key": "最大资源",
+            "name": "🟡最大┃三级",
+            "type": 1,
+            "api": "http://zuidazy.me/api.php/provide/vod/",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "playerType": 2,
+            "categories": [
+            "伦理",
+            "港台三级",
+            "韩国伦理",
+            "西方伦理",
+            "日本伦理",
+            "两性课堂",
+            "写真热舞",
+            "有声动漫",
+            "女频恋爱",
+            "反转爽剧",
+            "古装仙侠",
+            "年代穿越",
+            "脑洞悬疑",
+            "现代都市"
+      ]
+        },
+        {
+            "key": "U酷资源1",
+            "name": "🟡U酷┃电影",
+            "type": 1,
+            "api": "https://api.ukuapi.com/api.php/provide/vod/",
+            "searchable": 0,
+            "quickSearch": 0,
+            "filterable": 1,
+            "playerType": 2,
+            "categories": [
+            "伦理片",
+            "动作片",
+            "喜剧片",
+            "爱情片",
+            "犯罪片",
+            "科幻片",
+            "奇幻片",
+            "恐怖片",
+            "剧情片",
+            "战争片",
+            "动漫",
+            "动漫电影",
+            "国产剧",
+            "港澳剧",
+            "韩剧",
+            "日剧",
+            "台湾剧",
+            "欧美剧",
+            "综艺",
+            "纪录片"
+      ]
+        },
+
+        {
+         "key": "*AIvin",
+         "name": "🔞AIvin",
+         "type": 0,
+         "api": "http://lbapiby.com/api.php/provide/vod/at/xml"
+         },
+
+         {"key": "KpgxdyE", 
+          "name": "🔞黄AV┃<=这或主页换接口", 
+          "type": 0, 
+          "api": "https://www.pgxdy.com/api/xml.php", 
+          "searchable": 1, 
+          "quickSearch": 1, 
+          "filterable": 1 
+          },
+
+        {
+            "key": "*富二代资源",
+            "name": "🔞富二代┃<=这或主页换接口",
+            "type": 0,
+            "api": "http://f2dcj6.com/sapi/?ac=videolist"
+        },
+
+        {
+            "key": "*番号资源",
+            "name": "🔞番号┃<=这或主页换接口",
+            "type": 1,
+            "api": "http://fhapi9.com/api.php/provide/vod/"
+        },
+
+        {
+            "key": "*老鸭资源",
+            "name": "🔞老鸭┃<=这或主页换接口",
+            "type": 1,
+            "api": "https://api.apilyzy.com/api.php/provide/vod/",
+            "searchable": 1,
+            "quickSearch": 1
+        },
+
+        {
+            "key": "*美少女资源",
+            "name": "🔞美少女┃<=这或主页换接口",
+            "type": 0,
+            "api": "https://www.msnii.com/api/xml.php",
+            "searchable": 1,
+            "quickSearch": 1
+        },
+
+        {
+            "key": "*淫水机资源",
+            "name": "🔞淫水机┃<=这或主页换接口",
+            "type": 0,
+            "api": "https://www.xrbsp.com/api/xml.php",
+            "searchable": 1,
+            "quickSearch": 1
+        },
+
+        {
+            "key": "*香奶儿资源",
+            "name": "🔞香奶儿┃<=这或主页换接口",
+            "type": 0,
+            "api": "https://www.gdlsp.com/api/xml.php",
+            "searchable": 1,
+            "quickSearch": 1
+        },
+
+        {
+            "key": "*白嫖资源",
+            "name": "🔞白嫖┃<=这或主页换接口",
+            "type": 0,
+            "api": "https://www.kxgav.com/api/xml.php",
+            "searchable": 1,
+            "quickSearch": 1
+        },
+
+
+    {
+      "key": "csp_xBPQ_公子福利",
+      "name": "👇需要VPN",
+      "type": 3,
+      "api": "csp_xBPQ",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "{\"分类url\":\"https://avhh.vip/cq/{cateId}-{catePg}.html\", \"分类\":\"1$2k-yazhou#💖本土1$2k-zipaitoupai#本土2$2k-chaoqingchuanmei#3D动画$2k-3Ddongman#有码$2k-oumei#无码$2k-luanlunrenqi#请勿相信！$2k-siwazhifu#禁止未成年观看$2k-zhibolubo#SM另类$2k-SMlinglei#超清三级$2k-chaoqingsanji\",\"副标题\":\"duration\\\">&&</div\",\"链接\": \"href=\\\"/cq/Kplay&&.html\\\"\", \"链接前缀\": \"https://avhh.vip/cq/Kplay\", \"链接后缀\": \".html\", \"直接播放\": \"1\" }",
+      "jar": "./lib/xBPQ.jar"
+    },
+
+        {
+            "key": "奶香m",
+            "name": "(vpn)奶香香",
+            "type": 1,
+            "api": "https://Naixxzy.com/api.php/provide/vod/?ac=list",
+            "searchable": 1
+        },
+
+    {
+      "key": "dadiapi.com",
+      "name": "(vpn)大地采集",
+      "type": 0,
+      "api": "http://dadiapi.com/api.php",
+      "quickSearch": 1,
+      "searchable": 1,
+      "filterable": 1
+    },
+
+    {
+      "key": "155",
+      "name": "(vpn)155采集┃<=这或主页换接口",
+      "type": 0,
+      "playerType": 2,
+      "api": "https://155api.com/api.php/provide/vod/at/xml",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+        {
+            "key": "155专场",
+            "name": "(vpn)155采集2┃<=这或主页换接口",
+            "type": 1,
+            "api": "https://155api.com/api.php/provide/vod/",
+            "playUrl": "",
+            "searchable": 0,
+            "quickSearch": 0,
+            "filterable": 1,
+            "categories": [
+                "无码专区",
+                "麻豆传媒",
+                "制服诱惑",
+                "三级伦理",
+                "AI换脸",
+                "中文字幕",
+                "卡通动漫",
+                "欧美系列",
+                "美女主播",
+                "国产自拍",
+                "熟女人妻",
+                "萝莉少女",
+                "女同性爱",
+                "多人群交",
+                "美乳巨乳",
+                "强奸乱伦",
+                "抖音视频",
+                "韩国主播",
+                "网红头条",
+                "网爆黑料",
+                "欧美无码",
+                "女优明星",
+                "SM调教",
+                "AV解说"
+            ]
+        },
+        {
+            "key": "奥斯卡",
+            "name": "(vpn)奥斯卡┃<=这或主页换接口",
+            "type": 1,
+            "api": "https://aosikazy.com/api.php/provide/vod/?ac=list",
+            "searchable": 1
+        },
+        {
+            "key": "探探",
+            "name": "(vpn)探探采集",
+            "type": 0,
+            "api": "https://apittzy.com/api.php/provide/vod/at/xml/",
+            "playUrl": "",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "categories": [
+                "国产自拍",
+                "欧美极品",
+                "日韩无码",
+                "AV明星",
+                "中文字幕",
+                "动漫精品",
+                "极骚萝莉",
+                "人妖视频",
+                "重咸口味",
+                "三级自慰",
+                "强奸乱伦",
+                "独家擂台格斗",
+                "辣椒GIGA",
+                "HEYZO",
+                "独家DMM",
+                "HEY诱惑",
+                "童颜巨乳",
+                "高潮喷吹",
+                "激情口交",
+                "绝美少女",
+                "首次亮相",
+                "AV明星1"
+            ]
+        },
+        {
+            "key": "辣椒专场",
+            "name": "(vpn)辣椒采集",
+            "type": 1,
+            "api": "https://apilj.com/api.php/provide/vod/",
+            "playUrl": "",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1,
+            "categories": [
+                "国产自拍",
+                "欧美极品",
+                "日韩无码",
+                "AV明星",
+                "中文字幕",
+                "动漫精品",
+                "极骚萝莉",
+                "人妖视频",
+                "重咸口味",
+                "三级自慰",
+                "强奸乱伦",
+                "独家擂台格斗",
+                "辣椒GIGA",
+                "HEYZO",
+                "独家DMM",
+                "HEY诱惑",
+                "童颜巨乳",
+                "高潮喷吹",
+                "激情口交",
+                "绝美少女",
+                "首次亮相",
+                "AV明星1"
+            ]
+        },
+        {
+            "key": "葡萄",
+            "name": "(vpn)采集.葡萄资源",
+            "type": 1,
+            "api": "https://caiji.putaozyw.net/inc/apijson_vod.php",
+            "searchable": 1
+        },
+        {
+            "key": "森林",
+            "name": "(vpn)森林资源",
+            "type": 1,
+            "api": "https://beiyong.slapibf.com/api.php/provide/vod/?ac=list",
+            "searchable": 1
+        },
+    {
+      "key": "森林专场",
+      "name": "(vpn)森林采集",
+      "type": 1,
+      "api": "https://slapibf.com/api.php/provide/vod/",
+      "playUrl": "",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "categories": [
+        "精品推荐",
+        "国产色情",
+        "主播直播",
+        "亚洲无码",
+        "亚洲有码",
+        "中文字幕",
+        "巨乳美乳",
+        "人妻熟女",
+        "强奸乱伦",
+        "欧美精品",
+        "萝莉少女",
+        "伦理三级",
+        "成人动漫",
+        "自拍偷拍",
+        "制服丝袜",
+        "口交颜射",
+        "日本精品",
+        "Cosplay",
+        "素人自拍",
+        "台湾辣妹",
+        "韩国御姐",
+        "唯美港姐",
+        "东南亚AV",
+        "欺辱凌辱",
+        "剧情介绍",
+        "多人多P",
+        "91探花",
+        "网红流出",
+        "野外露出",
+        "古装扮演",
+        "女优系列",
+        "可爱学生",
+        "风情旗袍",
+        "兽耳系列",
+        "瑜伽裤",
+        "闷骚护士",
+        "过膝袜",
+        "网曝门",
+        "传媒出品",
+        "女同性恋",
+        "男同性恋",
+        "恋腿狂魔"
+      ]
+    },
+    {
+      "key": "*皇冠资源",
+      "name": "(vpn)皇冠采集",
+      "type": 1,
+      "playerType": 2,
+      "api": "https://hghhh.com/api.php/provide/vod/",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+    {
+      "key": "timizy",
+      "name": "(vpn)甜蜜资源 ",
+      "type": 1,
+      "api": "https://timizy10.cc/api.php/provide/vod/?ac=list",
+      "searchable": 1,
+      "changeable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "玉兔专场",
+      "name": "(vpn)玉兔采集",
+      "type": 1,
+      "api": "https://apiyutu.com/api.php/provide/vod/",
+      "playUrl": "",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "categories": [
+        "精品推荐",
+        "国产精品",
+        "主播秀色",
+        "日本有码",
+        "日本无码",
+        "中文字幕",
+        "童颜巨乳",
+        "性感人妻",
+        "强奸乱伦",
+        "欧美情色",
+        "童真萝莉",
+        "三级伦理",
+        "卡通动漫",
+        "丝袜OL",
+        "口爆颜射",
+        "自拍偷拍",
+        "日本片商",
+        "Cosplay",
+        "素人自拍",
+        "台湾色情",
+        "韩国自拍",
+        "性感港姐",
+        "东南亚情色",
+        "凌辱束缚",
+        "剧情介绍",
+        "多P 3P",
+        "91系列",
+        "网红系列",
+        "野外系列",
+        "女仆系列",
+        "学生中出",
+        "性感旗袍",
+        "兽耳作品",
+        "瑜伽裤",
+        "骚货护士",
+        "及膝袜",
+        "网曝系列",
+        "麻豆传媒",
+        "女同人妖",
+        "恋腿癖"
+      ]
+    },
+    {
+      "key": "色猫",
+      "name": "(vpn)色猫采集",
+      "type": 1,
+      "api": "https://caiji.semaozy.net/inc/apijson_vod.php/",
+      "playUrl": "",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "categories": [
+        "国产自拍",
+        "日本无码",
+        "日本有码",
+        "中文字幕",
+        "欧美精品",
+        "成人动漫",
+        "日本素人",
+        "高清名优",
+        "三级伦理",
+        "网红主播",
+        "映画传媒",
+        "人妻熟女",
+        "口爆颜射",
+        "萝莉少女",
+        "SM调教",
+        "美乳巨乳",
+        "短视频",
+        "制服诱惑",
+        "女同性爱",
+        "AI换脸",
+        "多人群交",
+        "翹臀美尻",
+        "丝袜美腿",
+        "精选独家",
+        "貧乳小奶",
+        "探花系列"
+      ]
+    },
+
+    {
+      "key": "chengren",
+      "name": "(vpn)伙伴天空",
+      "type": 1,
+      "api": "https://www.partnersky-horoskop.com/api.php/provide/vod/",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+
+
+    {
+      "key": "性南国",
+      "name": "(vpn)性南国",
+      "type": 1,
+      "api": "https://api.sexnguon.com/api.php/provide/vod/",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+
+
+{"key":"*91麻豆","name":"(vpn)91麻豆","type":1,"api":"https://91md.me/api.php/provide/vod/","searchable":1,"quickSearch":1},
+        {
+            "key": "pwd_91md",
+            "name": "(vpn)91麻豆1",
+            "type": 1,
+            "api": "https://91md.me/api.php/provide/vod/from/mdm3u8/",
+            "searchable": 1,
+            "quickSearch": 1,
+            "filterable": 1
+        },
+{"key":"*色猫资源","name":"(vpn)色猫资源","type":1,"api":"https://api.maozyapi.com/inc/apijson_vod.php","searchable":1,"quickSearch":1},
+{"key":"*环亚资源","name":"(vpn)环亚资源","type":0,"api":"http://wmcj8.com/inc/sapi.php","searchable":1,"quickSearch":1},
+{"key":"*鲨鱼资源","name":"(vpn)鲨鱼资源","type":1,"api":"https://shayuapi.com/api.php/provide/vod/","searchable":1,"quickSearch":1},
+{"key": "afasu", "name": "(vpn)小湿妹资源", "type": 0, "api": "https://www.afasu.com/api/xml.php", "searchable": 1, "quickSearch": 1, "filterable": 1 },
+
+{"key":"*博天堂","name":"(vpn)博天堂三级片","type":0,"api":"http://bttcj.com/inc/sapi.php","searchable":1,"quickSearch":1},
+
+    {
+      "key": "易看资源-伦理",
+      "name": "(vpn)易看三级片",
+      "type": 1,
+      "api": "https://api.yikanapi.com/api.php/provide/vod/",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "kkzy.me",
+      "name": "(vpn)可可三级片",
+      "type": 1,
+      "api": "https://kkzy.me/api.php/provide/vod/",
+      "quickSearch": 1,
+      "searchable": 1,
+      "filterable": 1
+    },
+
+    {
+      "key": "处女控",
+      "name": "(vpn)CK三级片",
+      "type": 1,
+      "api": "https://ckzy.me/api.php/provide/vod/",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+
+
+
+
+        {
+            "key": "*乐播",
+            "name": "(vpn)乐播",
+            "type": 0,
+            "api": "https://lbapi9.com/api.php/provide/vod/at/xml"
+        },
+        {
+            "key": "*探探资源",
+            "name": "(vpn)探探资源",
+            "type": 0,
+            "api": "https://apittzy.com/api.php/provide/vod/at/xml",   
+            "playUrl": "https://jiexi.ttbfp1.com/m3u8/?url="
+        },
+        {
+            "key": "*大地资源",
+            "name": "(vpn)大地资源",
+            "type": 0,
+            "api": "https://dadiapi.com/api.php",
+            "searchable": 1,
+            "quickSearch": 1
+        },
+        {
+            "key": "*辣椒资源",
+            "name": "(vpn)辣椒资源",
+            "type": 1,
+            "api": "https://apilj.com/api.php/provide/vod/at/json/",
+            "searchable": 1,
+            "quickSearch": 1
+        },
+        {
+            "key": "*鲨鱼资源",
+            "name": "(vpn)鲨鱼资源",
+            "type": 1,
+            "api": "https://shayuapi.com/api.php/provide/vod/",
+            "searchable": 1,
+            "quickSearch": 1
+        },
+        {
+            "key": "暴风",
+            "name": "暴风┃三级(vpn)",
+            "type": 1,
+            "api": "https://bfzyapi.com/api.php/provide/vod/?ac=list",
+            "searchable": 0,
+            "quickSearch": 0,
+            "filterable": 1,
+            "playerType": 2,
+            "categories": [
+            "福利"
+            ]
+        },
+
+        {
+            "key": "csp_xml_ikun",
+            "name": "爱坤┃三级(vpn)",
+            "type": 1,
+            "api": "https://ikunzyapi.com/api.php/provide/vod/from/ikm3u8/at/json",
+            "searchable": 1,
+            "playUrl": "https://www.ikdmjx.com/?url=",
+            "quickSearch": 1,
+            "filterable": 1,
+            "playerType": 2,
+            "categories": [
+                "伦理片"
+            ]
+        }
+
+
+    ],
+    "parses": [
+        {
+            "name": "点此解析",
+            "type": 2,
+            "url": "Parallel"
+        }
+    ],
+  "flags": [
+    "youku",
+    "qq",
+    "iqiyi",
+    "qiyi",
+    "letv",
+    "sohu",
+    "tudou",
+    "pptv",
+    "mgtv",
+    "wasu",
+    "bilibili",
+    "renrenmi"
+  ],
+  "ijk": [
+    {
+      "group": "软解码",
+      "options": [
+        {
+          "category": 4,
+          "name": "opensles",
+          "value": "0"
+        },
+        {
+          "category": 4,
+          "name": "overlay-format",
+          "value": "842225234"
+        },
+        {
+          "category": 4,
+          "name": "framedrop",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "soundtouch",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "start-on-prepared",
+          "value": "1"
+        },
+        {
+          "category": 1,
+          "name": "http-detect-range-support",
+          "value": "0"
+        },
+        {
+          "category": 1,
+          "name": "fflags",
+          "value": "fastseek"
+        },
+        {
+          "category": 2,
+          "name": "skip_loop_filter",
+          "value": "48"
+        },
+        {
+          "category": 4,
+          "name": "reconnect",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "enable-accurate-seek",
+          "value": "0"
+        },
+        {
+          "category": 4,
+          "name": "mediacodec",
+          "value": "0"
+        },
+        {
+          "category": 4,
+          "name": "mediacodec-auto-rotate",
+          "value": "0"
+        },
+        {
+          "category": 4,
+          "name": "mediacodec-handle-resolution-change",
+          "value": "0"
+        },
+        {
+          "category": 4,
+          "name": "mediacodec-hevc",
+          "value": "0"
+        },
+        {
+          "category": 1,
+          "name": "dns_cache_timeout",
+          "value": "600000000"
+        }
+      ]
+    },
+    {
+      "group": "硬解码",
+      "options": [
+        {
+          "category": 4,
+          "name": "opensles",
+          "value": "0"
+        },
+        {
+          "category": 4,
+          "name": "overlay-format",
+          "value": "842225234"
+        },
+        {
+          "category": 4,
+          "name": "framedrop",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "soundtouch",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "start-on-prepared",
+          "value": "1"
+        },
+        {
+          "category": 1,
+          "name": "http-detect-range-support",
+          "value": "0"
+        },
+        {
+          "category": 1,
+          "name": "fflags",
+          "value": "fastseek"
+        },
+        {
+          "category": 2,
+          "name": "skip_loop_filter",
+          "value": "48"
+        },
+        {
+          "category": 4,
+          "name": "reconnect",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "enable-accurate-seek",
+          "value": "0"
+        },
+        {
+          "category": 4,
+          "name": "mediacodec",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "mediacodec-auto-rotate",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "mediacodec-handle-resolution-change",
+          "value": "1"
+        },
+        {
+          "category": 4,
+          "name": "mediacodec-hevc",
+          "value": "1"
+        },
+        {
+          "category": 1,
+          "name": "dns_cache_timeout",
+          "value": "600000000"
+        }
+      ]
+    }
+  ],
+  "ads": [
+    "mimg.0c1q0l.cn",
+    "www.googletagmanager.com",
+    "www.google-analytics.com",
+    "mc.usihnbcq.cn",
+    "mg.g1mm3d.cn",
+    "mscs.svaeuzh.cn",
+    "cnzz.hhttm.top",
+    "tp.vinuxhome.com",
+    "cnzz.mmstat.com",
+    "www.baihuillq.com",
+    "s23.cnzz.com",
+    "z3.cnzz.com",
+    "c.cnzz.com",
+    "stj.v1vo.top",
+    "z12.cnzz.com",
+    "img.mosflower.cn",
+    "tips.gamevvip.com",
+    "ehwe.yhdtns.com",
+    "xdn.cqqc3.com",
+    "www.jixunkyy.cn",
+    "sp.chemacid.cn",
+    "hm.baidu.com",
+    "s9.cnzz.com",
+    "z6.cnzz.com",
+    "um.cavuc.com",
+    "mav.mavuz.com",
+    "wofwk.aoidf3.com",
+    "z5.cnzz.com",
+    "xc.hubeijieshikj.cn",
+    "tj.tianwenhu.com",
+    "xg.gars57.cn",
+    "k.jinxiuzhilv.com",
+    "cdn.bootcss.com",
+    "ppl.xunzhuo123.com",
+    "xomk.jiangjunmh.top",
+    "img.xunzhuo123.com",
+    "z1.cnzz.com",
+    "s13.cnzz.com",
+    "xg.huataisangao.cn",
+    "z7.cnzz.com",
+    "xg.huataisangao.cn",
+    "z2.cnzz.com",
+    "s96.cnzz.com",
+    "q11.cnzz.com",
+    "thy.dacedsfa.cn",
+    "xg.whsbpw.cn",
+    "s19.cnzz.com",
+    "z8.cnzz.com",
+    "s4.cnzz.com",
+    "f5w.as12df.top",
+    "ae01.alicdn.com",
+    "www.92424.cn",
+    "k.wudejia.com",
+    "vivovip.mmszxc.top",
+    "qiu.xixiqiu.com",
+    "cdnjs.hnfenxun.com",
+    "cms.qdwght.com"
+  ],
+
+
+"lives":[{
+"name":"live",
+"type":0,
+"url":"./lib/RTV.txt",
+"playerType":1,
+"ua": "okhttp/3.15",
+"epg":"http://epg.112114.xyz/?ch={name}&date={date}",
+"logo": "https://epg.112114.xyz/logo/{name}.png"}
+]
+}

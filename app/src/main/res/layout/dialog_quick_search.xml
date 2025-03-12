@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/bg_bottom_dialog"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:gravity="center"
+            android:text="其他数据源相关搜索"
+            android:textColor="@color/text_foreground"
+            android:textSize="16sp"
+             />
+
+        <com.owen.tvrecyclerview.widget.TvRecyclerView
+            android:id="@+id/mGridViewWord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:tv_horizontalSpacingWithMargins="5dp"
+            app:tv_selectedItemIsCentered="true"
+            app:tv_verticalSpacingWithMargins="5dp"
+            tools:listitem="@layout/item_search_word_hot"
+            tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:orientation="horizontal"/>
+
+        <com.owen.tvrecyclerview.widget.TvRecyclerView
+            android:id="@+id/mGridView"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:tv_horizontalSpacingWithMargins="5dp"
+            app:tv_selectedItemIsCentered="true"
+            app:tv_verticalSpacingWithMargins="5dp"
+            tools:listitem="@layout/item_quick_search_lite"/>
+
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:foreground="?android:selectableItemBackground"
+    android:orientation="horizontal"
+    android:paddingHorizontal="10dp">
+
+
+    <CheckBox
+        android:id="@+id/cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/item"
+        app:layout_constraintLeft_toLeftOf="@id/item"
+        app:layout_constraintTop_toTopOf="@id/item" />
+
+    <!-- 定义一个用于显示图像的 ImageView -->
+    <com.lihang.ShadowLayout
+        android:id="@+id/iv_container"
+        android:layout_width="132dp"
+        android:layout_height="62dp"
+        android:layout_gravity="center_horizontal"
+        android:baselineAlignBottom="true"
+        app:clickable="false"
+        app:hl_cornerRadius="@dimen/common_corners"
+        app:hl_layoutBackground="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cb"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/iv_video" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:background="@drawable/bg_gradient_black_b2t"
+                android:layout_alignParentBottom="true"/>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                tools:progress="50"
+                android:layout_alignParentBottom="true"
+                android:progressDrawable="@drawable/bg_progressbar" />
+
+        </RelativeLayout>
+    </com.lihang.ShadowLayout>
+
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="1"
+        android:textSize="16sp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_container"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="谍影重重" />
+
+    <TextView
+        android:id="@+id/tv_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="6dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_container"
+        app:layout_constraintStart_toStartOf="@+id/iv_container"
+        tools:text="00:00" />
+
+    <TextView
+        android:id="@+id/tv_video_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_name"
+        tools:text="222M" />
+
+    <TextView
+        android:id="@+id/tv_video_resolution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="@{m.resolution}"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_video_size"
+        app:layout_constraintLeft_toRightOf="@+id/tv_video_size"
+        app:layout_constraintTop_toTopOf="@+id/tv_video_size"
+        tools:text="720x1080" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginRight="@dimen/dp_10"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/dp_10"
+    android:paddingTop="@dimen/dp_5"
+    android:paddingRight="@dimen/dp_10"
+    android:paddingBottom="@dimen/dp_1">
+
+    <TextView
+        android:id="@+id/tvFlag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        tools:text="11111111111" />
+
+    <View
+        android:id="@+id/vFlag"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_4"
+        android:layout_marginLeft="@dimen/dp_5"
+        android:layout_marginRight="@dimen/dp_5"
+        android:background="@drawable/shape_source_flag_line" />
+</LinearLayout>

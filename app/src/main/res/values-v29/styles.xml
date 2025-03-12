@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!--应用的主要色调,actionBar默认使用该颜色,Toolbar导航栏的底色-->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!--CheckBox,RadioButton,SwitchCompat等一般控件的选中效果默认采用该颜色-->
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--默认window窗口(activity)背景颜色,根据主题修改该属性可 避免某些情况activity跳转/回跳会白屏(出现与主题相反的颜色)-->
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:forceDarkAllowed">true</item>
+    </style>
+</resources>

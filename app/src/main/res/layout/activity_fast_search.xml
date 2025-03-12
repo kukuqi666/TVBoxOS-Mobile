@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingTop="40dp">
+
+
+    <LinearLayout
+        android:id="@+id/llSearchBar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="8dp"
+        android:layout_marginBottom="10dp"
+        >
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bar_arrows_left_black"/>
+        <com.github.tvbox.osc.ui.widget.ClearEditText
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="搜索"
+            android:textSize="16sp"
+            android:layout_marginHorizontal="10dp"
+            android:background="@null"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            />
+
+        <ImageView
+            android:id="@+id/iv_filter"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_filter_list"
+            app:tint="@color/text_foreground"
+            android:layout_marginRight="4dp"/>
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="18dp"
+            android:background="@color/text_foreground"/>
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_search_48"
+            android:paddingHorizontal="6dp"
+            app:tint="@color/text_foreground"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llSearchSuggest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        >
+
+        <LinearLayout
+            android:id="@+id/ll_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_marginBottom="30dp"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="历史搜索"
+                    android:textSize="15sp"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_clear_history"
+                    android:layout_width="40dp"
+                    android:layout_height="24dp"
+                    android:paddingVertical="4dp"
+                    android:src="@drawable/ic_clear"
+                    app:tint="@color/gray_darker"
+                    />
+            </LinearLayout>
+
+            <com.zhy.view.flowlayout.TagFlowLayout
+                android:id="@+id/fl_history"
+                zhy:max_select="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+            </com.zhy.view.flowlayout.TagFlowLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="热门搜索"
+            android:textSize="15sp"
+            android:textAlignment="center"/>
+
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:id="@+id/fl_hot"
+            zhy:max_select="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+        </com.zhy.view.flowlayout.TagFlowLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/llSearchResult"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/llWord"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="10dp">
+
+            <com.angcyo.tablayout.DslTabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:tab_draw_highlight="true"
+                app:tab_indicator_drawable="@drawable/bg_small_round_gray"
+                app:tab_orientation="VERTICAL"
+                app:tab_select_color="@color/colorPrimary">
+
+
+            </com.angcyo.tablayout.DslTabLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llLayout"
+            android:layout_toEndOf="@+id/llWord"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+
+            <com.owen.tvrecyclerview.widget.TvRecyclerView
+                android:id="@+id/mGridView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:visibility="invisible"
+                app:tv_horizontalSpacingWithMargins="@dimen/dp_5"
+                app:tv_selectedItemIsCentered="true"
+                app:tv_verticalSpacingWithMargins="@dimen/dp_5" />
+
+            <com.owen.tvrecyclerview.widget.TvRecyclerView
+                android:id="@+id/mGridViewFilter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:visibility="invisible"
+                app:tv_horizontalSpacingWithMargins="@dimen/dp_5"
+                app:tv_selectedItemIsCentered="true"
+                app:tv_verticalSpacingWithMargins="@dimen/dp_5" />
+
+
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

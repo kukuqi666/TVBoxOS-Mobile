@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <CheckBox
+        android:id="@+id/cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:checked="false"
+        android:focusable="false"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:singleLine="true"
+        android:textSize="16dp"
+        android:ellipsize="end"
+        android:marqueeRepeatLimit="marquee_forever"
+        tools:text="小账订阅小账订阅小账订阅"
+        android:textColor="@color/text_foreground"
+        android:layout_toRightOf="@+id/cb"
+        />
+
+    <TextView
+        android:id="@+id/tv_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:layout_below="@+id/tv_name"
+        android:layout_marginTop="8dp"
+        tools:text="https://"
+        android:layout_toRightOf="@+id/cb"/>
+
+    <ImageView
+        android:id="@+id/iv_del"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="@dimen/dp_5"
+        android:layout_marginLeft="@dimen/dp_5"
+        android:paddingHorizontal="6dp"
+        android:src="@drawable/dkplayer_ic_action_close"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        app:tint="@color/red"/>
+
+    <ImageView
+        android:id="@+id/iv_pushpin"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="@dimen/dp_5"
+        android:layout_marginLeft="@dimen/dp_5"
+        android:paddingHorizontal="6dp"
+        android:src="@drawable/ic_pushpin"
+        android:layout_toLeftOf="@+id/iv_del"
+        app:tint="@color/red"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+</RelativeLayout>
+

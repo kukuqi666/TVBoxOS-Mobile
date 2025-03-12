@@ -1,0 +1,42 @@
+<resources>
+    <!--  app名称   -->
+    <string name="app_name">MBox</string>
+
+    <string name="about">基于TVBox开发，代码开源，不收集或上传任何数据。
+        \n软件只提供展示功能，不参与任何订阅源的制作、收集和发布。
+        \n开发者不对任何订阅内容负责。
+        \n仅用于个人学习和参考，请勿传播，安装后请于24小时内删除。
+    </string>
+
+    <string name="subs_use_tip">
+        本软件仅用于学习和参考，不建议使用任何订阅。
+        \n订阅(主要)：名称仅用于记忆/区分，地址分为网络和本地。
+        \n多线路：可解析出多条订阅。
+        \n多仓库：可解析出多个多线路，按需导入。
+        \n为降低操作门槛，目前不论多线路/多仓，都会展现成单条订阅格式。
+    </string>
+
+    <string name="subs_tip">
+        本应用不参与任何订阅源的制作、收集和发布，开发者不对任何订阅内容负责。
+        \n请不要相信任何订阅中以任何形势出现的任何广告。
+        \n本应用不采集任何用户信息，如果您发现任何违规订阅，请立即删除。
+    </string>
+
+    <string-array name="doh_name">
+        <item>System</item>
+        <item>Tencent</item>
+        <item>Alibaba</item>
+        <item>360</item>
+    </string-array>
+
+    <string-array name="doh_url">
+        <item />
+        <item>https://doh.pub/dns-query</item>
+        <item>https://dns.alidns.com/dns-query</item>
+        <item>https://doh.360.cn/dns-query</item>
+    </string-array>
+
+    <string-array name="api">
+        <item />
+    </string-array>
+</resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context=".ui.activity.SubscriptionActivity">
+
+    <com.hjq.bar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="订阅管理"
+        app:rightIcon="@drawable/ic_add_24"
+        >
+
+        <ImageView
+            android:id="@+id/iv_use_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_use_description_24"
+            android:layout_gravity="end|center_vertical"
+            android:paddingLeft="20dp"
+            android:layout_marginRight="50dp"/>
+    </com.hjq.bar.TitleBar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:background="@drawable/bg_large_round_gray"
+        android:layout_margin="10dp"
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/item_subscription"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+</LinearLayout>

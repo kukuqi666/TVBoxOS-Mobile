@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="bg_gray">#212121</color>
+    <color name="bg_popup">#2a2d32</color>
+
+    <color name="text_foreground">#FFFFFF</color>
+    <color name="text_sub_foreground">#AFAFAF</color>
+</resources>

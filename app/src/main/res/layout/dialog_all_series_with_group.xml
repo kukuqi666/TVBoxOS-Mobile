@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center"
+    android:background="@color/bg_popup"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingBottom="10dp"
+    android:gravity="center_horizontal">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <!--        线路列表-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mGridViewFlag"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:tv_horizontalSpacingWithMargins="@dimen/dp_10"
+            app:tv_selectedItemIsCentered="true"
+            tools:listitem="@layout/item_select_flag"
+            />
+        <TextView
+            android:id="@+id/tvSort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="倒序"
+            android:drawableRight="@drawable/ic_sort_18"
+            android:textColor="@color/text_foreground"
+            android:drawablePadding="4dp"
+            android:paddingVertical="6dp"
+            android:layout_marginRight="20dp"
+            />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/item_series"
+        />
+
+</LinearLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape>
+            <corners android:radius="@dimen/common_corners" />
+            <!--  选中按钮颜色   -->
+            <!--<solid android:color="@color/color_353744" />-->
+            <solid android:color="@color/gray_darker_press_alpha" />
+        </shape>
+    </item>
+    <item android:state_focused="false">
+        <shape>
+            <corners android:radius="@dimen/common_corners" />
+            <solid android:color="@color/colorPrimary" />
+        </shape>
+    </item>
+</selector>
