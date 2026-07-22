@@ -15,8 +15,6 @@ import androidx.core.content.FileProvider;
 import com.blankj.utilcode.util.ToastUtils;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.util.DefaultConfig;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.lzy.okgo.OkGo;
@@ -30,7 +28,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 public class AboutDialog extends BottomPopupView {
-    private static final String LATEST_RELEASE_URL = "https://api.github.com/repos/kukuqi666/TVBoxOS-Mobile/releases/latest";
+    private static final String UPDATE_MANIFEST_URL = "https://raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/update.json";
 
     public AboutDialog(@NonNull @NotNull Context context) {
         super(context);
@@ -56,8 +54,7 @@ public class AboutDialog extends BottomPopupView {
 
     private void checkForUpdate() {
         ToastUtils.showShort("正在检查更新");
-        OkGo.<String>get(LATEST_RELEASE_URL)
-                .headers("Accept", "application/vnd.github+json")
+        OkGo.<String>get(UPDATE_MANIFEST_URL)
                 .headers("User-Agent", "TVBox-Mobile")
                 .tag("check_update")
                 .execute(new AbsCallback<String>() {
@@ -72,12 +69,10 @@ public class AboutDialog extends BottomPopupView {
                     @Override
                     public void onSuccess(Response<String> response) {
                         try {
-                            JsonObject release = new JsonParser().parse(response.body()).getAsJsonObject();
-                            String remoteVersion = normalizeVersion(release.get("tag_name").getAsString());
-                            String apkUrl = findApkUrl(release.getAsJsonArray("assets"));
-                            if (apkUrl.isEmpty()) {
-                                ToastUtils.showLong("未找到可用的 APK 更新包");
-                            } else if (compareVersion(remoteVersion, DefaultConfig.getAppVersionName(getContext())) > 0) {
+                            JsonObject manifest = new JsonParser().parse(response.body()).getAsJsonObject();
+                            String remoteVersion = normalizeVersion(requiredString(manifest, "version"));
+                            String apkUrl = requiredString(manifest, "apk_url");
+                            if (compareVersion(remoteVersion, DefaultConfig.getAppVersionName(getContext())) > 0) {
                                 new com.lxj.xpopup.XPopup.Builder(getContext())
                                         .asConfirm("发现新版本", "当前版本：v" + DefaultConfig.getAppVersionName(getContext())
                                                 + "\n最新版本：v" + remoteVersion + "\n是否下载并安装？", () -> downloadAndInstall(apkUrl, remoteVersion))
@@ -86,30 +81,27 @@ public class AboutDialog extends BottomPopupView {
                                 ToastUtils.showShort("当前已是最新版本");
                             }
                         } catch (Throwable throwable) {
-                            ToastUtils.showLong("更新信息格式错误");
+                            ToastUtils.showLong("更新信息不完整，请稍后重试");
                         }
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        ToastUtils.showLong("检查更新失败，请检查网络");
+                        ToastUtils.showLong("无法获取更新信息，请检查网络后重试");
                     }
                 });
     }
 
-    private String findApkUrl(JsonArray assets) {
-        if (assets == null) {
-            return "";
+    private String requiredString(JsonObject object, String key) {
+        if (object == null || !object.has(key) || object.get(key).isJsonNull()) {
+            throw new IllegalStateException("Missing update field: " + key);
         }
-        for (JsonElement element : assets) {
-            JsonObject asset = element.getAsJsonObject();
-            String name = asset.has("name") ? asset.get("name").getAsString() : "";
-            if (name.toLowerCase().endsWith(".apk") && asset.has("browser_download_url")) {
-                return asset.get("browser_download_url").getAsString();
-            }
+        String value = object.get(key).getAsString().trim();
+        if (value.isEmpty()) {
+            throw new IllegalStateException("Empty update field: " + key);
         }
-        return "";
+        return value;
     }
 
     private void downloadAndInstall(String apkUrl, String version) {

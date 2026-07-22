@@ -116,8 +116,34 @@ jobs:
           chmod +x gradlew
           ./gradlew :app:assembleDebug --stacktrace --no-daemon
 
+      - name: Create update manifest
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          version="${TAG_NAME#v}"
+          apk_url="https://github.com/${{ github.repository }}/releases/download/${TAG_NAME}/TVBox-Mobile-v${version}.apk"
+          printf '{\n  "version": "%s",\n  "apk_url": "%s"\n}\n' "$version" "$apk_url" > update.json
+
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
-          files: app/build/outputs/apk/debug/*.apk
+          files: |
+            app/build/outputs/apk/debug/*.apk
+            update.json
+
+      - name: Publish update manifest
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          git fetch origin main
+          git checkout -B main origin/main
+          version="${TAG_NAME#v}"
+          apk_url="https://github.com/${{ github.repository }}/releases/download/${TAG_NAME}/TVBox-Mobile-v${version}.apk"
+          printf '{\n  "version": "%s",\n  "apk_url": "%s"\n}\n' "$version" "$apk_url" > update.json
+          if git diff --quiet -- update.json; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add update.json
+          git commit -m "chore: update release manifest for ${TAG_NAME} [skip ci]"
+          git push origin main
