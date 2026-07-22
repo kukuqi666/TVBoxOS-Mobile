@@ -1,6 +1,6 @@
 <resources>
     <!--  app名称   -->
-    <string name="app_name">TVbox</string>
+    <string name="app_name">TVBox Mobile</string>
 
     <string name="about">基于TVBox开发，代码开源，不收集或上传任何数据。
         \n软件只提供展示功能，不参与任何订阅源的制作、收集和发布。
