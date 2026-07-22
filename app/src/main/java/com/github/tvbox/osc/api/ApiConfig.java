@@ -442,9 +442,23 @@ public class ApiConfig {
                     if (!lives.contains("type")) {
                         loadLives(infoJson.get("lives").getAsJsonArray());
                     } else {
-                        JsonObject fengMiLives = infoJson.get("lives").getAsJsonArray().get(0).getAsJsonObject();
-                        String type = fengMiLives.get("type").getAsString();
-                        if (type.equals("0")) {
+                        JsonObject fengMiLives = null;
+                        for (JsonElement liveElement : infoJson.get("lives").getAsJsonArray()) {
+                            if (!liveElement.isJsonObject()) {
+                                continue;
+                            }
+                            JsonObject candidate = liveElement.getAsJsonObject();
+                            if (!candidate.has("type") || !"0".equals(candidate.get("type").getAsString())
+                                    || !candidate.has("url")) {
+                                continue;
+                            }
+                            String candidateUrl = candidate.get("url").getAsString();
+                            if (!isUnsupportedLocalLiveProxy(candidateUrl)) {
+                                fengMiLives = candidate;
+                                break;
+                            }
+                        }
+                        if (fengMiLives != null) {
                             String url = fengMiLives.get("url").getAsString();
 
                             // takagen99 : Getting EPG URL from File Config & put into Settings
@@ -482,11 +496,13 @@ public class ApiConfig {
                 if (StringUtils.isBlank(liveURL_final)) {
                     liveURL_final = liveURL;
                 }
-                liveURL_final = Base64.encodeToString(liveURL_final.getBytes("UTF-8"), Base64.DEFAULT | Base64.URL_SAFE | Base64.NO_WRAP);
-                liveURL_final = "http://127.0.0.1:9978/proxy?do=live&type=txt&ext=" + liveURL_final;
-                LiveChannelGroup liveChannelGroup = new LiveChannelGroup();
-                liveChannelGroup.setGroupName(liveURL_final);
-                liveChannelGroupList.add(liveChannelGroup);
+                if (!StringUtils.isBlank(liveURL_final)) {
+                    liveURL_final = Base64.encodeToString(liveURL_final.getBytes("UTF-8"), Base64.DEFAULT | Base64.URL_SAFE | Base64.NO_WRAP);
+                    liveURL_final = "http://127.0.0.1:9978/proxy?do=live&type=txt&ext=" + liveURL_final;
+                    LiveChannelGroup liveChannelGroup = new LiveChannelGroup();
+                    liveChannelGroup.setGroupName(liveURL_final);
+                    liveChannelGroupList.add(liveChannelGroup);
+                }
             }
 
 
@@ -589,6 +605,20 @@ public class ApiConfig {
             if (!foundOldSelect && ijkCodes.size() > 0) {
                 ijkCodes.get(0).selected(true);
             }
+        }
+    }
+
+    private boolean isUnsupportedLocalLiveProxy(String url) {
+        try {
+            Uri uri = Uri.parse(url);
+            String host = uri.getHost();
+            if (!"127.0.0.1".equals(host) && !"localhost".equals(host)) {
+                return false;
+            }
+            String action = uri.getQueryParameter("do");
+            return "/proxy".equals(uri.getPath()) && !TextUtils.isEmpty(action) && !"live".equals(action);
+        } catch (Throwable ignored) {
+            return false;
         }
     }
 

@@ -8,58 +8,92 @@ import java.io.StringReader;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TxtSubscribe {
+    private static final Pattern GROUP_TITLE_PATTERN = Pattern.compile("group-title\\s*=\\s*(?:\\\"([^\\\"]*)\\\"|([^\\s,]+))", Pattern.CASE_INSENSITIVE);
+
     public static void parse(LinkedHashMap<String, LinkedHashMap<String, ArrayList<String>>> linkedHashMap, String str) {
-        ArrayList<String> arrayList;
         try {
             BufferedReader bufferedReader = new BufferedReader(new StringReader(str));
             String readLine = bufferedReader.readLine();
-            LinkedHashMap<String, ArrayList<String>> linkedHashMap2 = new LinkedHashMap<>();
-            LinkedHashMap<String, ArrayList<String>> linkedHashMap3 = linkedHashMap2;
+            LinkedHashMap<String, ArrayList<String>> ungroupedChannels = new LinkedHashMap<>();
+            LinkedHashMap<String, ArrayList<String>> currentTextGroup = ungroupedChannels;
+            String m3uChannelName = null;
+            String m3uGroupName = "未分组";
             while (readLine != null) {
-                if (readLine.trim().isEmpty()) {
-                    readLine = bufferedReader.readLine();
-                } else {
-                    String[] split = readLine.split(",");
-                    if (split.length < 2) {
-                        readLine = bufferedReader.readLine();
-                    } else {
-                        if (readLine.contains("#genre#")) {
-                            String trim = split[0].trim();
-                            if (!linkedHashMap.containsKey(trim)) {
-                                linkedHashMap3 = new LinkedHashMap<>();
-                                linkedHashMap.put(trim, linkedHashMap3);
-                            } else {
-                                linkedHashMap3 = linkedHashMap.get(trim);
+                String line = readLine.trim();
+                if (line.startsWith("#EXTINF")) {
+                    int nameIndex = line.lastIndexOf(',');
+                    m3uChannelName = nameIndex >= 0 ? line.substring(nameIndex + 1).trim() : "";
+                    m3uGroupName = getM3uGroupName(line);
+                } else if (line.startsWith("#EXTGRP:")) {
+                    m3uGroupName = line.substring("#EXTGRP:".length()).trim();
+                } else if (m3uChannelName != null && !m3uChannelName.isEmpty() && isStreamUrl(line)) {
+                    addChannel(linkedHashMap, m3uGroupName, m3uChannelName, line);
+                    m3uChannelName = null;
+                } else if (!line.isEmpty() && !line.startsWith("#")) {
+                    String[] split = line.split(",", 2);
+                    if (split.length >= 2) {
+                        if (line.contains("#genre#")) {
+                            String groupName = split[0].trim();
+                            if (!linkedHashMap.containsKey(groupName)) {
+                                linkedHashMap.put(groupName, new LinkedHashMap<>());
                             }
+                            currentTextGroup = linkedHashMap.get(groupName);
                         } else {
-                            String trim2 = split[0].trim();
-                            for (String str2 : split[1].trim().split("#")) {
-                                String trim3 = str2.trim();
-                                if (!trim3.isEmpty() && (trim3.startsWith("http") || trim3.startsWith("rtp") || trim3.startsWith("rtsp") || trim3.startsWith("rtmp"))) {
-                                    if (!linkedHashMap3.containsKey(trim2)) {
-                                        arrayList = new ArrayList<>();
-                                        linkedHashMap3.put(trim2, arrayList);
-                                    } else {
-                                        arrayList = linkedHashMap3.get(trim2);
-                                    }
-                                    if (!arrayList.contains(trim3)) {
-                                        arrayList.add(trim3);
-                                    }
+                            String channelName = split[0].trim();
+                            for (String url : split[1].trim().split("#")) {
+                                String channelUrl = url.trim();
+                                if (isStreamUrl(channelUrl)) {
+                                    addChannel(currentTextGroup, channelName, channelUrl);
                                 }
                             }
                         }
-                        readLine = bufferedReader.readLine();
                     }
                 }
+                readLine = bufferedReader.readLine();
             }
             bufferedReader.close();
-            if (linkedHashMap2.isEmpty()) {
-                return;
+            if (!ungroupedChannels.isEmpty()) {
+                linkedHashMap.put("未分组", ungroupedChannels);
             }
-            linkedHashMap.put("未分组", linkedHashMap2);
         } catch (Throwable unused) {
+        }
+    }
+
+    private static String getM3uGroupName(String line) {
+        Matcher matcher = GROUP_TITLE_PATTERN.matcher(line);
+        if (!matcher.find()) {
+            return "未分组";
+        }
+        String groupName = matcher.group(1) != null ? matcher.group(1) : matcher.group(2);
+        return groupName == null || groupName.trim().isEmpty() ? "未分组" : groupName.trim();
+    }
+
+    private static boolean isStreamUrl(String url) {
+        return url.startsWith("http") || url.startsWith("rtp") || url.startsWith("rtsp") || url.startsWith("rtmp");
+    }
+
+    private static void addChannel(LinkedHashMap<String, LinkedHashMap<String, ArrayList<String>>> groups,
+                                   String groupName, String channelName, String channelUrl) {
+        LinkedHashMap<String, ArrayList<String>> channels = groups.get(groupName);
+        if (channels == null) {
+            channels = new LinkedHashMap<>();
+            groups.put(groupName, channels);
+        }
+        addChannel(channels, channelName, channelUrl);
+    }
+
+    private static void addChannel(LinkedHashMap<String, ArrayList<String>> channels, String channelName, String channelUrl) {
+        ArrayList<String> urls = channels.get(channelName);
+        if (urls == null) {
+            urls = new ArrayList<>();
+            channels.put(channelName, urls);
+        }
+        if (!urls.contains(channelUrl)) {
+            urls.add(channelUrl);
         }
     }
 
