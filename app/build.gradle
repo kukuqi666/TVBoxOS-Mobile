@@ -5,7 +5,7 @@ def tvBoxSigningStore = rootProject.file('TVBoxOSC.jks')
 
 android {
     namespace 'com.github.tvbox.osc'
-    compileSdkVersion 35
+    compileSdkVersion 34
 
     defaultConfig {
         applicationId 'com.github.tvbox.osc'

@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 35
+    compileSdkVersion 34
     resourcePrefix 'customactivityoncrash_'
 
     defaultConfig {
