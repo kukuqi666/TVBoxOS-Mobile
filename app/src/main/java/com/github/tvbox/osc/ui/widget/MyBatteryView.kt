@@ -109,7 +109,7 @@ class MyBatteryView : View {
         setMeasuredDimension(specWidthSize, specHeightSize)
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         // 满电的长度
@@ -119,16 +119,16 @@ class MyBatteryView : View {
         if (battery <= 20) {
             boxBatteryPaint.color = com.blankj.utilcode.util.ColorUtils.getColor(R.color.warn)
         }
-        canvas?.drawRoundRect(boxOut, CORNER, CORNER, boxOutPaint)
-        canvas?.drawRoundRect(boxCap, 1F, 1F, boxCapPaint)
-        canvas?.drawRoundRect(boxBattery, CORNER / 2, CORNER / 2, boxBatteryPaint)
+        canvas.drawRoundRect(boxOut, CORNER, CORNER, boxOutPaint)
+        canvas.drawRoundRect(boxCap, 1F, 1F, boxCapPaint)
+        canvas.drawRoundRect(boxBattery, CORNER / 2, CORNER / 2, boxBatteryPaint)
 
         val fontMetrics : Paint.FontMetrics = boxBatteryTextPaint.fontMetrics;
         // 计算文字高度
         val fontHeight = fontMetrics.bottom - fontMetrics.top
         // 计算文字baseline
         val textBaseY = height - (height - fontHeight) / 2 - fontMetrics.bottom;
-        canvas?.drawText(battery.toString(), boxOut.centerX(), textBaseY, boxBatteryTextPaint)
+        canvas.drawText(battery.toString(), boxOut.centerX(), textBaseY, boxBatteryTextPaint)
     }
 
     fun updateBattery(battery: Int) {
