@@ -2,11 +2,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 30
+    namespace 'com.angcyo.tablayout.delegate'
+    compileSdkVersion 35
 
     defaultConfig {
         minSdkVersion 24
-        targetSdkVersion 30
+        targetSdkVersion 34
 
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -26,4 +27,3 @@ dependencies {
     //https://mvnrepository.com/artifact/androidx.viewpager/viewpager
     implementation 'androidx.viewpager:viewpager:1.0.0'
 }
-

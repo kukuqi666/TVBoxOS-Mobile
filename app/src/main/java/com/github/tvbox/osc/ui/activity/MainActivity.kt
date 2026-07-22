@@ -1,10 +1,9 @@
 package com.github.tvbox.osc.ui.activity
 
 import android.os.Process
-import android.view.MenuItem
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.github.tvbox.osc.base.BaseVbActivity
@@ -17,31 +16,27 @@ import kotlin.system.exitProcess
 
 class MainActivity : BaseVbActivity<ActivityMainBinding>() {
 
-    var fragments = listOf(HomeFragment(),MyFragment())
+    private val fragments = listOf(HomeFragment(), MyFragment())
     var useCacheConfig = false
     private var exitTime = 0L
 
     override fun init() {
 
-        useCacheConfig = intent.extras?.getBoolean(IntentKey.CACHE_CONFIG_CHANGED, false)?:false
+        useCacheConfig = intent.extras?.getBoolean(IntentKey.CACHE_CONFIG_CHANGED, false) ?: false
 
-        mBinding.vp.adapter = object : FragmentPagerAdapter(supportFragmentManager) {
-            override fun getItem(position: Int): Fragment {
-                return fragments[position]
-            }
+        mBinding.vp.adapter = object : FragmentStateAdapter(this) {
+            override fun getItemCount() = fragments.size
 
-            override fun getCount(): Int {
-                return fragments.size
-            }
+            override fun createFragment(position: Int): Fragment = fragments[position]
         }
 
-        mBinding.bottomNav.setOnNavigationItemSelectedListener { menuItem: MenuItem ->
+        mBinding.bottomNav.setOnItemSelectedListener { menuItem ->
             mBinding.vp.setCurrentItem(menuItem.order, false)
             true
         }
-        mBinding.vp.addOnPageChangeListener(object : SimpleOnPageChangeListener() {
+        mBinding.vp.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                mBinding.bottomNav.menu.getItem(position).setChecked(true)
+                mBinding.bottomNav.menu.getItem(position).isChecked = true
             }
         })
     }
