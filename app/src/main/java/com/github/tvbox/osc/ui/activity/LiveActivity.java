@@ -840,10 +840,10 @@ public class LiveActivity extends BaseActivity {
         noLiveChannelsShown = true;
         showEmpty();
         new XPopup.Builder(this)
-                .asConfirm("暂无直播频道", "当前订阅未提供可用直播频道，请切换或导入包含直播内容的订阅。", "返回", "订阅管理", () -> {
+                .asConfirm("暂无直播频道", "当前订阅未提供可用直播频道，请切换或导入包含直播内容的订阅。", () -> {
                     jumpActivity(SubscriptionActivity.class);
                     finish();
-                }, null, false)
+                })
                 .show();
     }
 
