@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
 
 def tvBoxSigningStore = rootProject.file('TVBoxOSC.jks')
-def releaseSigningStore = System.getenv('TVBOX_KEYSTORE_PATH')
 
 android {
     namespace 'com.github.tvbox.osc'
@@ -51,14 +50,6 @@ android {
                 storePassword 'TVBoxOSC'
             }
         }
-        release {
-            if (releaseSigningStore != null && rootProject.file(releaseSigningStore).exists()) {
-                storeFile rootProject.file(releaseSigningStore)
-                storePassword System.getenv('TVBOX_KEYSTORE_PASSWORD')
-                keyAlias System.getenv('TVBOX_KEY_ALIAS')
-                keyPassword System.getenv('TVBOX_KEY_PASSWORD')
-            }
-        }
     }
 
     buildTypes {
@@ -69,7 +60,9 @@ android {
         }
 
         release {
-            signingConfig signingConfigs.release
+            if (tvBoxSigningStore.exists()) {
+                signingConfig signingConfigs.config
+            }
             minifyEnabled false
         }
     }
