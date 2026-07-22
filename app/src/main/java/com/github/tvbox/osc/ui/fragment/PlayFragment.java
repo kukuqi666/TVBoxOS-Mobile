@@ -303,11 +303,6 @@ public class PlayFragment extends BaseLazyFragment {
             }
 
             @Override
-            public void cast() {
-                activity.showCastDialog();
-            }
-
-            @Override
             public void onHideBottom() {
                 if (mFullWindows){
                     ImmersionBar.with(activity)

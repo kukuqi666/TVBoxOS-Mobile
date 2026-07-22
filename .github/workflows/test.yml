@@ -49,3 +49,14 @@ jobs:
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           retention-days: 14
+
+      - name: Upload Gradle reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: TVBoxOS-Mobile-gradle-reports
+          path: |
+            app/build/reports/**
+            build/reports/**
+          if-no-files-found: ignore
+          retention-days: 14

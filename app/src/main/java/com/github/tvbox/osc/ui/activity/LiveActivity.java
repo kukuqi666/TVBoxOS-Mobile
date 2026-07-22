@@ -32,7 +32,6 @@ import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.base.App;
 import com.github.tvbox.osc.base.BaseActivity;
-import com.github.tvbox.osc.bean.CastVideo;
 import com.github.tvbox.osc.bean.LiveChannelGroup;
 import com.github.tvbox.osc.bean.LiveChannelItem;
 import com.github.tvbox.osc.bean.LivePlayerManager;
@@ -44,7 +43,6 @@ import com.github.tvbox.osc.ui.adapter.LiveChannelItemNewAdapter;
 import com.github.tvbox.osc.ui.adapter.LiveSettingGroupAdapter;
 import com.github.tvbox.osc.ui.adapter.LiveSettingItemAdapter;
 import com.github.tvbox.osc.ui.dialog.AllChannelsRightDialog;
-import com.github.tvbox.osc.ui.dialog.CastListDialog;
 import com.github.tvbox.osc.ui.dialog.LivePasswordDialog;
 import com.github.tvbox.osc.ui.dialog.LiveSettingDialog;
 import com.github.tvbox.osc.ui.dialog.LiveSettingRightDialog;
@@ -190,7 +188,7 @@ public class LiveActivity extends BaseActivity {
         tv_srcinfo.setOnClickListener(view -> playNextSource());
         //投屏/设置
         findViewById(R.id.ic_setting).setOnClickListener(view -> showSettingDialog(false));
-        findViewById(R.id.ic_cast).setOnClickListener(view -> showCastDialog());
+        findViewById(R.id.ic_cast).setVisibility(View.GONE);
 
         initVideoView();
         initChannelGroupView();
@@ -567,10 +565,6 @@ public class LiveActivity extends BaseActivity {
                 showSettingDialog(true);
             }
 
-            @Override
-            public void onCast() {
-                showCastDialog();
-            }
         });
         return playerMenuView;
     }
@@ -1107,15 +1101,6 @@ public class LiveActivity extends BaseActivity {
                 .popupPosition(PopupPosition.Right)
                 .asCustom(new AllChannelsRightDialog(this));
         mAllChannelRightDialog.show();
-    }
-
-    public void showCastDialog() {
-        if (currentLiveChannelItem!=null){
-            new XPopup.Builder(this)
-                    .maxWidth(ConvertUtils.dp2px(360))
-                    .asCustom(new CastListDialog(this,new CastVideo(currentLiveChannelItem.getChannelName(),currentLiveChannelItem.getUrl())))
-                    .show();
-        }
     }
 
     public LivePlayerManager getLivePlayerManager(){
