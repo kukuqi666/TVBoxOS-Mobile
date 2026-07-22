@@ -208,20 +208,17 @@ public class LiveActivity extends BaseActivity {
         BottomNavigationView bottomNavigation = findViewById(R.id.bottom_nav);
         bottomNavigation.setSelectedItemId(R.id.navigation_live);
         bottomNavigation.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                case R.id.navigation_dashboard:
-                    openMainDestination(item.getItemId());
-                    return false;
-                case R.id.navigation_subscription:
-                    startActivity(new Intent(this, SubscriptionActivity.class));
-                    finish();
-                    return false;
-                case R.id.navigation_live:
-                    return true;
-                default:
-                    return false;
+            int itemId = item.getItemId();
+            if (itemId == R.id.navigation_home || itemId == R.id.navigation_dashboard) {
+                openMainDestination(itemId);
+                return false;
             }
+            if (itemId == R.id.navigation_subscription) {
+                startActivity(new Intent(this, SubscriptionActivity.class));
+                finish();
+                return false;
+            }
+            return itemId == R.id.navigation_live;
         });
     }
 
