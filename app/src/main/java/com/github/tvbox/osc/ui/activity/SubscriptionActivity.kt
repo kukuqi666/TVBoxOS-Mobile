@@ -19,6 +19,7 @@ import com.github.tvbox.osc.ui.dialog.SubsciptionDialog
 import com.github.tvbox.osc.ui.dialog.SubsciptionDialog.OnSubsciptionListener
 import com.github.tvbox.osc.util.HawkConfig
 import com.github.tvbox.osc.util.Utils
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.hjq.permissions.OnPermissionCallback
@@ -349,8 +350,9 @@ class SubscriptionActivity : BaseVbActivity<ActivitySubscriptionBinding>() {
     }
 
     private fun initBottomNavigation() {
-        mBinding.bottomNav.selectedItemId = R.id.navigation_subscription
-        mBinding.bottomNav.setOnItemSelectedListener { item ->
+        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNavigation.selectedItemId = R.id.navigation_subscription
+        bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_subscription -> true
                 R.id.navigation_home,

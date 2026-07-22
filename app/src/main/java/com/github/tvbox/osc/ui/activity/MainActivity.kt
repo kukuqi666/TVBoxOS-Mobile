@@ -5,6 +5,7 @@ import android.os.Process
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.github.tvbox.osc.R
@@ -23,6 +24,7 @@ class MainActivity : BaseVbActivity<ActivityMainBinding>() {
     }
 
     private val fragments = listOf(HomeFragment(), MyFragment())
+    private lateinit var bottomNavigation: BottomNavigationView
     var useCacheConfig = false
     private var exitTime = 0L
 
@@ -36,7 +38,8 @@ class MainActivity : BaseVbActivity<ActivityMainBinding>() {
             override fun createFragment(position: Int): Fragment = fragments[position]
         }
 
-        mBinding.bottomNav.setOnItemSelectedListener { menuItem ->
+        bottomNavigation = findViewById(R.id.bottom_nav)
+        bottomNavigation.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navigation_home -> {
                     mBinding.vp.setCurrentItem(0, false)
@@ -59,7 +62,7 @@ class MainActivity : BaseVbActivity<ActivityMainBinding>() {
         }
         mBinding.vp.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                mBinding.bottomNav.selectedItemId = if (position == 0) {
+                bottomNavigation.selectedItemId = if (position == 0) {
                     R.id.navigation_home
                 } else {
                     R.id.navigation_dashboard
@@ -77,10 +80,10 @@ class MainActivity : BaseVbActivity<ActivityMainBinding>() {
 
     private fun openDestination(destination: Int) {
         when (destination) {
-            R.id.navigation_dashboard -> mBinding.bottomNav.selectedItemId = R.id.navigation_dashboard
+            R.id.navigation_dashboard -> bottomNavigation.selectedItemId = R.id.navigation_dashboard
             R.id.navigation_live -> jumpActivity(LiveActivity::class.java)
             R.id.navigation_subscription -> jumpActivity(SubscriptionActivity::class.java)
-            else -> mBinding.bottomNav.selectedItemId = R.id.navigation_home
+            else -> bottomNavigation.selectedItemId = R.id.navigation_home
         }
     }
 
