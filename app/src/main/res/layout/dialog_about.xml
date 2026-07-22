@@ -84,4 +84,12 @@
             android:textColor="@color/text_sub_foreground"
             android:text="QID：wnfng66"/>
 
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_check_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="检查更新"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
 </LinearLayout>

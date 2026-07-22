@@ -43,7 +43,7 @@ public class MyFragment extends BaseVbFragment<FragmentMyBinding> {
 
         mBinding.addrPlay.setOnClickListener(v ->{
             new XPopup.Builder(getContext())
-                    .asInputConfirm("播放", "", isPush(ClipboardUtils.getText().toString())?ClipboardUtils.getText():"", "地址", text -> {
+                    .asInputConfirm("点播", "", isPush(ClipboardUtils.getText().toString())?ClipboardUtils.getText():"", "影视地址", text -> {
                         if (!TextUtils.isEmpty(text)){
                             Intent newIntent = new Intent(mContext, DetailActivity.class);
                             newIntent.putExtra("id", text);
