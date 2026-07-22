@@ -43,6 +43,15 @@ jobs:
           set -o pipefail
           ./gradlew :app:assembleDebug --stacktrace --no-daemon 2>&1 | tee build/gradle-build.log
 
+      - name: Report Gradle failure
+        if: failure()
+        run: |
+          failure_line=$(grep -m 1 -E 'Execution failed for task|^e: | error: ' build/gradle-build.log || true)
+          if [ -z "$failure_line" ]; then
+            failure_line=$(tail -n 1 build/gradle-build.log)
+          fi
+          echo "::error title=Gradle build failure::$failure_line"
+
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
