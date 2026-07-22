@@ -114,6 +114,32 @@
             android:text="QID：wnfng66"
             android:textSize="14sp" />
 
+    <LinearLayout
+            android:id="@+id/layout_update_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+        <TextView
+                android:id="@+id/tv_update_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_sub_foreground"
+                android:textSize="13sp"
+                tools:text="正在下载 0%" />
+
+        <ProgressBar
+                android:id="@+id/pb_update_progress"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:max="100"
+                android:progress="0" />
+    </LinearLayout>
+
     <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_check_update"
             android:layout_width="match_parent"

@@ -111,7 +111,21 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Restore release signing key
+        env:
+          TVBOX_KEYSTORE_BASE64: ${{ secrets.TVBOX_KEYSTORE_BASE64 }}
+        run: |
+          if [ -z "$TVBOX_KEYSTORE_BASE64" ]; then
+            echo "::error::Missing TVBOX_KEYSTORE_BASE64. Configure the fixed signing key before publishing a release."
+            exit 1
+          fi
+          printf '%s' "$TVBOX_KEYSTORE_BASE64" | base64 --decode > TVBoxOSC.jks
+
       - name: Build release artifact
+        env:
+          TVBOX_KEY_ALIAS: ${{ secrets.TVBOX_KEY_ALIAS }}
+          TVBOX_KEY_PASSWORD: ${{ secrets.TVBOX_KEY_PASSWORD }}
+          TVBOX_STORE_PASSWORD: ${{ secrets.TVBOX_STORE_PASSWORD }}
         run: |
           chmod +x gradlew
           ./gradlew :app:assembleDebug --stacktrace --no-daemon

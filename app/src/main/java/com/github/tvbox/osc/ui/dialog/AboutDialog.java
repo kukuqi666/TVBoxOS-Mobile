@@ -6,7 +6,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
+import android.text.format.Formatter;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,14 +24,21 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.AbsCallback;
 import com.lzy.okgo.model.Response;
 import com.lxj.xpopup.core.BottomPopupView;
+import com.google.android.material.button.MaterialButton;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 
 public class AboutDialog extends BottomPopupView {
     private static final String UPDATE_MANIFEST_URL = "https://raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/update.json";
+    private LinearLayout downloadProgressLayout;
+    private ProgressBar downloadProgressBar;
+    private TextView downloadProgressText;
+    private MaterialButton checkUpdateButton;
+    private boolean downloadingUpdate;
 
     public AboutDialog(@NonNull @NotNull Context context) {
         super(context);
@@ -49,7 +59,11 @@ public class AboutDialog extends BottomPopupView {
             }
         });
         ((TextView) findViewById(R.id.tv_about_version)).setText("Version " + DefaultConfig.getAppVersionName(getContext()));
-        findViewById(R.id.btn_check_update).setOnClickListener(view -> checkForUpdate());
+        downloadProgressLayout = findViewById(R.id.layout_update_progress);
+        downloadProgressBar = findViewById(R.id.pb_update_progress);
+        downloadProgressText = findViewById(R.id.tv_update_progress);
+        checkUpdateButton = findViewById(R.id.btn_check_update);
+        checkUpdateButton.setOnClickListener(view -> checkForUpdate());
     }
 
     private void checkForUpdate() {
@@ -105,7 +119,8 @@ public class AboutDialog extends BottomPopupView {
     }
 
     private void downloadAndInstall(String apkUrl, String version) {
-        ToastUtils.showLong("正在下载 v" + version + "，请稍候");
+        downloadingUpdate = true;
+        showDownloadProgress(0, -1);
         OkGo.<File>get(apkUrl)
                 .headers("User-Agent", "TVBox-Mobile")
                 .tag("download_update")
@@ -123,18 +138,34 @@ public class AboutDialog extends BottomPopupView {
                             throw new IllegalStateException("无法创建下载目录");
                         }
                         File apk = new File(directory, "TVBox-Mobile-v" + version + ".apk");
-                        FileOutputStream output = new FileOutputStream(apk);
-                        output.write(response.body().bytes());
-                        output.flush();
-                        output.close();
+                        long total = response.body().contentLength();
+                        long downloaded = 0;
+                        byte[] buffer = new byte[8192];
+                        try (InputStream input = response.body().byteStream();
+                             FileOutputStream output = new FileOutputStream(apk)) {
+                            int read;
+                            while ((read = input.read(buffer)) != -1) {
+                                output.write(buffer, 0, read);
+                                downloaded += read;
+                                showDownloadProgress(downloaded, total);
+                            }
+                            output.flush();
+                        } catch (Throwable throwable) {
+                            if (apk.exists()) {
+                                apk.delete();
+                            }
+                            throw throwable;
+                        }
                         return apk;
                     }
 
                     @Override
                     public void onSuccess(Response<File> response) {
                         if (response.body() != null && response.body().exists()) {
+                            showDownloadComplete();
                             installApk(response.body());
                         } else {
+                            resetDownloadProgress();
                             ToastUtils.showLong("更新包下载失败");
                         }
                     }
@@ -142,9 +173,46 @@ public class AboutDialog extends BottomPopupView {
                     @Override
                     public void onError(Response<File> response) {
                         super.onError(response);
+                        resetDownloadProgress();
                         ToastUtils.showLong("下载更新失败，请稍后重试");
                     }
                 });
+    }
+
+    private void showDownloadProgress(long downloaded, long total) {
+        downloadProgressText.post(() -> {
+            if (!downloadingUpdate) {
+                return;
+            }
+            downloadProgressLayout.setVisibility(VISIBLE);
+            checkUpdateButton.setEnabled(false);
+            if (total > 0) {
+                int percent = (int) Math.min(100, downloaded * 100 / total);
+                downloadProgressBar.setIndeterminate(false);
+                downloadProgressBar.setProgress(percent);
+                downloadProgressText.setText("正在下载 " + Formatter.formatFileSize(getContext(), downloaded)
+                        + " / " + Formatter.formatFileSize(getContext(), total) + " (" + percent + "%)");
+            } else {
+                downloadProgressBar.setIndeterminate(true);
+                downloadProgressText.setText("正在下载 " + Formatter.formatFileSize(getContext(), downloaded));
+            }
+        });
+    }
+
+    private void resetDownloadProgress() {
+        downloadingUpdate = false;
+        downloadProgressLayout.setVisibility(GONE);
+        checkUpdateButton.setEnabled(true);
+    }
+
+    private void showDownloadComplete() {
+        downloadingUpdate = false;
+        downloadProgressText.post(() -> {
+            downloadProgressLayout.setVisibility(VISIBLE);
+            downloadProgressBar.setIndeterminate(false);
+            downloadProgressBar.setProgress(100);
+            downloadProgressText.setText("下载完成，正在打开安装程序");
+        });
     }
 
     private void installApk(File apk) {
