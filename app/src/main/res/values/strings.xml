@@ -38,5 +38,15 @@
 
     <string-array name="api">
         <item>http://www.饭太硬.cc/tv</item>
+        <item>assets://subscriptions/feimao.json</item>
+        <item>assets://subscriptions/oklao.json</item>
+        <item>assets://subscriptions/nanfeng.json</item>
+    </string-array>
+
+    <string-array name="api_name">
+        <item>饭太硬（在线）</item>
+        <item>肥猫（内置）</item>
+        <item>OK佬（内置）</item>
+        <item>南风（内置）</item>
     </string-array>
 </resources>

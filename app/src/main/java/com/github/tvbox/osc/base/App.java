@@ -89,6 +89,7 @@ public class App extends MultiDexApplication {
 
     private void putDefaultApi() {
         String[] apis = getResources().getStringArray(R.array.api);
+        String[] apiNames = getResources().getStringArray(R.array.api_name);
         if (apis.length == 0) {
             return;
         }
@@ -97,6 +98,9 @@ public class App extends MultiDexApplication {
         boolean changed = false;
         for (int i = 0; i < apis.length; i++) {
             String api = apis[i];
+            String apiName = i < apiNames.length && !TextUtils.isEmpty(apiNames[i])
+                    ? apiNames[i]
+                    : "内置订阅";
             if (TextUtils.isEmpty(api)) {
                 continue;
             }
@@ -109,7 +113,7 @@ public class App extends MultiDexApplication {
                 }
             }
             if (matched == null) {
-                subscriptions.add(new Subscription("内置订阅", api).setBuiltIn(true));
+                subscriptions.add(new Subscription(apiName, api).setBuiltIn(true));
                 changed = true;
             } else if (!matched.isBuiltIn()) {
                 matched.setBuiltIn(true);
