@@ -40,6 +40,7 @@ jobs:
       - name: Build debug APK
         run: |
           chmod +x gradlew
+          mkdir -p build
           set -o pipefail
           ./gradlew :app:assembleDebug --stacktrace --no-daemon 2>&1 | tee build/gradle-build.log
 
