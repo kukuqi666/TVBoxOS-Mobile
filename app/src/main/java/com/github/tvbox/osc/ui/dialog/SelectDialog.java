@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ConvertUtils;
 import com.github.tvbox.osc.R;
@@ -18,6 +19,7 @@ import com.owen.tvrecyclerview.widget.TvRecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.List;
 
 public class SelectDialog<T> extends BaseDialog {
@@ -51,15 +53,24 @@ public class SelectDialog<T> extends BaseDialog {
 
     public void setAdapter(SelectDialogAdapter.SelectDialogInterface<T> sourceBeanSelectDialogInterface, DiffUtil.ItemCallback<T> sourceBeanItemCallback, List<T> data, int select) {
         SelectDialogAdapter<T> adapter = new SelectDialogAdapter(sourceBeanSelectDialogInterface, sourceBeanItemCallback);
-        adapter.setData(data, select);
+        List<T> items = data == null ? Collections.emptyList() : data;
+        int itemCount = items.size();
+        int selectedPosition = itemCount == 0 ? RecyclerView.NO_POSITION : Math.max(0, Math.min(select, itemCount - 1));
+        adapter.setData(items, selectedPosition);
         TvRecyclerView tvRecyclerView = ((TvRecyclerView) findViewById(R.id.list));
         tvRecyclerView.setAdapter(adapter);
-        tvRecyclerView.setSelectedPosition(select);
+        if (selectedPosition == RecyclerView.NO_POSITION) {
+            return;
+        }
+        tvRecyclerView.setSelectedPosition(selectedPosition);
         tvRecyclerView.post(new Runnable() {
             @Override
             public void run() {
-                tvRecyclerView.smoothScrollToPosition(select);
-                tvRecyclerView.setSelectionWithSmooth(select);
+                if (tvRecyclerView.getAdapter() != adapter || adapter.getItemCount() <= selectedPosition) {
+                    return;
+                }
+                tvRecyclerView.smoothScrollToPosition(selectedPosition);
+                tvRecyclerView.setSelectionWithSmooth(selectedPosition);
             }
         });
     }
