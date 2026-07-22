@@ -82,6 +82,6 @@
             android:layout_height="wrap_content"
             android:textIsSelectable="true"
             android:textColor="@color/text_sub_foreground"
-            android:text="QID：wnfng"/>
+            android:text="QID：wnfng66"/>
 
 </LinearLayout>

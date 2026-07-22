@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-debug-apk:
+  build-apk:
     if: github.ref_type != 'tag'
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -40,7 +40,7 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build debug APK
+      - name: Build APK
         run: |
           chmod +x gradlew
           mkdir -p build
@@ -56,10 +56,10 @@ jobs:
           fi
           echo "::error title=Gradle build failure::$failure_line"
 
-      - name: Upload debug APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: TVBox-Mobile-debug
+          name: TVBox-Mobile
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           retention-days: 14

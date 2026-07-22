@@ -30,9 +30,12 @@ public class SubscriptionAdapter extends BaseQuickAdapter<Subscription, BaseView
         helper.setText(R.id.tv_name,item.getName())
         .setText(R.id.tv_url,item.getUrl())
         .setChecked(R.id.cb,item.isChecked())
-        .setVisible(R.id.iv_pushpin,item.isTop());
+        .setVisible(R.id.iv_pushpin,item.isTop())
+        .setVisible(R.id.iv_del,!item.isBuiltIn());
 
-        helper.addOnClickListener(R.id.iv_del);
+        if (!item.isBuiltIn()) {
+            helper.addOnClickListener(R.id.iv_del);
+        }
     }
 
     /**

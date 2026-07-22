@@ -96,7 +96,12 @@ class SubscriptionActivity : BaseVbActivity<ActivitySubscriptionBinding>() {
         mSubscriptionAdapter.setOnItemChildClickListener { _: BaseQuickAdapter<*, *>?, view: View, position: Int ->
             LogUtils.d("删除订阅")
             if (view.id == R.id.iv_del) {
-                if (mSubscriptions.get(position).isChecked) {
+                val subscription = mSubscriptions[position]
+                if (subscription.isBuiltIn) {
+                    ToastUtils.showShort("内置订阅不能删除")
+                    return@setOnItemChildClickListener
+                }
+                if (subscription.isChecked || subscription.url == mSelectedUrl) {
                     ToastUtils.showShort("不能删除当前使用的订阅")
                     return@setOnItemChildClickListener
                 }

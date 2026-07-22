@@ -89,16 +89,41 @@ public class App extends MultiDexApplication {
 
     private void putDefaultApi() {
         String[] apis = getResources().getStringArray(R.array.api);
-        if(!Hawk.contains(HawkConfig.API_URL) && !Hawk.contains(HawkConfig.SUBSCRIPTIONS) && !TextUtils.isEmpty(apis[0])){
-            List<Subscription> subscriptions = new ArrayList<>();
-            for (int i = 0; i < apis.length; i++) {
-                if (i==0){
-                    subscriptions.add(new Subscription("订阅: 1", apis[0]).setChecked(true));
-                    Hawk.put(HawkConfig.API_URL,apis[0]);
-                }else {
-                    subscriptions.add(new Subscription("订阅: "+(i+1), apis[i]));
+        if (apis.length == 0) {
+            return;
+        }
+
+        List<Subscription> subscriptions = Hawk.get(HawkConfig.SUBSCRIPTIONS, new ArrayList<Subscription>());
+        boolean changed = false;
+        for (int i = 0; i < apis.length; i++) {
+            String api = apis[i];
+            if (TextUtils.isEmpty(api)) {
+                continue;
+            }
+
+            Subscription matched = null;
+            for (Subscription subscription : subscriptions) {
+                if (api.equals(subscription.getUrl())) {
+                    matched = subscription;
+                    break;
                 }
             }
+            if (matched == null) {
+                subscriptions.add(new Subscription("内置订阅", api).setBuiltIn(true));
+                changed = true;
+            } else if (!matched.isBuiltIn()) {
+                matched.setBuiltIn(true);
+                changed = true;
+            }
+        }
+
+        if (!Hawk.contains(HawkConfig.API_URL) && !subscriptions.isEmpty()) {
+            Subscription defaultSubscription = subscriptions.get(0);
+            defaultSubscription.setChecked(true);
+            Hawk.put(HawkConfig.API_URL, defaultSubscription.getUrl());
+            changed = true;
+        }
+        if (changed || !Hawk.contains(HawkConfig.SUBSCRIPTIONS)) {
             Hawk.put(HawkConfig.SUBSCRIPTIONS, subscriptions);
         }
     }
