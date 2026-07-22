@@ -34,20 +34,15 @@
 ## 📲软件合集（软件安装）
 ### TVBox for Android
 - TVBox(横屏)： [kukuqi666/TVBoxOSC](https://ghfast.top/https://github.com/kukuqi666/TVBoxOSC/releases/download/v1.1.1/TVBoxOSC.apk)
-- TVbox(竖屏)： [kukuqi666/TVBoxOS-Mobile](https://ghfast.top/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.13/TVBox-Mobile-v2.1.13.apk)
+- TVbox(竖屏)： [kukuqi666/TVBoxOS-Mobile](https://ghfast.top/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.15/TVBox-Mobile-v2.1.15.apk)
 
 
 ## 🎁福利18+
 - R18: [R18](https://raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/R18.json)
 
-- 18cn: [18cn](https://raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/18cn.json)
+## 𝟭. 更新记录
 
-- tvbox福利：[tvbox福利](https://raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/tvbox/tvbox-福利.json)
-
-
-## 𝟬𝟭. 更新记录
-
->* **2026/07/22 TVBox Mobile v2.1.15：** 新增肥猫、OK佬、南风三份 APK 内置订阅配置，无需下载配置文件即可选择加载；保留饭太硬在线默认源，以及原有本地文件和链接导入功能。清理 `tvbox` 目录中格式损坏或不兼容的配置文件。
+>* **2026/07/22 TVBox Mobile v2.1.15：** 新增肥猫、OK佬、南风三份 APK 内置订阅配置，无需下载配置文件即可选择加载；保留饭太硬在线默认源，以及原有本地文件和链接导入功能。清理 `tvbox` 目录中 67 份格式损坏、片段式或不兼容的配置文件，保留 45 份可直接识别的配置。
 >
 >* **2026/07/22 TVBox Mobile v2.1.14：** 软件内更新下载新增进度条、百分比和文件大小提示；发布流程改为固定签名密钥配置，避免后续覆盖安装出现签名冲突。
 >
@@ -94,7 +89,7 @@
 
 <img src="https://cdn.jsdelivr.net/gh/eryajf/tu@main/img/image_20240420_214408.gif" width="100%"  height="2">
 
-## 𝟬𝟮. 写在前面
+## 𝟮. 写在前面
 >🍀 本项目致力于优秀的接口 · 优质稳定的直播源 · 相关好用软件和网站的搜集整理。以上全部免费分享给各位交流学习，如果各位有什么好用的也可以贡献一下
 >
 >🌸 在上学，本文档不定时更新，文档分享的大部分接口和软件都经过本人亲自测试，首发更新服务群中粉丝
@@ -115,19 +110,14 @@
 
 <img src="https://cdn.jsdelivr.net/gh/eryajf/tu@main/img/image_20240420_214408.gif" width="100%"  height="2">
 
-## 𝟬𝟯. 接口分享合集地址
 
->由于Github国内访问基本要魔法打开，为了后续方便，所以软件和接口的文档使用国内网站分享，直接收藏网址就行
->* **地址**： [**https://flowus.cn/qingningshare/share/213a1749-8ecd-456d-914b-5a9836109c9e?code=DHJXCY**](https://flowus.cn/qingningshare/share/213a1749-8ecd-456d-914b-5a9836109c9e?code=DHJXCY "接口和软件分享地址（持续更新中…）")
->
-
-## 𝟬𝟰. 防迷路地址发布页
+## 3. 防迷路地址发布页
 
 >
 >* **地址**： [**https://link3.cc/qingningshare**](https://link3.cc/qingningshare "防迷路地址发布页")
 >
 
-## 𝟬𝟱. 群分享过部分接口
+## 4. 群分享过部分接口
 
 >  * **【单仓】 高天流云：**
 > https://ghproxy.net/raw.githubusercontent.com/gaotianliuyun/gao/master/js.json
@@ -137,7 +127,7 @@
 >
 >  * **【
 
-## 𝟬𝟲. 想做自己的接口？
+## 5. 想做自己的接口？
 
 >这里只针对没有自己服务器的宝子们，下面是一些常见的开源仓库
 >* **地址**：[**𝐓𝐫𝐮𝐬𝐭𝐢𝐞: 𝐆𝐢𝐭 𝐰𝐢𝐭𝐡 𝐭𝐫𝐮𝐬𝐭𝐢𝐞 · 一款极易搭建的自助𝐆𝐢𝐭服务**](https://cdn05042023.gitlink.org.cn/ "一款极易搭建的自助𝐆𝐢𝐭服务")
@@ -158,7 +148,7 @@
 >
 >**特别注意**：仓库名不要以"𝐣𝐢𝐞𝐤𝐨𝐮"、"𝐭𝐯𝐛𝐨𝐱"、"𝐛𝐨𝐱"等敏感字眼命名，这样有可能会被"删除仓库"、"封禁账号"等，最好把仓库体积弄大一点，加点杂七杂八的东西进去，这样打造一个属于你的自用接口是没问题的
 
-## 𝟬𝟳. 仓库接口访问加速
+## 6. 仓库接口访问加速
 
 >在𝐠𝐢𝐭𝐡𝐮𝐛上做的接口访问的速度太慢了怎么办？接口有时都加载不出来？别急！用下面几个可用的加速站
 >
@@ -173,9 +163,9 @@
 >* **地址**：[**𝐆𝐢𝐭𝐇𝐮𝐛 文件加速网站𝟯**](https://gh.nxnow.top/)
 
 
-![image](/tvbox/image/bb.png)
+![image](/tvbox/images/bb.png)
 
-## 𝟬𝟴. 随机壁纸获取
+## 7. 随机壁纸获取
 >每个接口需要具备获取随机壁纸的api，用户通过调用获取随机壁纸，作为影视仓或𝐭𝐯𝐛𝐨𝐱软件的背景
 >
 >* **地址**：[**随机动漫风美女系列背景获取**](https://pictures.catvod.eu.org/ "推荐：https://pictures.catvod.eu.org/")
@@ -186,7 +176,7 @@
 >
 >* **地址**：[**https://picsum.photos/宽(例：1920)/高(例：1080)/?blur=模糊值(例：5)**](https://picsum.photos/1920/1080/?blur=5 "例子：https://picsum.photos/1920/1080/?blur=5")
 
-## 𝟬𝟵. 缩短链接网址
+## 8. 缩短链接网址
 
 >显示接口访问数据，包含用户访问量、访问机型、地理分布、浏览器等数据一应俱全，精准分析你的接口用户
 >
@@ -199,7 +189,7 @@
 >* **地址**：[**𝐔𝐑𝐋𝐂短网址 · 专业社群营销、短信营销、互联网推广工具**](https://www.urlc.cn/)
 
 
-## 𝟭𝟬. 精美壁纸网站
+## 9. 精美壁纸网站
 
 >想给盒子软件换张唯美好看的背景壁纸？看下面几个网站就对了
 >
