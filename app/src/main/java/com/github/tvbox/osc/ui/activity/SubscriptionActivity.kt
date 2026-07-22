@@ -1,6 +1,7 @@
 package com.github.tvbox.osc.ui.activity
 
 import android.content.Intent
+import android.net.Uri
 import android.text.TextUtils
 import android.view.View
 import com.blankj.utilcode.util.ClipboardUtils
@@ -31,9 +32,14 @@ import com.lzy.okgo.callback.AbsCallback
 import com.lzy.okgo.model.Response
 import com.obsez.android.lib.filechooser.ChooserDialog
 import com.orhanobut.hawk.Hawk
+import java.util.Locale
 import java.util.function.Consumer
 
 class SubscriptionActivity : BaseVbActivity<ActivitySubscriptionBinding>() {
+
+    companion object {
+        private const val CLEANUP_SUBSCRIPTIONS_TAG = "cleanup_subscriptions"
+    }
 
     private var mBeforeUrl = Hawk.get(HawkConfig.API_URL, "")
     private var mSelectedUrl = ""
@@ -58,6 +64,9 @@ class SubscriptionActivity : BaseVbActivity<ActivitySubscriptionBinding>() {
                 .asCustom(SubsTipDialog(this))
                 .show()
         }
+        mBinding.ivCleanupSubscriptions.setOnClickListener {
+            confirmSubscriptionCleanup()
+        }
 
         mBinding.titleBar.rightView.setOnClickListener {//添加订阅
             XPopup.Builder(this)
@@ -72,11 +81,9 @@ class SubscriptionActivity : BaseVbActivity<ActivitySubscriptionBinding>() {
                                 url: String,
                                 checked: Boolean
                             ) { //只有addSub2List用到,看注释,单线路才生效,其余方法仅作为参数继续传递
-                                for (item in mSubscriptions) {
-                                    if (item.url == url) {
-                                        ToastUtils.showLong("订阅地址与" + item.name + "相同")
-                                        return
-                                    }
+                                if (hasDuplicateSubscription(url)) {
+                                    ToastUtils.showLong("订阅地址已存在")
+                                    return
                                 }
                                 addSubscription(name, url, checked)
                             }
@@ -229,11 +236,9 @@ class SubscriptionActivity : BaseVbActivity<ActivitySubscriptionBinding>() {
                 Hawk.put("before_selected_path", pathFile.parent)
                 val clanPath =
                     pathFile.absolutePath.replace("/storage/emulated/0", "clan://localhost")
-                for (item in mSubscriptions) {
-                    if (item.url == clanPath) {
-                        ToastUtils.showLong("订阅地址与" + item.name + "相同")
-                        return@Result
-                    }
+                if (hasDuplicateSubscription(clanPath)) {
+                    ToastUtils.showLong("订阅地址已存在")
+                    return@Result
                 }
                 addSubscription(pathFile.name, clanPath, checked)
             })
@@ -272,7 +277,7 @@ class SubscriptionActivity : BaseVbActivity<ActivitySubscriptionBinding>() {
                                         val name = obj["name"].asString.trim { it <= ' ' }
                                             .replace("<|>|《|》|-".toRegex(), "")
                                         val url = obj["url"].asString.trim { it <= ' ' }
-                                        mSubscriptions.add(Subscription(name, url))
+                                        addSub2List(name, url, false)
                                     }
                                 }
                             } else if (storeHouse != null && storeHouse.isJsonArray) { // 多仓
@@ -335,18 +340,164 @@ class SubscriptionActivity : BaseVbActivity<ActivitySubscriptionBinding>() {
      * @param url
      * @param checkNewest
      */
-    private fun addSub2List(name: String, url: String, checkNewest: Boolean) {
+    private fun addSub2List(name: String, url: String, checkNewest: Boolean): Boolean {
+        val normalizedUrl = url.trim()
+        if (normalizedUrl.isEmpty() || hasDuplicateSubscription(normalizedUrl)) {
+            return false
+        }
         if (checkNewest) { //选中最新的,清除以前的选中订阅
             for (subscription in mSubscriptions) {
                 if (subscription.isChecked) {
                     subscription.setChecked(false)
                 }
             }
-            mSelectedUrl = url
-            mSubscriptions.add(Subscription(name, url).setChecked(true))
+            mSelectedUrl = normalizedUrl
+            mSubscriptions.add(Subscription(name, normalizedUrl).setChecked(true))
         } else {
-            mSubscriptions.add(Subscription(name, url).setChecked(false))
+            mSubscriptions.add(Subscription(name, normalizedUrl).setChecked(false))
         }
+        return true
+    }
+
+    private fun confirmSubscriptionCleanup() {
+        XPopup.Builder(this)
+            .asConfirm(
+                "清理订阅",
+                "将删除重复、格式错误和返回空内容的导入订阅。内置订阅、当前使用中的订阅及网络请求失败的订阅会保留。"
+            ) {
+                cleanupSubscriptions()
+            }
+            .show()
+    }
+
+    private fun cleanupSubscriptions() {
+        var removed = removeDuplicateSubscriptions()
+        val remoteSubscriptions = ArrayList<Subscription>()
+        for (subscription in mSubscriptions.toList()) {
+            if (isProtectedSubscription(subscription) || isLocalSubscription(subscription.url)) {
+                continue
+            }
+            if (!isRemoteSubscription(subscription.url)) {
+                mSubscriptions.remove(subscription)
+                removed++
+            } else {
+                remoteSubscriptions.add(subscription)
+            }
+        }
+        if (remoteSubscriptions.isEmpty()) {
+            finishSubscriptionCleanup(removed, 0)
+            return
+        }
+        ToastUtils.showShort("正在检查 ${remoteSubscriptions.size} 个订阅")
+        showLoadingDialog()
+        checkRemoteSubscriptions(remoteSubscriptions, 0, removed, 0)
+    }
+
+    private fun checkRemoteSubscriptions(
+        subscriptions: List<Subscription>,
+        index: Int,
+        removed: Int,
+        unavailable: Int
+    ) {
+        if (index >= subscriptions.size) {
+            dismissLoadingDialog()
+            finishSubscriptionCleanup(removed, unavailable)
+            return
+        }
+        val subscription = subscriptions[index]
+        OkGo.get<String>(subscription.url)
+            .tag(CLEANUP_SUBSCRIPTIONS_TAG)
+            .execute(object : AbsCallback<String?>() {
+                override fun convertResponse(response: okhttp3.Response): String {
+                    return response.body()!!.string()
+                }
+
+                override fun onSuccess(response: Response<String?>) {
+                    val isEmpty = response.body().isNullOrBlank()
+                    val removedNow = if (isEmpty && canRemoveSubscription(subscription)) {
+                        mSubscriptions.remove(subscription)
+                        1
+                    } else {
+                        0
+                    }
+                    checkRemoteSubscriptions(subscriptions, index + 1, removed + removedNow, unavailable)
+                }
+
+                override fun onError(response: Response<String?>) {
+                    super.onError(response)
+                    checkRemoteSubscriptions(subscriptions, index + 1, removed, unavailable + 1)
+                }
+            })
+    }
+
+    private fun finishSubscriptionCleanup(removed: Int, unavailable: Int) {
+        mSubscriptionAdapter.setNewData(mSubscriptions)
+        Hawk.put<List<Subscription>?>(HawkConfig.SUBSCRIPTIONS, mSubscriptions)
+        val message = if (unavailable > 0) {
+            "已清理 $removed 项，$unavailable 项网络异常已保留"
+        } else {
+            "已清理 $removed 项订阅"
+        }
+        ToastUtils.showLong(message)
+    }
+
+    private fun removeDuplicateSubscriptions(): Int {
+        val retained = LinkedHashMap<String, Subscription>()
+        var removed = 0
+        for (subscription in mSubscriptions.toList()) {
+            val key = subscriptionKey(subscription.url)
+            if (key.isEmpty()) {
+                continue
+            }
+            val existing = retained[key]
+            if (existing == null) {
+                retained[key] = subscription
+            } else if (!isProtectedSubscription(subscription)) {
+                mSubscriptions.remove(subscription)
+                removed++
+            } else if (!isProtectedSubscription(existing)) {
+                mSubscriptions.remove(existing)
+                retained[key] = subscription
+                removed++
+            }
+        }
+        return removed
+    }
+
+    private fun hasDuplicateSubscription(url: String): Boolean {
+        val key = subscriptionKey(url)
+        return key.isNotEmpty() && mSubscriptions.any { subscriptionKey(it.url) == key }
+    }
+
+    private fun isProtectedSubscription(subscription: Subscription): Boolean {
+        val selectedKey = subscriptionKey(mSelectedUrl)
+        return subscription.isBuiltIn || subscription.isChecked ||
+            (selectedKey.isNotEmpty() && subscriptionKey(subscription.url) == selectedKey)
+    }
+
+    private fun canRemoveSubscription(subscription: Subscription): Boolean {
+        return mSubscriptions.contains(subscription) && !isProtectedSubscription(subscription)
+    }
+
+    private fun isLocalSubscription(url: String): Boolean = url.trim().startsWith("clan://")
+
+    private fun isRemoteSubscription(url: String): Boolean {
+        val uri = Uri.parse(url.trim())
+        return (uri.scheme.equals("http", true) || uri.scheme.equals("https", true)) && !uri.host.isNullOrEmpty()
+    }
+
+    private fun subscriptionKey(url: String): String {
+        val value = url.trim()
+        val uri = Uri.parse(value)
+        val scheme = uri.scheme?.toLowerCase(Locale.ROOT) ?: return value
+        val host = uri.host?.toLowerCase(Locale.ROOT) ?: return value
+        if (scheme != "http" && scheme != "https") {
+            return value
+        }
+        val port = if (uri.port == -1) "" else ":${uri.port}"
+        val path = uri.encodedPath?.trimEnd('/') ?: ""
+        val query = uri.encodedQuery?.let { "?$it" } ?: ""
+        return "$scheme://$host$port$path$query"
     }
 
     private fun initBottomNavigation() {
@@ -393,5 +544,6 @@ class SubscriptionActivity : BaseVbActivity<ActivitySubscriptionBinding>() {
     override fun onDestroy() {
         super.onDestroy()
         OkGo.getInstance().cancelTag("get_subscription")
+        OkGo.getInstance().cancelTag(CLEANUP_SUBSCRIPTIONS_TAG)
     }
 }

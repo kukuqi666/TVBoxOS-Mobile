@@ -23,7 +23,17 @@
             android:src="@drawable/ic_use_description_24"
             android:layout_gravity="end|center_vertical"
             android:paddingLeft="20dp"
-            android:layout_marginRight="50dp"/>
+            android:layout_marginRight="90dp"/>
+
+        <ImageView
+            android:id="@+id/iv_cleanup_subscriptions"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginRight="50dp"
+            android:contentDescription="清理订阅"
+            android:padding="5dp"
+            android:src="@drawable/ic_clear" />
     </com.hjq.bar.TitleBar>
 
     <androidx.recyclerview.widget.RecyclerView

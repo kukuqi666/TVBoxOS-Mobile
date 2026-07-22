@@ -5,22 +5,18 @@
 
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=900&size=22&duration=4000&pause=1000&color=140900&center=true&vCenter=true&width=550&height=30&lines=%E2%AD%90%E4%BC%98%E8%B4%A8%E6%8E%A5%E5%8F%A3%C2%B7%E7%9B%B4%E6%92%AD%E6%BA%90%C2%B7%E7%9B%B8%E5%85%B3%E8%BD%AF%E4%BB%B6%E5%92%8C%E7%BD%91%E7%AB%99%E7%9A%84%E6%90%9C%E9%9B%86%E5%88%86%E4%BA%AB%E2%AD%90)](https://git.io/typing-svg)
 
-您是第  <img src="https://profile-counter.glitch.me/kukuqi666/count.svg" />位访问者
+您是第  <img src="https://profile-counter.deno.dev/kukuqi666/count.svg" />位访问者
 <br><br>
 <img src="https://v2.jinrishici.com/one.svg?font-size=24&spacing=2&color=DeepPink ">
 </div>
 
 <div align="center">
 
-
-[](https://img.shields.io/github/stars/pandao/editor.md.svg)
-![](https://img.shields.io/github/forks/pandao/editor.md.svg) 
-![](https://img.shields.io/github/tag/pandao/editor.md.svg) 
-![](https://img.shields.io/github/release/pandao/editor.md.svg) 
-[![Auth](https://img.shields.io/badge/Auth-kukuqi666-ff69b4)](https://github.com/kukuqi666)
+[![GitHub stars](https://img.shields.io/github/stars/kukuqi666/TVBoxOS-Mobile?logo=Undertale)](https://github.com/kukuqi666/TVBoxOS-Mobile/stargazers)
+![forks](https://img.shields.io/github/forks/kukuqi666/TVBoxOS-Mobile.svg) 
+![tag](https://img.shields.io/github/tag/kukuqi666/TVBoxOS-Mobile.svg) 
+![release](https://img.shields.io/github/release/kukuqi666/TVBoxOS-Mobile.svg) 
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kukuqi666/TVBoxOS-Mobile)](https://github.com/kukuqi666/TVBoxOS-Mobile/pulls)
-[![GitHub Pull Requests](https://img.shields.io/github/stars/kukuqi666/TVBoxOS-Mobile?logo=Undertale)](https://github.com/kukuqi666/TVBoxOS-Mobile/stargazers)
-[![HitCount](https://views.whatilearened.today/views/github/kukuqi666/TVBoxOS-Mobile.svg)](https://github.com/kukuqi666/TVBoxOS-Mobile)
 
 </div>
 
@@ -38,7 +34,7 @@
 ## 📲软件合集（软件安装）
 ### TVBox for Android
 - TVBox(横屏)： [kukuqi666/TVBoxOSC](https://ghfast.top/https://github.com/kukuqi666/TVBoxOSC/releases/download/v1.1.1/TVBoxOSC.apk)
-- MBox(竖屏)： [kukuqi666/TVBoxOS-Mobile](https://ghfast.top/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v1.1.1/MBox_1.1.1.apk)
+- TVbox(竖屏)： [kukuqi666/TVBoxOS-Mobile](https://ghfast.top/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.13/TVBox-Mobile-v2.1.13.apk)
 
 
 ## 🎁福利18+
@@ -51,6 +47,12 @@
 
 ## 𝟬𝟭. 更新记录
 
+>* **2026/07/22 TVBox Mobile v2.1.13：** 订阅管理新增清理功能，合并重复地址并删除格式错误或返回空内容的导入订阅；内置、当前使用及网络异常订阅会保留。关于页更新检查改用发布清单，避免 GitHub API 限流导致检查失败。
+>
+>* **2026/07/22 TVBox Mobile v2.1.12：** 关于页升级为应用信息卡片；首页、直播、订阅、我的统一为四项底部导航；直播和订阅入口可直接切换。
+>
+>* **2026/07/22 TVBox Mobile v2.1.3：** 修复内容：选择弹窗的选中位置会限制在有效范围内，空列表不再滚动，延迟滚动前再次验证列表状态，解决 Invalid target position 崩溃。
+>
 >* **2026/07/22 TVBox Mobile v2.1.2：** 更新 Android 构建与发布流程；Release APK 文件名改为 `TVBox-Mobile-v2.1.2.apk`；内置订阅始终保留，导入订阅可删除，当前使用中的订阅不可删除。
 >
 >* **2025/03/10 更新接口：** 更新一波tvbox和影视仓接口
@@ -963,10 +965,3 @@ epg：(https://epg.112114.xyz/)
 - 所有源均收集于互联网，仅供测试研究使用，不得商用；
 - 本项目不存储任何的流媒体内容，所有的法律责任与后果应由使用者自行承担；
 - 您可以Fork本项目，但引用本项目内容到其他仓库的情况，务必要遵守开源协议.
-
-
-
-
-
-
-[![Star History Chart](https://api.star-history.com/svg?repos=kukuqi666/TVBoxOS-Mobile&type=Date)](https://star-history.com/#kukuqi666/TVBoxOS-Mobile&Date)
