@@ -137,6 +137,7 @@ public class LiveActivity extends BaseActivity {
     private BasePopupView mSettingRightDialog;
     private BasePopupView mSettingBottomDialog;
     private BasePopupView mAllChannelRightDialog;
+    private boolean noLiveChannelsShown;
 
     @Override
     protected int getLayoutResID() {
@@ -768,8 +769,7 @@ public class LiveActivity extends BaseActivity {
     private void initLiveChannelList() {
         List<LiveChannelGroup> list = ApiConfig.get().getChannelGroupList();
         if (list.isEmpty()) {
-            Toast.makeText(App.getInstance(), "频道列表为空", Toast.LENGTH_SHORT).show();
-            finish();
+            showNoLiveChannels();
             return;
         }
 
@@ -789,8 +789,7 @@ public class LiveActivity extends BaseActivity {
             Uri parsedUrl = Uri.parse(url);
             url = new String(Base64.decode(parsedUrl.getQueryParameter("ext"), Base64.DEFAULT | Base64.URL_SAFE | Base64.NO_WRAP), "UTF-8");
         } catch (Throwable th) {
-            Toast.makeText(App.getInstance(), "频道列表为空", Toast.LENGTH_SHORT).show();
-            finish();
+            showNoLiveChannels();
             return;
         }
         showLoading();
@@ -811,8 +810,7 @@ public class LiveActivity extends BaseActivity {
                 ApiConfig.get().loadLives(livesArray);
                 List<LiveChannelGroup> list = ApiConfig.get().getChannelGroupList();
                 if (list.isEmpty()) {
-                    Toast.makeText(App.getInstance(), "频道列表为空", Toast.LENGTH_SHORT).show();
-                    finish();
+                    showNoLiveChannels();
                     return;
                 }
                 liveChannelGroupList.clear();
@@ -826,7 +824,27 @@ public class LiveActivity extends BaseActivity {
                     }
                 });
             }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+                showNoLiveChannels();
+            }
         });
+    }
+
+    private void showNoLiveChannels() {
+        if (noLiveChannelsShown) {
+            return;
+        }
+        noLiveChannelsShown = true;
+        showEmpty();
+        new XPopup.Builder(this)
+                .asConfirm("暂无直播频道", "当前订阅未提供可用直播频道，请切换或导入包含直播内容的订阅。", "返回", "订阅管理", () -> {
+                    jumpActivity(SubscriptionActivity.class);
+                    finish();
+                }, null, false)
+                .show();
     }
 
     private void initLiveState() {

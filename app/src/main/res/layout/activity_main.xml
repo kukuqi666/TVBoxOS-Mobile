@@ -20,5 +20,6 @@
         android:background="@color/white"
         app:itemIconTint="@drawable/bottom_navigation_item_selector"
         app:itemTextColor="@drawable/bottom_navigation_item_selector"
+        app:labelVisibilityMode="labeled"
         app:menu="@menu/main_bottom_navigation" />
 </LinearLayout>

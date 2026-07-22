@@ -14,11 +14,9 @@ import com.github.tvbox.osc.databinding.FragmentMyBinding;
 import com.github.tvbox.osc.ui.activity.CollectActivity;
 import com.github.tvbox.osc.ui.activity.DetailActivity;
 import com.github.tvbox.osc.ui.activity.HistoryActivity;
-import com.github.tvbox.osc.ui.activity.LiveActivity;
 import com.github.tvbox.osc.ui.activity.LocalPlayActivity;
 import com.github.tvbox.osc.ui.activity.MovieFoldersActivity;
 import com.github.tvbox.osc.ui.activity.SettingActivity;
-import com.github.tvbox.osc.ui.activity.SubscriptionActivity;
 import com.github.tvbox.osc.ui.dialog.AboutDialog;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
 import com.github.tvbox.osc.util.Utils;
@@ -55,9 +53,6 @@ public class MyFragment extends BaseVbFragment<FragmentMyBinding> {
                         }
                     }, null, R.layout.dialog_input).show();
         });
-        //mBinding.tvLive.setOnClickListener(v -> jumpActivity(LivePlayActivity.class));
-        mBinding.tvLive.setOnClickListener(v -> jumpActivity(LiveActivity.class));
-
         mBinding.tvSetting.setOnClickListener(v -> jumpActivity(SettingActivity.class));
 
         mBinding.tvHistory.setOnClickListener(v -> jumpActivity(HistoryActivity.class));
@@ -71,8 +66,6 @@ public class MyFragment extends BaseVbFragment<FragmentMyBinding> {
                 jumpActivity(MovieFoldersActivity.class);
             }
         });
-
-        mBinding.llSubscription.setOnClickListener(v -> jumpActivity(SubscriptionActivity.class));
 
         mBinding.llAbout.setOnClickListener(v -> {
             new XPopup.Builder(mActivity)

@@ -31,12 +31,33 @@ class MainActivity : BaseVbActivity<ActivityMainBinding>() {
         }
 
         mBinding.bottomNav.setOnItemSelectedListener { menuItem ->
-            mBinding.vp.setCurrentItem(menuItem.order, false)
-            true
+            when (menuItem.itemId) {
+                R.id.navigation_home -> {
+                    mBinding.vp.setCurrentItem(0, false)
+                    true
+                }
+                R.id.navigation_dashboard -> {
+                    mBinding.vp.setCurrentItem(1, false)
+                    true
+                }
+                R.id.navigation_live -> {
+                    jumpActivity(LiveActivity::class.java)
+                    false
+                }
+                R.id.navigation_subscription -> {
+                    jumpActivity(SubscriptionActivity::class.java)
+                    false
+                }
+                else -> false
+            }
         }
         mBinding.vp.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                mBinding.bottomNav.menu.getItem(position).isChecked = true
+                mBinding.bottomNav.selectedItemId = if (position == 0) {
+                    R.id.navigation_home
+                } else {
+                    R.id.navigation_dashboard
+                }
             }
         })
     }

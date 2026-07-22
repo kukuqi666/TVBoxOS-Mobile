@@ -8,9 +8,21 @@
         android:title="首页"/>
 
     <item
+        android:id="@+id/navigation_live"
+        android:icon="@drawable/ic_live"
+        android:orderInCategory="1"
+        android:title="直播"/>
+
+    <item
+        android:id="@+id/navigation_subscription"
+        android:icon="@drawable/ic_database_48"
+        android:orderInCategory="2"
+        android:title="订阅"/>
+
+    <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_my"
-        android:orderInCategory="1"
+        android:orderInCategory="3"
         android:title="我的"/>
 
 </menu>
