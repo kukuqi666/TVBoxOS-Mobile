@@ -7,7 +7,6 @@ import com.github.tvbox.osc.base.App
 import com.github.tvbox.osc.base.BaseVbActivity
 import com.github.tvbox.osc.databinding.ActivitySplashBinding
 import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 
 class SplashActivity : BaseVbActivity<ActivitySplashBinding>() {
@@ -15,10 +14,10 @@ class SplashActivity : BaseVbActivity<ActivitySplashBinding>() {
         App.getInstance().isNormalStart = true
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            !XXPermissions.isGranted(this, Permission.POST_NOTIFICATIONS)
+            !XXPermissions.isGranted(this, POST_NOTIFICATIONS_PERMISSION)
         ) {
             XXPermissions.with(this)
-                .permission(Permission.POST_NOTIFICATIONS)
+                .permission(POST_NOTIFICATIONS_PERMISSION)
                 .request(object : OnPermissionCallback {
                     override fun onGranted(permissions: List<String>, all: Boolean) {
                         openMain()
@@ -39,5 +38,9 @@ class SplashActivity : BaseVbActivity<ActivitySplashBinding>() {
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             finish()
         }, 500)
+    }
+
+    private companion object {
+        const val POST_NOTIFICATIONS_PERMISSION = "android.permission.POST_NOTIFICATIONS"
     }
 }
