@@ -143,6 +143,16 @@ public class ApiConfig {
                 th.printStackTrace();
             }
         }
+        if (apiUrl.startsWith("assets://")) {
+            try {
+                parseJson(apiUrl, readAssetConfig(apiUrl.substring("assets://".length())));
+                callback.success();
+            } catch (Throwable th) {
+                th.printStackTrace();
+                callback.error("加载内置配置失败");
+            }
+            return;
+        }
         String TempKey = null, configUrl = "", pk = ";pk;";
         if (apiUrl.contains(pk)) {
             String[] a = apiUrl.split(pk);
@@ -300,6 +310,18 @@ public class ApiConfig {
         }
         bReader.close();
         parseJson(apiUrl, sb.toString());
+    }
+
+    private String readAssetConfig(String assetPath) throws Throwable {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(
+                App.getInstance().getAssets().open(assetPath), "UTF-8"));
+        StringBuilder content = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            content.append(line).append('\n');
+        }
+        reader.close();
+        return content.toString();
     }
 
     private void parseJson(String apiUrl, String jsonStr) {
