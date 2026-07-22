@@ -34,7 +34,7 @@
 ## 📲软件合集（软件安装）
 ### TVBox for Android
 - TVBox(横屏)： [kukuqi666/TVBoxOSC](https://ghfast.top/https://github.com/kukuqi666/TVBoxOSC/releases/download/v1.1.1/TVBoxOSC.apk)
-- TVbox(竖屏)： [kukuqi666/TVBoxOS-Mobile](https://ghfast.top/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.15/TVBox-Mobile-v2.1.15.apk)
+- TVbox(竖屏)： [kukuqi666/TVBoxOS-Mobile](https://ghfast.top/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.16/TVBox-Mobile-v2.1.16.apk)
 
 
 ## 🎁福利18+
@@ -42,6 +42,8 @@
 
 ## 𝟭. 更新记录
 
+>* **2026/07/22 TVBox Mobile v2.1.16：** 修复软件内更新清单未能同步到主分支的问题；发布流程在遇到并发提交时会自动 rebase 后重试推送，确保 Release APK 和在线更新提示保持一致。
+>
 >* **2026/07/22 TVBox Mobile v2.1.15：** 新增肥猫、OK佬、南风三份 APK 内置订阅配置，无需下载配置文件即可选择加载；保留饭太硬在线默认源，以及原有本地文件和链接导入功能。清理 `tvbox` 目录中 67 份格式损坏、片段式或不兼容的配置文件，保留 45 份可直接识别的配置。
 >
 >* **2026/07/22 TVBox Mobile v2.1.14：** 软件内更新下载新增进度条、百分比和文件大小提示；发布流程改为固定签名密钥配置，避免后续覆盖安装出现签名冲突。
