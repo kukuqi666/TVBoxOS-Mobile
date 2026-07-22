@@ -31,7 +31,10 @@
         android:layout_margin="10dp"
         android:id="@+id/rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         tools:listitem="@layout/item_subscription"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    <include layout="@layout/include_bottom_navigation" />
 </LinearLayout>

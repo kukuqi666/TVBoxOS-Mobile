@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.IntEvaluator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -23,6 +24,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ScreenUtils;
@@ -159,6 +162,7 @@ public class LiveActivity extends BaseActivity {
             epgStringAddress = "http://epg.51zmt.top:8000/api/diyp/";
 
         setLoadSir(findViewById(R.id.live_root));
+        initBottomNavigation();
         mVideoView = findViewById(R.id.mVideoView);
 
         tvLeftChannelListLayout = findViewById(R.id.tvLeftChannnelListLayout);
@@ -198,6 +202,35 @@ public class LiveActivity extends BaseActivity {
         initSettingItemView();
         initLiveChannelList();
         initLiveSettingGroupList();
+    }
+
+    private void initBottomNavigation() {
+        BottomNavigationView bottomNavigation = findViewById(R.id.bottom_nav);
+        bottomNavigation.setSelectedItemId(R.id.navigation_live);
+        bottomNavigation.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                case R.id.navigation_dashboard:
+                    openMainDestination(item.getItemId());
+                    return false;
+                case R.id.navigation_subscription:
+                    startActivity(new Intent(this, SubscriptionActivity.class));
+                    finish();
+                    return false;
+                case R.id.navigation_live:
+                    return true;
+                default:
+                    return false;
+            }
+        });
+    }
+
+    private void openMainDestination(int destination) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(MainActivity.EXTRA_START_DESTINATION, destination);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
     }
 
     //显示底部EPG

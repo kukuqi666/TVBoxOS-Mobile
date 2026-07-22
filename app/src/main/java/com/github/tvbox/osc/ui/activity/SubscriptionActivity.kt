@@ -39,9 +39,11 @@ class SubscriptionActivity : BaseVbActivity<ActivitySubscriptionBinding>() {
     private var mSubscriptions: MutableList<Subscription> = Hawk.get(HawkConfig.SUBSCRIPTIONS, ArrayList())
     private var mSubscriptionAdapter = SubscriptionAdapter()
     private val mSources: MutableList<Source> = ArrayList()
+    private var destinationAfterFinish: Int? = null
 
     override fun init() {
 
+        initBottomNavigation()
         mBinding.rv.setAdapter(mSubscriptionAdapter)
         mSubscriptions.forEach(Consumer { item: Subscription ->
             if (item.isChecked) {
@@ -346,6 +348,23 @@ class SubscriptionActivity : BaseVbActivity<ActivitySubscriptionBinding>() {
         }
     }
 
+    private fun initBottomNavigation() {
+        mBinding.bottomNav.selectedItemId = R.id.navigation_subscription
+        mBinding.bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_subscription -> true
+                R.id.navigation_home,
+                R.id.navigation_dashboard,
+                R.id.navigation_live -> {
+                    destinationAfterFinish = item.itemId
+                    finish()
+                    false
+                }
+                else -> false
+            }
+        }
+    }
+
     override fun onPause() {
         super.onPause()
         // 更新缓存
@@ -354,10 +373,15 @@ class SubscriptionActivity : BaseVbActivity<ActivitySubscriptionBinding>() {
     }
 
     override fun finish() {
-        //切换了订阅地址
-        if (!TextUtils.isEmpty(mSelectedUrl) && mBeforeUrl != mSelectedUrl) {
+        val destination = destinationAfterFinish
+        if (destination != null || (!TextUtils.isEmpty(mSelectedUrl) && mBeforeUrl != mSelectedUrl)) {
             val intent = Intent(this, MainActivity::class.java)
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.putExtra(MainActivity.EXTRA_START_DESTINATION, destination ?: R.id.navigation_home)
+            intent.flags = if (mBeforeUrl != mSelectedUrl) {
+                Intent.FLAG_ACTIVITY_CLEAR_TASK
+            } else {
+                Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
             startActivity(intent)
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         }

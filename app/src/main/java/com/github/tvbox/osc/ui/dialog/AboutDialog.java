@@ -7,13 +7,13 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.github.tvbox.osc.R;
-import com.github.tvbox.osc.base.App;
 import com.github.tvbox.osc.util.DefaultConfig;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -50,6 +50,7 @@ public class AboutDialog extends BottomPopupView {
                 dismiss();
             }
         });
+        ((TextView) findViewById(R.id.tv_about_version)).setText("Version " + DefaultConfig.getAppVersionName(getContext()));
         findViewById(R.id.btn_check_update).setOnClickListener(view -> checkForUpdate());
     }
 

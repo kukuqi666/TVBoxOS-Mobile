@@ -16,19 +16,38 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical">
 
-        <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="关于"
-                android:textColor="@color/text_foreground"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
+        <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="TVBox Mobile"
+                android:src="@drawable/app_icon" />
 
-        <Space
+        <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TVBox Mobile"
+                    android:textColor="@color/text_foreground"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            <TextView
+                    android:id="@+id/tv_about_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textColor="@color/text_sub_foreground"
+                    android:textSize="13sp"
+                    tools:text="Version 2.1.8" />
+        </LinearLayout>
+
         <ImageView
                 android:id="@+id/iv_close"
                 android:layout_width="50dp"
@@ -37,59 +56,74 @@
                 android:padding="10dp"/>
     </LinearLayout>
 
-    <TextView
+    <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:lineSpacingExtra="10dp"
-            android:text="@string/about"
-            android:textColor="@color/text_foreground"
-    />
+            android:layout_height="1dp"
+            android:layout_marginTop="18dp"
+            android:background="@color/light_gray_color" />
 
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
+            android:lineSpacingExtra="6dp"
+            android:text="@string/about"
+            android:textColor="@color/text_sub_foreground"
+            android:textSize="14sp" />
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
             android:text="项目地址"
             android:textColor="@color/text_foreground"
-    />
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
     <TextView
-            android:layout_width="366dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="https://github.com/kukuqi666/TVBoxOS-Mobile"
             android:textIsSelectable="true"
             android:textColor="@color/text_sub_foreground"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginTop="5dp"
+            android:textSize="14sp" />
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="18dp"
             android:text="联系方式"
             android:textColor="@color/text_foreground"
-    />
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="4dp"
-            android:layout_marginVertical="4dp"
+            android:layout_marginTop="5dp"
             android:textIsSelectable="true"
             android:textColor="@color/text_sub_foreground"
-            android:text="WeChat：wnfng666"/>
+            android:text="WeChat：wnfng666"
+            android:textSize="14sp" />
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textIsSelectable="true"
             android:textColor="@color/text_sub_foreground"
-            android:text="QID：wnfng66"/>
+            android:text="QID：wnfng66"
+            android:textSize="14sp" />
 
     <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_check_update"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="22dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:text="检查更新"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+            android:textColor="@color/white"
+            app:backgroundTint="@color/colorPrimary"
+            style="@style/Widget.MaterialComponents.Button" />
 
 </LinearLayout>

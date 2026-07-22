@@ -223,8 +223,8 @@
 	</LinearLayout>
 <!--添加EPG显示，更改样式 by 龍-->
 
-    <TextView
-        android:id="@+id/tvChannel"
+	    <TextView
+	        android:id="@+id/tvChannel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
@@ -235,7 +235,9 @@
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:textSize="36dp"
-        android:textStyle="bold"
-        android:visibility="gone" />
+	        android:textStyle="bold"
+	        android:visibility="gone" />
+
+	<include layout="@layout/include_bottom_navigation" />
 
 </LinearLayout>

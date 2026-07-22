@@ -1,5 +1,6 @@
 package com.github.tvbox.osc.ui.activity
 
+import android.content.Intent
 import android.os.Process
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -16,6 +17,10 @@ import com.github.tvbox.osc.ui.fragment.MyFragment
 import kotlin.system.exitProcess
 
 class MainActivity : BaseVbActivity<ActivityMainBinding>() {
+
+    companion object {
+        const val EXTRA_START_DESTINATION = "main_start_destination"
+    }
 
     private val fragments = listOf(HomeFragment(), MyFragment())
     var useCacheConfig = false
@@ -61,6 +66,22 @@ class MainActivity : BaseVbActivity<ActivityMainBinding>() {
                 }
             }
         })
+        openDestination(intent.getIntExtra(EXTRA_START_DESTINATION, R.id.navigation_home))
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        openDestination(intent.getIntExtra(EXTRA_START_DESTINATION, R.id.navigation_home))
+    }
+
+    private fun openDestination(destination: Int) {
+        when (destination) {
+            R.id.navigation_dashboard -> mBinding.bottomNav.selectedItemId = R.id.navigation_dashboard
+            R.id.navigation_live -> jumpActivity(LiveActivity::class.java)
+            R.id.navigation_subscription -> jumpActivity(SubscriptionActivity::class.java)
+            else -> mBinding.bottomNav.selectedItemId = R.id.navigation_home
+        }
     }
 
     override fun onBackPressed() {
