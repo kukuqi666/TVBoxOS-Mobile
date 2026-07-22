@@ -13,5 +13,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <include layout="@layout/include_bottom_navigation" />
+    <include
+        android:id="@+id/bottom_nav"
+        layout="@layout/include_bottom_navigation" />
 </LinearLayout>

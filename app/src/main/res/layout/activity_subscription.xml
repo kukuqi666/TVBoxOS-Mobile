@@ -36,5 +36,7 @@
         tools:listitem="@layout/item_subscription"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-    <include layout="@layout/include_bottom_navigation" />
+    <include
+        android:id="@+id/bottom_nav"
+        layout="@layout/include_bottom_navigation" />
 </LinearLayout>
