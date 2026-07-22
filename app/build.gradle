@@ -11,8 +11,8 @@ android {
         applicationId 'com.github.tvbox.osc'
         minSdkVersion 24
         targetSdkVersion 34
-        versionCode 31
-        versionName '1.1.1'
+        versionCode 211
+        versionName '2.1.1'
         multiDexEnabled true
         //设置room的Schema的位置
         javaCompileOptions {
@@ -33,7 +33,7 @@ android {
 
         // Apk 输出配置
         variant.outputs.all { output ->
-            outputFileName = 'MBox_v' + variant.versionName + '_' + variant.buildType.name
+            outputFileName = 'TVbox_v' + variant.versionName + '_' + variant.buildType.name
             if (variant.buildType.name == buildTypes.release.getName()) {
                 outputFileName += '_' + new Date().format("yyyyMMdd")
             }
