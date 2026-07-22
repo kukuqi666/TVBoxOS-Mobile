@@ -40,7 +40,8 @@ jobs:
       - name: Build debug APK
         run: |
           chmod +x gradlew
-          ./gradlew :app:assembleDebug --stacktrace --no-daemon
+          set -o pipefail
+          ./gradlew :app:assembleDebug --stacktrace --no-daemon 2>&1 | tee build/gradle-build.log
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
@@ -59,4 +60,13 @@ jobs:
             app/build/reports/**
             build/reports/**
           if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: TVBoxOS-Mobile-build-log
+          path: build/gradle-build.log
+          if-no-files-found: warn
           retention-days: 14
