@@ -161,7 +161,7 @@ jobs:
         run: |
           git fetch origin main
           git checkout -B main origin/main
-          GITHUB_REPOSITORY="${{ github.repository }}" ./scripts/sync_release_metadata.sh "$TAG_NAME"
+          GITHUB_REPOSITORY="${{ github.repository }}" ./scripts/sync_release_metadata.sh --skip-version-check "$TAG_NAME"
           if git diff --quiet -- update.json README.md; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

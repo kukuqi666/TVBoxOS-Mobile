@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-tag_name="${1:?Usage: sync_release_metadata.sh vX.Y.Z}"
+skip_version_check=false
+if [[ "${1:-}" == "--skip-version-check" ]]; then
+  skip_version_check=true
+  shift
+fi
+
+tag_name="${1:?Usage: sync_release_metadata.sh [--skip-version-check] vX.Y.Z}"
 version="${tag_name#v}"
 repository="${GITHUB_REPOSITORY:-kukuqi666/TVBoxOS-Mobile}"
 app_version=$(sed -nE "s/^[[:space:]]*versionName '([^']+)'/\1/p" app/build.gradle)
@@ -11,7 +17,7 @@ if [[ "$tag_name" != v* || ! "$version" =~ ^[0-9]+(\.[0-9]+)+$ ]]; then
   exit 1
 fi
 
-if [[ "$app_version" != "$version" ]]; then
+if [[ "$skip_version_check" == false && "$app_version" != "$version" ]]; then
   echo "Tag $tag_name does not match app version $app_version" >&2
   exit 1
 fi
