@@ -111,6 +111,17 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Verify release version
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          version="${TAG_NAME#v}"
+          app_version=$(sed -nE "s/^[[:space:]]*versionName '([^']+)'/\1/p" app/build.gradle)
+          if [ "$app_version" != "$version" ]; then
+            echo "::error::Tag ${TAG_NAME} does not match app version ${app_version}"
+            exit 1
+          fi
+
       - name: Restore release signing key
         env:
           TVBOX_KEYSTORE_BASE64: ${{ secrets.TVBOX_KEYSTORE_BASE64 }}
@@ -134,9 +145,7 @@ jobs:
         env:
           TAG_NAME: ${{ github.ref_name }}
         run: |
-          version="${TAG_NAME#v}"
-          apk_url="https://github.com/${{ github.repository }}/releases/download/${TAG_NAME}/TVBox-Mobile-v${version}.apk"
-          printf '{\n  "version": "%s",\n  "apk_url": "%s"\n}\n' "$version" "$apk_url" > update.json
+          GITHUB_REPOSITORY="${{ github.repository }}" ./scripts/sync_release_metadata.sh "$TAG_NAME"
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
@@ -152,14 +161,12 @@ jobs:
         run: |
           git fetch origin main
           git checkout -B main origin/main
-          version="${TAG_NAME#v}"
-          apk_url="https://github.com/${{ github.repository }}/releases/download/${TAG_NAME}/TVBox-Mobile-v${version}.apk"
-          printf '{\n  "version": "%s",\n  "apk_url": "%s"\n}\n' "$version" "$apk_url" > update.json
-          if git diff --quiet -- update.json; then exit 0; fi
+          GITHUB_REPOSITORY="${{ github.repository }}" ./scripts/sync_release_metadata.sh "$TAG_NAME"
+          if git diff --quiet -- update.json README.md; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add update.json
-          git commit -m "chore: update release manifest for ${TAG_NAME} [skip ci]"
+          git add update.json README.md
+          git commit -m "chore: sync release metadata for ${TAG_NAME} [skip ci]"
           for attempt in 1 2 3; do
             if git push origin HEAD:main; then exit 0; fi
             git pull --rebase origin main

@@ -33,7 +33,10 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 
 public class AboutDialog extends BottomPopupView {
-    private static final String UPDATE_MANIFEST_URL = "https://raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/update.json";
+    private static final String UPDATE_MANIFEST_URL = "https://gh.xxooo.cf/https://raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/update.json";
+    private static final String UPDATE_MANIFEST_FALLBACK_URL = "https://raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/update.json";
+    private static final String GITHUB_RELEASE_PREFIX = "https://github.com/";
+    private static final String GITHUB_ACCELERATOR_PREFIX = "https://gh.xxooo.cf/https://github.com/";
     private LinearLayout downloadProgressLayout;
     private ProgressBar downloadProgressBar;
     private TextView downloadProgressText;
@@ -68,7 +71,11 @@ public class AboutDialog extends BottomPopupView {
 
     private void checkForUpdate() {
         ToastUtils.showShort("正在检查更新");
-        OkGo.<String>get(UPDATE_MANIFEST_URL)
+        requestUpdateManifest(UPDATE_MANIFEST_URL, true);
+    }
+
+    private void requestUpdateManifest(String manifestUrl, boolean allowFallback) {
+        OkGo.<String>get(manifestUrl)
                 .headers("User-Agent", "TVBox-Mobile")
                 .tag("check_update")
                 .execute(new AbsCallback<String>() {
@@ -95,14 +102,22 @@ public class AboutDialog extends BottomPopupView {
                                 ToastUtils.showShort("当前已是最新版本");
                             }
                         } catch (Throwable throwable) {
-                            ToastUtils.showLong("更新信息不完整，请稍后重试");
+                            if (allowFallback) {
+                                requestUpdateManifest(UPDATE_MANIFEST_FALLBACK_URL, false);
+                            } else {
+                                ToastUtils.showLong("更新信息不完整，请稍后重试");
+                            }
                         }
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        ToastUtils.showLong("无法获取更新信息，请检查网络后重试");
+                        if (allowFallback) {
+                            requestUpdateManifest(UPDATE_MANIFEST_FALLBACK_URL, false);
+                        } else {
+                            ToastUtils.showLong("无法获取更新信息，请检查网络后重试");
+                        }
                     }
                 });
     }
@@ -121,6 +136,11 @@ public class AboutDialog extends BottomPopupView {
     private void downloadAndInstall(String apkUrl, String version) {
         downloadingUpdate = true;
         showDownloadProgress(0, -1);
+        String acceleratedUrl = accelerateGitHubUrl(apkUrl);
+        downloadUpdatePackage(acceleratedUrl, apkUrl, version, !acceleratedUrl.equals(apkUrl));
+    }
+
+    private void downloadUpdatePackage(String apkUrl, String fallbackUrl, String version, boolean allowFallback) {
         OkGo.<File>get(apkUrl)
                 .headers("User-Agent", "TVBox-Mobile")
                 .tag("download_update")
@@ -140,16 +160,27 @@ public class AboutDialog extends BottomPopupView {
                         File apk = new File(directory, "TVBox-Mobile-v" + version + ".apk");
                         long total = response.body().contentLength();
                         long downloaded = 0;
+                        int firstByte = -1;
+                        int secondByte = -1;
                         byte[] buffer = new byte[8192];
                         try (InputStream input = response.body().byteStream();
                              FileOutputStream output = new FileOutputStream(apk)) {
                             int read;
                             while ((read = input.read(buffer)) != -1) {
+                                if (downloaded == 0 && read > 0) {
+                                    firstByte = buffer[0] & 0xff;
+                                }
+                                if (downloaded < 2 && downloaded + read >= 2) {
+                                    secondByte = buffer[(int) (1 - downloaded)] & 0xff;
+                                }
                                 output.write(buffer, 0, read);
                                 downloaded += read;
                                 showDownloadProgress(downloaded, total);
                             }
                             output.flush();
+                            if (downloaded < 2 || firstByte != 'P' || secondByte != 'K') {
+                                throw new IllegalStateException("更新包格式无效");
+                            }
                         } catch (Throwable throwable) {
                             if (apk.exists()) {
                                 apk.delete();
@@ -173,10 +204,21 @@ public class AboutDialog extends BottomPopupView {
                     @Override
                     public void onError(Response<File> response) {
                         super.onError(response);
-                        resetDownloadProgress();
-                        ToastUtils.showLong("下载更新失败，请稍后重试");
+                        if (allowFallback) {
+                            downloadUpdatePackage(fallbackUrl, fallbackUrl, version, false);
+                        } else {
+                            resetDownloadProgress();
+                            ToastUtils.showLong("下载更新失败，请稍后重试");
+                        }
                     }
                 });
+    }
+
+    private String accelerateGitHubUrl(String url) {
+        if (url != null && url.startsWith(GITHUB_RELEASE_PREFIX)) {
+            return GITHUB_ACCELERATOR_PREFIX + url.substring(GITHUB_RELEASE_PREFIX.length());
+        }
+        return url;
     }
 
     private void showDownloadProgress(long downloaded, long total) {
