@@ -38,15 +38,19 @@
 
     <string-array name="api">
         <item>http://www.饭太硬.cc/tv</item>
+        <item>http://tvbox.xn--4kq62z5rby2qupq9ub.top/</item>
         <item>assets://subscriptions/feimao.json</item>
         <item>assets://subscriptions/oklao.json</item>
         <item>assets://subscriptions/nanfeng.json</item>
+        <item>assets://subscriptions/r18.json</item>
     </string-array>
 
     <string-array name="api_name">
         <item>饭太硬（在线）</item>
+        <item>TVBox 网络源（在线）</item>
         <item>肥猫（内置）</item>
         <item>OK佬（内置）</item>
         <item>南风（内置）</item>
+        <item>R18（内置）</item>
     </string-array>
 </resources>
