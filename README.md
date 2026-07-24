@@ -40,7 +40,7 @@ https://github.com/UndCover/PyramidStore/
 ### TVBox for Android
 - TVBoxOSC：[kukuqi666/TVBoxOSC](https://gh.xxooo.cf/https://github.com/kukuqi666/TVBoxOSC/releases/download/v1.1.1/TVBoxOSC.apk)
 
-- TVbox-Mobile：[kukuqi666/TVBoxOS-Mobile](https://gh.xxooo.cf/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.19/TVBox-Mobile-v2.1.19.apk)
+- TVbox-Mobile：[kukuqi666/TVBoxOS-Mobile](https://gh.xxooo.cf/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.20/TVBox-Mobile-v2.1.20.apk)
 
 
 ## 🎁福利18+
@@ -48,7 +48,7 @@ https://github.com/UndCover/PyramidStore/
 
 ## 𝟭. 更新记录
 
->* **2026/07/24 TVBox Mobile v2.1.19：** 优化手机与平板展示：平板使用原生 dp 密度，首页、推荐、收藏和历史记录根据屏幕宽度自动切换为 4 至 6 列；旋转屏幕后立即重排。我的、订阅、本地视频与详情页在大屏居中显示，避免内容过宽。
+>* **2026/07/24 TVBox Mobile v2.1.20：** 优化手机与平板展示：平板使用原生 dp 密度，首页、推荐、收藏和历史记录根据屏幕宽度自动切换为 4 至 6 列；旋转屏幕后立即重排。我的、订阅、本地视频与详情页在大屏居中显示，避免内容过宽。
 >
 >* **2026/07/24 TVBox Mobile v2.1.18：** 修复 Android 13 及以上本地视频媒体权限，恢复本地视频扫描并显示空列表提示；本地订阅导入改用系统文件选择器，支持持久访问 `content://` 文件并缓存配置；移除已下线的肥猫、南风内置订阅。
 >
