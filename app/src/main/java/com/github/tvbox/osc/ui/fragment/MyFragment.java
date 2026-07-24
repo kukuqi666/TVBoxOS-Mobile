@@ -1,7 +1,9 @@
 package com.github.tvbox.osc.ui.fragment;
 
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.blankj.utilcode.util.AppUtils;
@@ -60,7 +62,7 @@ public class MyFragment extends BaseVbFragment<FragmentMyBinding> {
         mBinding.tvFavorite.setOnClickListener(v -> jumpActivity(CollectActivity.class));
 
         mBinding.tvLocal.setOnClickListener(v -> {
-            if (!XXPermissions.isGranted(mContext, Permission.MANAGE_EXTERNAL_STORAGE)) {
+            if (!hasVideoAccess()) {
                 showPermissionTipPopup();
             } else {
                 jumpActivity(MovieFoldersActivity.class);
@@ -77,14 +79,23 @@ public class MyFragment extends BaseVbFragment<FragmentMyBinding> {
     private void showPermissionTipPopup(){
         new XPopup.Builder(mActivity)
                 .isDarkTheme(Utils.isDarkTheme())
-                .asConfirm("提示","为了播放视频、音频等,我们需要访问您设备文件的读写权限", () -> {
+                .asConfirm("提示","为了读取本地视频,需要访问设备中的视频媒体", () -> {
                     getPermission();
                 }).show();
     }
 
+    private boolean hasVideoAccess() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return XXPermissions.isGranted(mContext, Manifest.permission.READ_MEDIA_VIDEO);
+        }
+        return XXPermissions.isGranted(mContext, Permission.READ_EXTERNAL_STORAGE);
+    }
+
     private void getPermission(){
         XXPermissions.with(this)
-                .permission(Permission.MANAGE_EXTERNAL_STORAGE)
+                .permission(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                        ? Manifest.permission.READ_MEDIA_VIDEO
+                        : Permission.READ_EXTERNAL_STORAGE)
                 .request(new OnPermissionCallback() {
                     @Override
                     public void onGranted(List<String> permissions, boolean all) {
@@ -98,8 +109,7 @@ public class MyFragment extends BaseVbFragment<FragmentMyBinding> {
                     @Override
                     public void onDenied(List<String> permissions, boolean never) {
                         if (never) {
-                            ToastUtils.showLong("读写文件权限被永久拒绝，请手动授权");
-                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            ToastUtils.showLong("视频媒体权限被永久拒绝，请手动授权");
                             XXPermissions.startPermissionActivity(mActivity, permissions);
                         } else {
                             ToastUtils.showShort("获取权限失败");

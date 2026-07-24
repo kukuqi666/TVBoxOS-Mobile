@@ -37,6 +37,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -153,6 +154,18 @@ public class ApiConfig {
             }
             return;
         }
+        if (apiUrl.startsWith("content://")) {
+            try {
+                String json = readContentConfig(Uri.parse(apiUrl));
+                parseJson(apiUrl, json);
+                writeConfigCache(cache, json);
+                callback.success();
+            } catch (Throwable th) {
+                th.printStackTrace();
+                callback.error("无法读取本地配置文件");
+            }
+            return;
+        }
         String TempKey = null, configUrl = "", pk = ";pk;";
         if (apiUrl.contains(pk)) {
             String[] a = apiUrl.split(pk);
@@ -182,15 +195,7 @@ public class ApiConfig {
                             String json = response.body();
                             parseJson(apiUrl, json);
                             try {
-                                File cacheDir = cache.getParentFile();
-                                if (!cacheDir.exists())
-                                    cacheDir.mkdirs();
-                                if (cache.exists())
-                                    cache.delete();
-                                FileOutputStream fos = new FileOutputStream(cache);
-                                fos.write(json.getBytes("UTF-8"));
-                                fos.flush();
-                                fos.close();
+                                writeConfigCache(cache, json);
                             } catch (Throwable th) {
                                 th.printStackTrace();
                             }
@@ -322,6 +327,32 @@ public class ApiConfig {
         }
         reader.close();
         return content.toString();
+    }
+
+    private String readContentConfig(Uri uri) throws Throwable {
+        try (InputStream input = App.getInstance().getContentResolver().openInputStream(uri)) {
+            if (input == null) {
+                throw new IllegalStateException("Unable to open local config");
+            }
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"))) {
+                StringBuilder content = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    content.append(line).append('\n');
+                }
+                return content.toString();
+            }
+        }
+    }
+
+    private void writeConfigCache(File cache, String json) throws Throwable {
+        File cacheDir = cache.getParentFile();
+        if (!cacheDir.exists())
+            cacheDir.mkdirs();
+        try (FileOutputStream output = new FileOutputStream(cache)) {
+            output.write(json.getBytes("UTF-8"));
+            output.flush();
+        }
     }
 
     private void parseJson(String apiUrl, String jsonStr) {

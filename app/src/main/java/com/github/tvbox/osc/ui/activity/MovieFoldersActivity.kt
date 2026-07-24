@@ -2,6 +2,7 @@ package com.github.tvbox.osc.ui.activity
 
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.github.tvbox.osc.base.BaseVbActivity
 import com.github.tvbox.osc.bean.VideoFolder
@@ -48,5 +49,6 @@ class MovieFoldersActivity : BaseVbActivity<ActivityMovieFoldersBinding>() {
             videoFolders.add(videoFolder)
         }
         mFolderAdapter.setNewData(videoFolders)
+        mBinding.tvEmpty.visibility = if (videoFolders.isEmpty()) View.VISIBLE else View.GONE
     }
 }

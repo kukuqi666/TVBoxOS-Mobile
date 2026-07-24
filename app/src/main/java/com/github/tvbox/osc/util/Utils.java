@@ -55,26 +55,28 @@ public class Utils {
 
     public static List<VideoInfo> getVideoList() {
         List<VideoInfo> videoList = new ArrayList<>();
-        Cursor cursor = App.getInstance().getContentResolver().query(
+        try (Cursor cursor = App.getInstance().getContentResolver().query(
                 MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                new String[] { // 查询内容
-                        MediaStore.Video.Media._ID, // 视频id
-                        MediaStore.Video.Media.DATA, // 视频路径
-                        MediaStore.Video.Media.SIZE, // 视频字节大小
-                        MediaStore.Video.Media.DISPLAY_NAME, // 视频名称 xxx.mp4
-                        MediaStore.Video.Media.TITLE, // 视频标题
-                        MediaStore.Video.Media.DURATION, // 视频时长
-                        MediaStore.Video.Media.RESOLUTION, // 视频分辨率 X x Y格式
+                new String[] {
+                        MediaStore.Video.Media._ID,
+                        MediaStore.Video.Media.DATA,
+                        MediaStore.Video.Media.SIZE,
+                        MediaStore.Video.Media.DISPLAY_NAME,
+                        MediaStore.Video.Media.TITLE,
+                        MediaStore.Video.Media.DURATION,
+                        MediaStore.Video.Media.RESOLUTION,
                         MediaStore.Video.Media.IS_PRIVATE,
                         MediaStore.Video.Media.BUCKET_ID,
                         MediaStore.Video.Media.BUCKET_DISPLAY_NAME,
-                        MediaStore.Video.Media.BOOKMARK // 上次视频播放的位置
+                        MediaStore.Video.Media.BOOKMARK
                 },
                 null,
                 null,
                 null
-        );
-        if (cursor != null && cursor.moveToFirst()) {
+        )) {
+            if (cursor == null || !cursor.moveToFirst()) {
+                return videoList;
+            }
             do {
                 VideoInfo videoInfo = new VideoInfo();
                 videoInfo.setId(cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)));
@@ -90,7 +92,8 @@ public class Utils {
                 videoInfo.setBookmark(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.BOOKMARK)));
                 videoList.add(videoInfo);
             } while (cursor.moveToNext());
-            cursor.close();
+        } catch (SecurityException ignored) {
+            // The activity requests the media permission before it opens this page.
         }
         return videoList;
     }

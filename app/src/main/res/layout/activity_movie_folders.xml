@@ -13,17 +13,32 @@
         android:layout_height="44dp"
         />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/bg_large_round_gray"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        tools:listitem="@layout/item_folder"
-        tools:itemCount="3"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_large_round_gray"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            tools:listitem="@layout/item_folder"
+            tools:itemCount="3"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        <TextView
+            android:id="@+id/tv_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="没有找到本地视频"
+            android:textColor="@color/text_foreground"
+            android:textSize="15sp"
+            android:visibility="gone" />
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/ll_menu"

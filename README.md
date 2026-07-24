@@ -31,7 +31,7 @@
 ### TVBox for Android
 - TVBoxOSC：[kukuqi666/TVBoxOSC](https://gh.xxooo.cf/https://github.com/kukuqi666/TVBoxOSC/releases/download/v1.1.1/TVBoxOSC.apk)
 
-- TVbox-Mobile：[kukuqi666/TVBoxOS-Mobile](https://gh.xxooo.cf/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.17/TVBox-Mobile-v2.1.17.apk)
+- TVbox-Mobile：[kukuqi666/TVBoxOS-Mobile](https://gh.xxooo.cf/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.18/TVBox-Mobile-v2.1.18.apk)
 
 
 ## 🎁福利18+
@@ -39,6 +39,8 @@
 
 ## 𝟭. 更新记录
 
+>* **2026/07/24 TVBox Mobile v2.1.18：** 修复 Android 13 及以上本地视频媒体权限，恢复本地视频扫描并显示空列表提示；本地订阅导入改用系统文件选择器，支持持久访问 `content://` 文件并缓存配置；移除已下线的肥猫、南风内置订阅。
+>
 >* **2026/07/23 TVBox Mobile v2.1.17：** 应用内检查更新和 APK 下载优先使用 GitHub 加速地址，失败时自动回退直连；新增第二个在线订阅源和 R18 内置订阅配置；发布流程同步校验版本号、tag、`update.json`、README 下载链接及更新记录。
 >
 >* **2026/07/22 TVBox Mobile v2.1.16：** 修复软件内更新清单未能同步到主分支的问题；发布流程在遇到并发提交时会自动 rebase 后重试推送，确保 Release APK 和在线更新提示保持一致。

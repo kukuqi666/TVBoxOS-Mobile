@@ -1,7 +1,9 @@
 package com.github.tvbox.osc.ui.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.provider.OpenableColumns
 import android.text.TextUtils
 import android.view.View
 import com.blankj.utilcode.util.ClipboardUtils
@@ -23,14 +25,10 @@ import com.github.tvbox.osc.util.Utils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
-import com.hjq.permissions.XXPermissions
 import com.lxj.xpopup.XPopup
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.AbsCallback
 import com.lzy.okgo.model.Response
-import com.obsez.android.lib.filechooser.ChooserDialog
 import com.orhanobut.hawk.Hawk
 import java.util.Locale
 import java.util.function.Consumer
@@ -39,6 +37,7 @@ class SubscriptionActivity : BaseVbActivity<ActivitySubscriptionBinding>() {
 
     companion object {
         private const val CLEANUP_SUBSCRIPTIONS_TAG = "cleanup_subscriptions"
+        private const val REQUEST_OPEN_SUBSCRIPTION_FILE = 9001
     }
 
     private var mBeforeUrl = Hawk.get(HawkConfig.API_URL, "")
@@ -47,6 +46,7 @@ class SubscriptionActivity : BaseVbActivity<ActivitySubscriptionBinding>() {
     private var mSubscriptionAdapter = SubscriptionAdapter()
     private val mSources: MutableList<Source> = ArrayList()
     private var destinationAfterFinish: Int? = null
+    private var pendingLocalChecked = false
 
     override fun init() {
 
@@ -89,15 +89,7 @@ class SubscriptionActivity : BaseVbActivity<ActivitySubscriptionBinding>() {
                             }
 
                             override fun chooseLocal(checked: Boolean) { //本地导入
-                                if (!XXPermissions.isGranted(
-                                        mContext,
-                                        Permission.MANAGE_EXTERNAL_STORAGE
-                                    )
-                                ) {
-                                    showPermissionTipPopup(checked)
-                                } else {
-                                    pickFile(checked)
-                                }
+                                pickFile(checked)
                             }
                         })
                 ).show()
@@ -188,66 +180,55 @@ class SubscriptionActivity : BaseVbActivity<ActivitySubscriptionBinding>() {
             }
     }
 
-    private fun showPermissionTipPopup(checked: Boolean) {
-        XPopup.Builder(this@SubscriptionActivity)
-            .isDarkTheme(Utils.isDarkTheme())
-            .asConfirm("提示", "这将访问您设备文件的读取权限") {
-                XXPermissions.with(this)
-                    .permission(Permission.MANAGE_EXTERNAL_STORAGE)
-                    .request(object : OnPermissionCallback {
-                        override fun onGranted(permissions: List<String>, all: Boolean) {
-                            if (all) {
-                                pickFile(checked)
-                            } else {
-                                ToastUtils.showLong("部分权限未正常授予,请授权")
-                            }
-                        }
-
-                        override fun onDenied(permissions: List<String>, never: Boolean) {
-                            if (never) {
-                                ToastUtils.showLong("读写文件权限被永久拒绝，请手动授权")
-                                // 如果是被永久拒绝就跳转到应用权限系统设置页面
-                                XXPermissions.startPermissionActivity(
-                                    this@SubscriptionActivity,
-                                    permissions
-                                )
-                            } else {
-                                ToastUtils.showShort("获取权限失败")
-                                showPermissionTipPopup(checked)
-                            }
-                        }
-                    })
-            }.show()
+    private fun pickFile(checked: Boolean) {
+        pendingLocalChecked = checked
+        startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "*/*"
+            putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("application/json", "text/plain"))
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+        }, REQUEST_OPEN_SUBSCRIPTION_FILE)
     }
 
-    /**
-     *
-     * @param checked 与showPermissionTipPopup一样,只记录并传递选中状态
-     */
-    private fun pickFile(checked: Boolean) {
-        ChooserDialog(this@SubscriptionActivity, R.style.FileChooser)
-            .withFilter(false, false, "txt", "json")
-            .withStartFile(
-                if (TextUtils.isEmpty(Hawk.get("before_selected_path"))) "/storage/emulated/0/Download" else Hawk.get(
-                    "before_selected_path"
-                )
-            )
-            .withChosenListener(ChooserDialog.Result { _, pathFile ->
-                Hawk.put("before_selected_path", pathFile.parent)
-                val clanPath =
-                    pathFile.absolutePath.replace("/storage/emulated/0", "clan://localhost")
-                if (hasDuplicateSubscription(clanPath)) {
-                    ToastUtils.showLong("订阅地址已存在")
-                    return@Result
+    @Deprecated("Use the Activity Result API when this activity is migrated")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode != REQUEST_OPEN_SUBSCRIPTION_FILE || resultCode != Activity.RESULT_OK) {
+            return
+        }
+        val resultIntent = data ?: return
+        val uri = resultIntent.data ?: return
+        try {
+            val flags = resultIntent.flags and Intent.FLAG_GRANT_READ_URI_PERMISSION
+            if (flags != 0) {
+                contentResolver.takePersistableUriPermission(uri, flags)
+            }
+        } catch (_: SecurityException) {
+            // Some providers do not support persistent grants; the current session still has read access.
+        }
+        val url = uri.toString()
+        if (hasDuplicateSubscription(url)) {
+            ToastUtils.showLong("订阅地址已存在")
+            return
+        }
+        addSubscription(getDocumentName(uri), url, pendingLocalChecked)
+        mSubscriptionAdapter.setNewData(mSubscriptions)
+    }
+
+    private fun getDocumentName(uri: Uri): String {
+        contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val column = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                if (column >= 0) {
+                    return cursor.getString(column)
                 }
-                addSubscription(pathFile.name, clanPath, checked)
-            })
-            .build()
-            .show()
+            }
+        }
+        return uri.lastPathSegment ?: "本地订阅"
     }
 
     private fun addSubscription(name: String, url: String, checked: Boolean) {
-        if (url.startsWith("clan://")) {
+        if (url.startsWith("clan://") || url.startsWith("content://")) {
             addSub2List(name, url, checked)
             mSubscriptionAdapter.setNewData(mSubscriptions)
         } else if (url.startsWith("http")) {
@@ -479,7 +460,10 @@ class SubscriptionActivity : BaseVbActivity<ActivitySubscriptionBinding>() {
         return mSubscriptions.contains(subscription) && !isProtectedSubscription(subscription)
     }
 
-    private fun isLocalSubscription(url: String): Boolean = url.trim().startsWith("clan://")
+    private fun isLocalSubscription(url: String): Boolean {
+        val value = url.trim()
+        return value.startsWith("clan://") || value.startsWith("content://")
+    }
 
     private fun isRemoteSubscription(url: String): Boolean {
         val uri = Uri.parse(url.trim())
