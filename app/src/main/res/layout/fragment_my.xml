@@ -28,7 +28,10 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_margin="20dp"
+        android:layout_gravity="center_horizontal"
+        android:maxWidth="720dp"
         android:background="@drawable/bg_large_round_gray"
+        android:fillViewport="true"
         android:scrollbars="none"
         >
         <LinearLayout

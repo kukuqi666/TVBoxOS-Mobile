@@ -1,6 +1,7 @@
 package com.github.tvbox.osc.ui.activity
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.lifecycleScope
@@ -33,7 +34,7 @@ class CollectActivity : BaseVbActivity<ActivityCollectBinding>() {
         setLoadSir(mBinding.mGridView)
 
         mBinding.mGridView.setHasFixedSize(true)
-        mBinding.mGridView.setLayoutManager(GridLayoutManager(this, 3))
+        mBinding.mGridView.setLayoutManager(GridLayoutManager(this, Utils.getPosterSpanCount(this)))
         mBinding.mGridView.setAdapter(collectAdapter)
         mBinding.titleBar.rightView.setOnClickListener {
             XPopup.Builder(this)
@@ -82,6 +83,11 @@ class CollectActivity : BaseVbActivity<ActivityCollectBinding>() {
                     }
                 }
             }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        (mBinding.mGridView.layoutManager as? GridLayoutManager)?.spanCount = Utils.getPosterSpanCount(this)
     }
 
     private fun initData() {

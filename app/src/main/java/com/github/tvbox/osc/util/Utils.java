@@ -1,5 +1,6 @@
 package com.github.tvbox.osc.util;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Build;
@@ -19,6 +20,18 @@ import java.util.Locale;
 
 
 public class Utils {
+
+    public static boolean isTablet(Context context) {
+        return context.getResources().getConfiguration().smallestScreenWidthDp >= 600;
+    }
+
+    public static int getPosterSpanCount(Context context) {
+        if (!isTablet(context)) return 3;
+        int widthDp = context.getResources().getConfiguration().screenWidthDp;
+        if (widthDp >= 1200) return 6;
+        if (widthDp >= 900) return 5;
+        return 4;
+    }
 
     public static boolean supportsPiPMode() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;

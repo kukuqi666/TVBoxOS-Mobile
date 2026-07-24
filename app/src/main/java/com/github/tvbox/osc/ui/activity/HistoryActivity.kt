@@ -1,6 +1,7 @@
 package com.github.tvbox.osc.ui.activity
 
 import android.os.Bundle
+import android.content.res.Configuration
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -29,7 +30,7 @@ class HistoryActivity : BaseVbActivity<ActivityHistoryBinding>() {
         setLoadSir(mBinding.mGridView)
 
         mBinding.mGridView.setHasFixedSize(true)
-        mBinding.mGridView.setLayoutManager(GridLayoutManager(this, 3))
+        mBinding.mGridView.setLayoutManager(GridLayoutManager(this, Utils.getPosterSpanCount(this)))
         historyAdapter = HistoryAdapter()
         mBinding.mGridView.setAdapter(historyAdapter)
 
@@ -74,6 +75,11 @@ class HistoryActivity : BaseVbActivity<ActivityHistoryBinding>() {
                 bundle.putString("sourceKey", vodInfo.sourceKey)
                 jumpActivity(DetailActivity::class.java, bundle)
             }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        (mBinding.mGridView.layoutManager as? GridLayoutManager)?.spanCount = Utils.getPosterSpanCount(this)
     }
 
     private fun initData() {

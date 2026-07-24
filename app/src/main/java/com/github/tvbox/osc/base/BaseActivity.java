@@ -2,6 +2,7 @@ package com.github.tvbox.osc.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import me.jessyan.autosize.internal.CustomAdapt;
+import me.jessyan.autosize.AutoSize;
 
 public abstract class BaseActivity extends AppCompatActivity implements CustomAdapt, OnTitleBarListener {
     protected Context mContext;
@@ -171,6 +173,12 @@ public abstract class BaseActivity extends AppCompatActivity implements CustomAd
         AppManager.getInstance().finishActivity(this);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        AutoSize.autoConvertDensity(this, getSizeInDp(), isBaseOnWidth());
+    }
+
     public void jumpActivity(Class<? extends BaseActivity> clazz) {
         Intent intent = new Intent(mContext, clazz);
         startActivity(intent);
@@ -204,6 +212,11 @@ public abstract class BaseActivity extends AppCompatActivity implements CustomAd
 
     @Override
     public float getSizeInDp() {
+        Configuration configuration = getResources().getConfiguration();
+        if (configuration.smallestScreenWidthDp >= 600) {
+            // Keep tablet layouts in their native dp scale instead of stretching the 360dp phone design.
+            return configuration.screenWidthDp;
+        }
         return isBaseOnWidth() ? 360 : 720;
     }
 
