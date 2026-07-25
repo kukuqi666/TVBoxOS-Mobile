@@ -60,6 +60,7 @@ public class HawkConfig {
      * 长按的倍速播放设置
      */
     public static final String VIDEO_SPEED = "video_speed";
+    public static final String WALLPAPER_URL = "wallpaper_url";
     /**
      * 搜索记录
      */

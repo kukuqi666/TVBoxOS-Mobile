@@ -20,6 +20,7 @@ import com.github.tvbox.osc.ui.activity.LocalPlayActivity;
 import com.github.tvbox.osc.ui.activity.MovieFoldersActivity;
 import com.github.tvbox.osc.ui.activity.SettingActivity;
 import com.github.tvbox.osc.ui.dialog.AboutDialog;
+import com.github.tvbox.osc.ui.dialog.WallpaperDialog;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
 import com.github.tvbox.osc.util.Utils;
 import com.hjq.permissions.OnPermissionCallback;
@@ -67,6 +68,12 @@ public class MyFragment extends BaseVbFragment<FragmentMyBinding> {
             } else {
                 jumpActivity(MovieFoldersActivity.class);
             }
+        });
+
+        mBinding.tvWallpaper.setOnClickListener(v -> {
+            new XPopup.Builder(mActivity)
+                    .asCustom(new WallpaperDialog(mActivity))
+                    .show();
         });
 
         mBinding.llAbout.setOnClickListener(v -> {
