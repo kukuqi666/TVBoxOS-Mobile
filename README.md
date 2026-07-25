@@ -23,9 +23,8 @@
 
 ## 📖介绍
 - 本仓库聚合了APP、解析源、直播源等项目，总之你要的一个仓库全搞定(拉到👇有福利)
-- 电视横屏版请移步[TVBoxOSC](https://github.com/kukuqi666/TVBoxOSC)仓库
 
-## 推荐源仓库
+## 推荐视频源仓库
 
 https://github.com/gaotianliuyun/gao
 
@@ -38,8 +37,6 @@ https://github.com/UndCover/PyramidStore/
 
 ## 📲软件合集（软件安装）
 ### TVBox for Android
-- TVBoxOSC：[kukuqi666/TVBoxOSC](https://gh.xxooo.cf/https://github.com/kukuqi666/TVBoxOSC/releases/download/v1.1.1/TVBoxOSC.apk)
-
 - TVbox-Mobile：[kukuqi666/TVBoxOS-Mobile](https://gh.xxooo.cf/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.20/TVBox-Mobile-v2.1.20.apk)
 
 
