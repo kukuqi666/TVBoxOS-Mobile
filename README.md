@@ -37,13 +37,17 @@ https://github.com/UndCover/PyramidStore/
 
 ## 📲软件合集（软件安装）
 ### TVBox for Android
-- TVbox-Mobile：[kukuqi666/TVBoxOS-Mobile](https://gh.xxooo.cf/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.24/TVBox-Mobile-v2.1.24.apk)
+- TVbox-Mobile：[kukuqi666/TVBoxOS-Mobile](https://gh.xxooo.cf/https://gh.xxooo.cf/https://gh.xxooo.cf/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.24/TVBox-Mobile-v2.1.24.apk)
 
 
 ## 🎁福利18+
 - R18: [R18](https://raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/website/tvbox/R18.json)
 
 ## 𝟭. 更新记录
+
+>* **2026/07/25 TVBox Mobile v2.1.24：** 同步发布 Android APK、应用内更新清单和下载链接。
+>
+
 
 >* **2026/07/25 TVBox Mobile v2.1.23：** 更新检查与下载全部走 gh.xxooo.cf 加速，去掉直连 GitHub 回退；新增第二加速镜像做备选，国内更新更快更稳。
 >
