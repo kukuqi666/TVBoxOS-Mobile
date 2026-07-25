@@ -37,7 +37,7 @@ https://github.com/UndCover/PyramidStore/
 
 ## 📲软件合集（软件安装）
 ### TVBox for Android
-- TVbox-Mobile：[kukuqi666/TVBoxOS-Mobile](https://gh.xxooo.cf/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.22/TVBox-Mobile-v2.1.22.apk)
+- TVbox-Mobile：[kukuqi666/TVBoxOS-Mobile](https://gh.xxooo.cf/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.23/TVBox-Mobile-v2.1.23.apk)
 
 
 ## 🎁福利18+
@@ -45,7 +45,9 @@ https://github.com/UndCover/PyramidStore/
 
 ## 𝟭. 更新记录
 
->* **2026/07/25 TVBox Mobile v2.1.22：** 新增壁纸切换功能，「我的」页面入口可选择 6 套内置渐变壁纸、订阅源配置中的壁纸 URL 以及随机在线壁纸；首页背景即时生效。
+>* **2026/07/25 TVBox Mobile v2.1.23：** 更新检查与下载全部走 gh.xxooo.cf 加速，去掉直连 GitHub 回退；新增第二加速镜像做备选，国内更新更快更稳。
+>
+>* **2026/07/25 TVBox Mobile v2.1.23：** 新增壁纸切换功能，「我的」页面入口可选择 6 套内置渐变壁纸、订阅源配置中的壁纸 URL 以及随机在线壁纸；首页背景即时生效。
 >
 >* **2026/07/24 TVBox Mobile v2.1.20：** 优化手机与平板展示：平板使用原生 dp 密度，首页、推荐、收藏和历史记录根据屏幕宽度自动切换为 4 至 6 列；旋转屏幕后立即重排。我的、订阅、本地视频与详情页在大屏居中显示，避免内容过宽。
 >

@@ -22,7 +22,7 @@ if [[ "$skip_version_check" == false && "$app_version" != "$version" ]]; then
   exit 1
 fi
 
-apk_url="https://github.com/${repository}/releases/download/${tag_name}/TVBox-Mobile-v${version}.apk"
+apk_url="https://gh.xxooo.cf/https://github.com/${repository}/releases/download/${tag_name}/TVBox-Mobile-v${version}.apk"
 readme_apk_url="https://gh.xxooo.cf/${apk_url}"
 
 printf '{\n  "version": "%s",\n  "apk_url": "%s"\n}\n' "$version" "$apk_url" > update.json
