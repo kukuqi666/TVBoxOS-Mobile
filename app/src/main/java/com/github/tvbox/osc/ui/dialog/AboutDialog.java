@@ -22,7 +22,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.AbsCallback;
-import com.lzy.okgo.callback.FileCallback;
 import com.lzy.okgo.model.Response;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.google.android.material.button.MaterialButton;
@@ -145,18 +144,7 @@ public class AboutDialog extends BottomPopupView {
         OkGo.<File>get(acceleratedUrl)
                 .headers("User-Agent", "TVBox-Mobile")
                 .tag("download_update")
-                .execute(new FileCallback() {
-                    @Override
-                    public void onStart(com.lzy.okgo.request.base.Request<File, ? extends com.lzy.okgo.request.base.Request> request) {
-                        showDownloadProgress(0, -1);
-                    }
-
-                    @Override
-                    public void downloadProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
-                        super.downloadProgress(currentSize, totalSize, progress, networkSpeed);
-                        showDownloadProgress(currentSize, totalSize);
-                    }
-
+                .execute(new AbsCallback<File>() {
                     @Override
                     public File convertResponse(okhttp3.Response response) throws Throwable {
                         if (response.body() == null)
@@ -165,20 +153,38 @@ public class AboutDialog extends BottomPopupView {
                         if (directory == null) {
                             directory = getContext().getCacheDir();
                         }
-                        File apk = new File(directory, "TVBox-Mobile-v" + version + ".apk");
-                        if (apk.exists()) apk.delete();
-                        InputStream is = response.body().byteStream();
-                        FileOutputStream os = new FileOutputStream(apk);
-                        byte[] buf = new byte[8192];
-                        int len;
-                        while ((len = is.read(buf)) > 0) {
-                            os.write(buf, 0, len);
+                        if (!directory.exists() && !directory.mkdirs()) {
+                            throw new IllegalStateException("无法访问下载目录");
                         }
-                        os.flush();
-                        os.close();
-                        is.close();
-                        if (!apk.exists() || apk.length() < 1024) {
-                            throw new IllegalStateException("更新包格式无效");
+                        File apk = new File(directory, "TVBox-Mobile-v" + version + ".apk");
+                        long total = response.body().contentLength();
+                        long downloaded = 0;
+                        int firstByte = -1;
+                        int secondByte = -1;
+                        byte[] buffer = new byte[8192];
+                        try (InputStream input = response.body().byteStream();
+                             FileOutputStream output = new FileOutputStream(apk)) {
+                            int read;
+                            while ((read = input.read(buffer)) != -1) {
+                                if (downloaded == 0 && read > 0) {
+                                    firstByte = buffer[0] & 0xff;
+                                }
+                                if (downloaded < 2 && downloaded + read >= 2) {
+                                    secondByte = buffer[(int) (1 - downloaded)] & 0xff;
+                                }
+                                output.write(buffer, 0, read);
+                                downloaded += read;
+                                showDownloadProgress(downloaded, total);
+                            }
+                            output.flush();
+                            if (downloaded < 2 || firstByte != 'P' || secondByte != 'K') {
+                                throw new IllegalStateException("更新包格式无效");
+                            }
+                        } catch (Throwable throwable) {
+                            if (apk.exists()) {
+                                apk.delete();
+                            }
+                            throw throwable;
                         }
                         return apk;
                     }
