@@ -61,6 +61,7 @@ public class HawkConfig {
      */
     public static final String VIDEO_SPEED = "video_speed";
     public static final String WALLPAPER_URL = "wallpaper_url";
+    public static final String WALLPAPER_HISTORY = "wallpaper_history";
     /**
      * 搜索记录
      */
