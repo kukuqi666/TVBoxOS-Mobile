@@ -57,11 +57,6 @@ public class WallpaperDialog extends BottomPopupView {
         subList = mgr.getSubscriptionWallpapers();
         onlineList = mgr.getOnlineWallpapers();
 
-        List<RecyclerView> pages = new ArrayList<>();
-        pages.add(buildGridPage(builtinList));
-        pages.add(subList.isEmpty() ? buildEmptyPage() : buildGridPage(subList));
-        pages.add(onlineList.isEmpty() ? buildEmptyPage() : buildGridPage(onlineList));
-
         viewPager.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             @NonNull
             @Override
@@ -70,33 +65,38 @@ public class WallpaperDialog extends BottomPopupView {
                 rv.setLayoutParams(new RecyclerView.LayoutParams(
                         RecyclerView.LayoutParams.MATCH_PARENT,
                         RecyclerView.LayoutParams.MATCH_PARENT));
-                return new RecyclerView.ViewHolder(rv) {};
+                return new Holder(rv);
             }
 
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int pos) {
                 RecyclerView rv = (RecyclerView) holder.itemView;
-                if (rv.getAdapter() == null) {
-                    rv.setLayoutManager(new GridLayoutManager(getContext(), 4));
-                    rv.setAdapter(pages.get(pos).getAdapter());
+                rv.setLayoutManager(new GridLayoutManager(getContext(), 4));
+                switch (pos) {
+                    case 0: rv.setAdapter(buildAdapter(builtinList)); break;
+                    case 1: rv.setAdapter(subList.isEmpty()
+                            ? buildEmptyAdapter() : buildAdapter(subList)); break;
+                    case 2: rv.setAdapter(onlineList.isEmpty()
+                            ? buildEmptyAdapter() : buildAdapter(onlineList)); break;
                 }
             }
 
             @Override
-            public int getItemCount() { return pages.size(); }
+            public int getItemCount() { return 3; }
         });
 
         tvTabBuiltin.setOnClickListener(v -> selectTab(0));
         tvTabSub.setOnClickListener(v -> selectTab(1));
         tvTabOnline.setOnClickListener(v -> selectTab(2));
-
         selectTab(0);
     }
 
-    private RecyclerView buildGridPage(List<WallpaperManager.WallpaperItem> items) {
-        RecyclerView rv = new RecyclerView(getContext());
-        rv.setLayoutManager(new GridLayoutManager(getContext(), 4));
+    private static class Holder extends RecyclerView.ViewHolder {
+        Holder(View v) { super(v); }
+    }
 
+    private BaseQuickAdapter<WallpaperManager.WallpaperItem, BaseViewHolder> buildAdapter(
+            List<WallpaperManager.WallpaperItem> items) {
         BaseQuickAdapter<WallpaperManager.WallpaperItem, BaseViewHolder> adapter =
                 new BaseQuickAdapter<WallpaperManager.WallpaperItem, BaseViewHolder>(
                         R.layout.item_wallpaper) {
@@ -125,20 +125,20 @@ public class WallpaperDialog extends BottomPopupView {
                 }
             }
         };
-
         adapter.setOnItemClickListener((adp, view, position) -> {
             selectedItem = items.get(position);
             updatePreview(selectedItem);
         });
-
-        rv.setAdapter(adapter);
         adapter.setNewData(items);
-        return rv;
+        return adapter;
     }
 
-    private RecyclerView buildEmptyPage() {
-        RecyclerView rv = new RecyclerView(getContext());
-        return rv;
+    private BaseQuickAdapter<?, BaseViewHolder> buildEmptyAdapter() {
+        return new BaseQuickAdapter<WallpaperManager.WallpaperItem, BaseViewHolder>(
+                R.layout.item_wallpaper) {
+            @Override
+            protected void convert(BaseViewHolder holder, WallpaperManager.WallpaperItem item) {}
+        };
     }
 
     private void downloadThumb(WallpaperManager.WallpaperItem item, ImageView iv) {
