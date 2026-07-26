@@ -23,7 +23,7 @@ if [[ "$skip_version_check" == false && "$app_version" != "$version" ]]; then
 fi
 
 apk_url="https://gh.xxooo.cf/https://github.com/${repository}/releases/download/${tag_name}/TVBox-Mobile-v${version}.apk"
-readme_apk_url="https://gh.xxooo.cf/${apk_url}"
+readme_apk_url="$apk_url"
 
 printf '{\n  "version": "%s",\n  "apk_url": "%s"\n}\n' "$version" "$apk_url" > update.json
 
@@ -33,7 +33,7 @@ if ! grep -q 'TVbox-Mobile：' README.md; then
 fi
 
 README_APK_URL="$readme_apk_url" perl -0pi -e \
-  's{https://gh\.xxooo\.cf/https://github\.com/[^/]+/[^/]+/releases/download/v[0-9.]+/TVBox-Mobile-v[0-9.]+\.apk}{$ENV{README_APK_URL}}g' README.md
+  's{(?:https://gh\.xxooo\.cf/)+https://github\.com/[^/]+/[^/]+/releases/download/v[0-9.]+/TVBox-Mobile-v[0-9.]+\.apk}{$ENV{README_APK_URL}}g' README.md
 
 if ! grep -q "TVBox Mobile v${version}" README.md; then
   release_date=$(date -u +%Y/%m/%d)

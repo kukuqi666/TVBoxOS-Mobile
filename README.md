@@ -37,13 +37,15 @@ https://github.com/UndCover/PyramidStore/
 
 ## 📲软件合集（软件安装）
 ### TVBox for Android
-- TVbox-Mobile：[kukuqi666/TVBoxOS-Mobile](https://gh.xxooo.cf/https://gh.xxooo.cf/https://gh.xxooo.cf/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.25/TVBox-Mobile-v2.1.25.apk)
+- TVbox-Mobile：[kukuqi666/TVBoxOS-Mobile](https://gh.xxooo.cf/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.26/TVBox-Mobile-v2.1.26.apk)
 
 
 ## 🎁福利18+
 - R18: [R18](https://raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/website/tvbox/R18.json)
 
 ## 𝟭. 更新记录
+
+>* **2026/07/26 TVBox Mobile v2.1.26：** 全局壁纸界面改为半透明效果；点播源、直播源和壁纸支持独立入口及独立导入，保留原有链接导入和本地文件导入逻辑；修复壁纸历史配置缺失导致 GitHub Actions 构建失败的问题。
 
 >* **2026/07/26 TVBox Mobile v2.1.25：** 全局壁纸系统重写——新建 WallpaperManager 管理器实现壁纸本地缓存和全局生效；壁纸弹窗改为三标签页底部面板（内置壁纸 / 订阅壁纸 / 在线壁纸），带实时预览区；所有 Activity 通过 BaseActivity 统一应用壁纸，不再仅限首页。
 
