@@ -29,6 +29,17 @@
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_history_48"
             app:tint="@color/text_foreground"/>
+
+        <ImageView
+            android:id="@+id/iv_import"
+            android:layout_width="34dp"
+            android:layout_height="24dp"
+            android:paddingHorizontal="6dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="34dp"
+            android:src="@drawable/ic_download_18"
+            android:contentDescription="导入直播源"
+            app:tint="@color/text_foreground" />
     </RelativeLayout>
 
 

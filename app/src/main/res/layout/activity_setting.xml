@@ -10,6 +10,7 @@
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:background="@android:color/transparent"
         app:title="设置"
         app:titleStyle="bold"
         app:titleColor="@color/black"
@@ -157,6 +158,44 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/llVodApi"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_60"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="40dp"
+                    android:foreground="?android:selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="点播源"
+                        android:textColor="@color/text_foreground"
+                        android:textSize="16sp" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/tvVodApi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxWidth="180dp"
+                        android:ellipsize="middle"
+                        android:singleLine="true" />
+
+                    <ImageView
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:alpha="0.75"
+                        android:src="@drawable/icon_pre"
+                        app:tint="@color/text_foreground" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/llLiveApi"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_60"
@@ -180,6 +219,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
+                    <TextView
+                        android:id="@+id/tvLiveApi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxWidth="180dp"
+                        android:ellipsize="middle"
+                        android:singleLine="true" />
+
                     <ImageView
                         android:layout_width="26dp"
                         android:layout_height="26dp"
@@ -187,6 +234,44 @@
                         android:alpha="0.75"
                         android:src="@drawable/icon_pre"
                         app:tint="@color/text_foreground"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llWallpaper"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_60"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="40dp"
+                    android:foreground="?android:selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="壁纸"
+                        android:textColor="@color/text_foreground"
+                        android:textSize="16sp" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/tvWallpaper"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxWidth="180dp"
+                        android:ellipsize="middle"
+                        android:singleLine="true" />
+
+                    <ImageView
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:alpha="0.75"
+                        android:src="@drawable/icon_pre"
+                        app:tint="@color/text_foreground" />
                 </LinearLayout>
 
                 <LinearLayout

@@ -1,6 +1,8 @@
 package com.github.tvbox.osc.util;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -16,6 +18,7 @@ import com.orhanobut.hawk.Hawk;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +28,7 @@ public class WallpaperManager {
         public static final int TYPE_BUILTIN = 0;
         public static final int TYPE_SUBSCRIPTION = 1;
         public static final int TYPE_ONLINE = 2;
+        public static final int TYPE_CUSTOM = 3;
 
         public String name;
         public String url;
@@ -91,6 +95,10 @@ public class WallpaperManager {
             } catch (NumberFormatException ignored) {}
         }
 
+        if (pref.startsWith("file://")) {
+            applyBitmap(rootView, new File(pref.substring("file://".length())));
+            return;
+        }
         if (!pref.startsWith("http")) return;
 
         String cacheKey = MD5.encode(pref);
@@ -126,6 +134,31 @@ public class WallpaperManager {
 
     public File getCachedFile(String url) {
         return new File(cacheDir(), MD5.encode(url) + ".wp");
+    }
+
+    public String importWallpaper(Uri uri) {
+        if (uri == null) return "";
+        File destination = new File(cacheDir(), "imported_" + MD5.encode(uri.toString()) + ".wp");
+        ContentResolver resolver = App.getInstance().getContentResolver();
+        try {
+            InputStream input = resolver.openInputStream(uri);
+            if (input == null) return "";
+            FileOutputStream output = new FileOutputStream(destination);
+            byte[] buffer = new byte[8192];
+            int length;
+            while ((length = input.read(buffer)) > 0) output.write(buffer, 0, length);
+            input.close();
+            output.close();
+            if (BitmapFactory.decodeFile(destination.getAbsolutePath()) == null) {
+                destination.delete();
+                return "";
+            }
+            String value = "file://" + destination.getAbsolutePath();
+            Hawk.put(HawkConfig.WALLPAPER_URL, value);
+            return value;
+        } catch (Exception ignored) {
+            return "";
+        }
     }
 
     public boolean isCached(String url) {
@@ -193,6 +226,13 @@ public class WallpaperManager {
 
     public List<WallpaperItem> getOnlineWallpapers() {
         List<WallpaperItem> list = new ArrayList<WallpaperItem>();
+        ArrayList<String> customWallpapers = Hawk.get(HawkConfig.WALLPAPER_HISTORY, new ArrayList<String>());
+        for (int i = 0; i < customWallpapers.size(); i++) {
+            String url = customWallpapers.get(i);
+            if (url != null && url.startsWith("http")) {
+                list.add(new WallpaperItem("导入壁纸" + (i + 1), WallpaperItem.TYPE_CUSTOM, url, 0));
+            }
+        }
         list.add(new WallpaperItem("随机渐变", WallpaperItem.TYPE_ONLINE,
                 "https://jianbian.chuqiuyu.workers.dev", 0));
         list.add(new WallpaperItem("随机风景", WallpaperItem.TYPE_ONLINE,
@@ -200,5 +240,21 @@ public class WallpaperManager {
         list.add(new WallpaperItem("随机动漫", WallpaperItem.TYPE_ONLINE,
                 "https://www.dmoe.cc/random.php", 0));
         return list;
+    }
+
+    public boolean addCustomWallpaper(String url) {
+        if (url == null || !url.startsWith("http")) return false;
+        ArrayList<String> wallpapers = Hawk.get(HawkConfig.WALLPAPER_HISTORY, new ArrayList<String>());
+        if (wallpapers.contains(url)) return false;
+        wallpapers.add(0, url);
+        Hawk.put(HawkConfig.WALLPAPER_HISTORY, wallpapers);
+        return true;
+    }
+
+    public void removeCustomWallpaper(String url) {
+        ArrayList<String> wallpapers = Hawk.get(HawkConfig.WALLPAPER_HISTORY, new ArrayList<String>());
+        if (wallpapers.remove(url)) {
+            Hawk.put(HawkConfig.WALLPAPER_HISTORY, wallpapers);
+        }
     }
 }

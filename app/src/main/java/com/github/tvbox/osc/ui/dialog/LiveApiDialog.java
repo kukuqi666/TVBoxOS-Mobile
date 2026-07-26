@@ -1,6 +1,7 @@
 package com.github.tvbox.osc.ui.dialog;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -19,10 +20,20 @@ import java.util.ArrayList;
 
 public class LiveApiDialog extends CenterPopupView {
 
+    public interface OnImportListener {
+        void onImportLiveSource();
+    }
+
     private com.github.tvbox.osc.databinding.DialogLiveApiBinding mBinding;
+    private final OnImportListener importListener;
 
     public LiveApiDialog(@NonNull Context context) {
+        this(context, null);
+    }
+
+    public LiveApiDialog(@NonNull Context context, OnImportListener importListener) {
         super(context);
+        this.importListener = importListener;
     }
 
     @Override
@@ -46,6 +57,10 @@ public class LiveApiDialog extends CenterPopupView {
             new XPopup.Builder(getContext())
                     .asCustom(new ApiHistoryDialog(getContext(),liveApi, this::updateEt))
                     .show();
+        });
+
+        mBinding.ivImport.setOnClickListener(view -> {
+            if (importListener != null) dismissWith(importListener::onImportLiveSource);
         });
 
         mBinding.btnCancel.setOnClickListener(v -> dismiss());

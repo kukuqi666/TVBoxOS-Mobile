@@ -71,6 +71,9 @@ import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -823,6 +826,21 @@ public class LiveActivity extends BaseActivity {
             return;
         }
         showLoading();
+        if (url.startsWith("content://")) {
+            final String localUrl = url;
+            new Thread(() -> {
+                try (InputStream input = getContentResolver().openInputStream(Uri.parse(localUrl));
+                     BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"))) {
+                    StringBuilder content = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) content.append(line).append('\n');
+                    runOnUiThread(() -> parseProxyLiveContent(content.toString()));
+                } catch (Throwable error) {
+                    runOnUiThread(this::showNoLiveChannels);
+                }
+            }).start();
+            return;
+        }
         OkGo.<String>get(url).execute(new AbsCallback<String>() {
 
             @Override
@@ -832,27 +850,7 @@ public class LiveActivity extends BaseActivity {
 
             @Override
             public void onSuccess(Response<String> response) {
-                JsonArray livesArray;
-                LinkedHashMap<String, LinkedHashMap<String, ArrayList<String>>> linkedHashMap = new LinkedHashMap<>();
-                TxtSubscribe.parse(linkedHashMap, response.body());
-                livesArray = TxtSubscribe.live2JsonArray(linkedHashMap);
-
-                ApiConfig.get().loadLives(livesArray);
-                List<LiveChannelGroup> list = ApiConfig.get().getChannelGroupList();
-                if (list.isEmpty()) {
-                    showNoLiveChannels();
-                    return;
-                }
-                liveChannelGroupList.clear();
-                liveChannelGroupList.addAll(list);
-
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        LiveActivity.this.showSuccess();
-                        initLiveState();
-                    }
-                });
+                parseProxyLiveContent(response.body());
             }
 
             @Override
@@ -861,6 +859,21 @@ public class LiveActivity extends BaseActivity {
                 showNoLiveChannels();
             }
         });
+    }
+
+    private void parseProxyLiveContent(String content) {
+        LinkedHashMap<String, LinkedHashMap<String, ArrayList<String>>> linkedHashMap = new LinkedHashMap<>();
+        TxtSubscribe.parse(linkedHashMap, content);
+        ApiConfig.get().loadLives(TxtSubscribe.live2JsonArray(linkedHashMap));
+        List<LiveChannelGroup> list = ApiConfig.get().getChannelGroupList();
+        if (list.isEmpty()) {
+            showNoLiveChannels();
+            return;
+        }
+        liveChannelGroupList.clear();
+        liveChannelGroupList.addAll(list);
+        showSuccess();
+        initLiveState();
     }
 
     private void showNoLiveChannels() {

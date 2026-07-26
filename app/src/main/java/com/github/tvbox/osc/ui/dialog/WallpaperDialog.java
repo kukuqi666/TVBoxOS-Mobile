@@ -22,15 +22,25 @@ import java.util.List;
 
 public class WallpaperDialog extends BottomPopupView {
 
+    public interface OnImportListener {
+        void onImportWallpaper();
+    }
+
     private RecyclerView recyclerView;
     private TextView tvTabBuiltin, tvTabSub, tvTabOnline;
     private ImageView ivPreview;
     private List<WallpaperManager.WallpaperItem> builtinList, subList, onlineList;
     private List<WallpaperManager.WallpaperItem> currentList;
     private WallpaperManager.WallpaperItem selectedItem;
+    private final OnImportListener importListener;
 
     public WallpaperDialog(@NonNull Context context) {
+        this(context, null);
+    }
+
+    public WallpaperDialog(@NonNull Context context, OnImportListener importListener) {
         super(context);
+        this.importListener = importListener;
     }
 
     @Override
@@ -57,6 +67,14 @@ public class WallpaperDialog extends BottomPopupView {
             @Override
             public void onClick(android.view.View v) {
                 dismiss();
+            }
+        });
+        findViewById(R.id.btn_wp_import).setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View v) {
+                if (importListener != null) {
+                    dismissWith(importListener::onImportWallpaper);
+                }
             }
         });
 
@@ -111,10 +129,6 @@ public class WallpaperDialog extends BottomPopupView {
 
         selectedItem = null;
         ivPreview.setImageResource(R.drawable.wallpaper_gradient_blue);
-
-        if (currentList == null || currentList.isEmpty()) {
-            currentList = builtinList;
-        }
 
         BaseQuickAdapter<WallpaperManager.WallpaperItem, BaseViewHolder> adapter =
                 new BaseQuickAdapter<WallpaperManager.WallpaperItem, BaseViewHolder>(

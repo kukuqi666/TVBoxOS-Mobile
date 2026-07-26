@@ -1,6 +1,7 @@
 package com.github.tvbox.osc.ui.activity
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -17,6 +18,7 @@ import com.github.tvbox.osc.ui.adapter.SelectDialogAdapter.SelectDialogInterface
 import com.github.tvbox.osc.ui.dialog.BackupDialog
 import com.github.tvbox.osc.ui.dialog.LiveApiDialog
 import com.github.tvbox.osc.ui.dialog.SelectDialog
+import com.github.tvbox.osc.ui.dialog.WallpaperDialog
 import com.github.tvbox.osc.util.FastClickCheckUtil
 import com.github.tvbox.osc.util.FileUtils
 import com.github.tvbox.osc.util.HawkConfig
@@ -24,6 +26,7 @@ import com.github.tvbox.osc.util.HistoryHelper
 import com.github.tvbox.osc.util.OkGoHelper
 import com.github.tvbox.osc.util.PlayerHelper
 import com.github.tvbox.osc.util.Utils
+import com.github.tvbox.osc.util.WallpaperManager
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
@@ -39,6 +42,11 @@ import java.io.File
  * @description:
  */
 class SettingActivity : BaseVbActivity<ActivitySettingBinding>() {
+
+    private companion object {
+        const val REQUEST_IMPORT_LIVE_SOURCE = 9203
+        const val REQUEST_IMPORT_WALLPAPER = 9202
+    }
 
     private var homeRec = Hawk.get(HawkConfig.HOME_REC, 0)
     private var dnsOpt = Hawk.get(HawkConfig.DOH_URL, 0)
@@ -57,6 +65,18 @@ class SettingActivity : BaseVbActivity<ActivitySettingBinding>() {
         mBinding.tvRenderType.text =
             PlayerHelper.getRenderName(Hawk.get(HawkConfig.PLAY_RENDER, 0))
 
+        mBinding.tvVodApi.text = shortSourceName(Hawk.get(HawkConfig.API_URL, ""), "未选择")
+        mBinding.tvLiveApi.text = shortSourceName(currentLiveApi, "跟随订阅")
+        mBinding.tvWallpaper.text = if (Hawk.get(HawkConfig.WALLPAPER_URL, "").isEmpty()) {
+            "未设置"
+        } else {
+            "已设置"
+        }
+
+        mBinding.llVodApi.setOnClickListener {
+            jumpActivity(SubscriptionActivity::class.java)
+        }
+
         mBinding.switchPrivateBrowsing.setChecked(Hawk.get(HawkConfig.PRIVATE_BROWSING, false))
         mBinding.llPrivateBrowsing.setOnClickListener { view: View? ->
             val newConfig = !Hawk.get(HawkConfig.PRIVATE_BROWSING, false)
@@ -67,7 +87,13 @@ class SettingActivity : BaseVbActivity<ActivitySettingBinding>() {
         mBinding.llLiveApi.setOnClickListener {
             XPopup.Builder(mContext)
                 .autoFocusEditText(false)
-                .asCustom(LiveApiDialog(this))
+                .asCustom(LiveApiDialog(this) { pickLiveSource() })
+                .show()
+        }
+
+        mBinding.llWallpaper.setOnClickListener {
+            XPopup.Builder(mContext)
+                .asCustom(WallpaperDialog(this) { pickWallpaper() })
                 .show()
         }
 
@@ -450,6 +476,46 @@ class SettingActivity : BaseVbActivity<ActivitySettingBinding>() {
         }
     }
 
+    private fun pickWallpaper() {
+        startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "image/*"
+        }, REQUEST_IMPORT_WALLPAPER)
+    }
+
+    private fun pickLiveSource() {
+        startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "text/*"
+            putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("text/plain", "application/json", "application/octet-stream"))
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+        }, REQUEST_IMPORT_LIVE_SOURCE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != RESULT_OK) return
+        val uri = data?.data ?: return
+        if (requestCode == REQUEST_IMPORT_WALLPAPER) {
+            if (WallpaperManager.get().importWallpaper(uri).isEmpty()) {
+                ToastUtils.showShort("图片导入失败，请选择有效图片")
+            } else {
+                WallpaperManager.get().applyToActivity(this)
+                mBinding.tvWallpaper.text = "已设置"
+                ToastUtils.showShort("壁纸已导入并应用")
+            }
+        } else if (requestCode == REQUEST_IMPORT_LIVE_SOURCE) {
+            try {
+                val flags = data.flags and Intent.FLAG_GRANT_READ_URI_PERMISSION
+                if (flags != 0) contentResolver.takePersistableUriPermission(uri, flags)
+            } catch (_: SecurityException) {
+            }
+            Hawk.put(HawkConfig.LIVE_URL, uri.toString())
+            mBinding.tvLiveApi.text = "本地文件"
+            ToastUtils.showShort("直播源已导入")
+        }
+    }
+
     private fun onClickClearCache(v: View) {
         FastClickCheckUtil.check(v)
         val cachePath = FileUtils.getCachePath()
@@ -471,5 +537,10 @@ class SettingActivity : BaseVbActivity<ActivitySettingBinding>() {
             1 -> "站点推荐"
             else -> "关闭"
         }
+    }
+
+    private fun shortSourceName(value: String, empty: String): String {
+        if (value.isEmpty()) return empty
+        return if (value.length > 24) value.substring(0, 10) + "..." + value.substring(value.length - 10) else value
     }
 }
