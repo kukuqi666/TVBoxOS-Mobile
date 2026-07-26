@@ -37,7 +37,6 @@ import com.github.tvbox.osc.ui.adapter.SelectDialogAdapter.SelectDialogInterface
 import com.github.tvbox.osc.ui.dialog.LastViewedDialog
 import com.github.tvbox.osc.ui.dialog.SelectDialog
 import com.github.tvbox.osc.ui.dialog.TipDialog
-import com.github.tvbox.osc.ui.dialog.WallpaperDialog
 import com.github.tvbox.osc.util.DefaultConfig
 import com.github.tvbox.osc.util.HawkConfig
 import com.github.tvbox.osc.viewmodel.SourceViewModel
@@ -107,7 +106,6 @@ class HomeFragment : BaseVbFragment<FragmentHomeBinding>() {
         setLoadSir(mBinding.contentLayout)
         initViewModel()
         initData()
-        WallpaperDialog.applyCurrentWallpaper(requireView())
     }
 
     private fun initViewModel() {

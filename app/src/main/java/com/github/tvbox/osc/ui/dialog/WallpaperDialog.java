@@ -2,46 +2,34 @@ package com.github.tvbox.osc.ui.dialog;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.github.tvbox.osc.R;
-import com.github.tvbox.osc.api.ApiConfig;
-import com.github.tvbox.osc.util.HawkConfig;
-import com.lxj.xpopup.core.CenterPopupView;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.FileCallback;
-import com.lzy.okgo.model.Response;
-import com.orhanobut.hawk.Hawk;
+import com.github.tvbox.osc.util.WallpaperManager;
+import com.lxj.xpopup.core.BottomPopupView;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WallpaperDialog extends CenterPopupView {
+public class WallpaperDialog extends BottomPopupView {
 
-    private static class WallpaperItem {
-        String name;
-        String type; // "drawable", "url"
-        String value; // resource name or URL
-        int resId;
-
-        WallpaperItem(String name, String type, String value, int resId) {
-            this.name = name;
-            this.type = type;
-            this.value = value;
-            this.resId = resId;
-        }
-    }
-
-    private List<WallpaperItem> mWallpapers = new ArrayList<>();
+    private ViewPager2 viewPager;
+    private TextView tvTabBuiltin, tvTabSub, tvTabOnline;
+    private ImageView ivPreview;
+    private List<WallpaperManager.WallpaperItem> builtinList, subList, onlineList;
+    private WallpaperManager.WallpaperItem selectedItem;
 
     public WallpaperDialog(@NonNull Context context) {
         super(context);
@@ -55,123 +43,178 @@ public class WallpaperDialog extends CenterPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
-        buildWallpaperList();
 
-        RecyclerView rv = findViewById(R.id.rvWallpaper);
-        rv.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        ivPreview = findViewById(R.id.iv_wp_preview);
+        tvTabBuiltin = findViewById(R.id.tv_tab_builtin);
+        tvTabSub = findViewById(R.id.tv_tab_sub);
+        tvTabOnline = findViewById(R.id.tv_tab_online);
+        viewPager = findViewById(R.id.vp_wallpaper);
+        findViewById(R.id.btn_wp_apply).setOnClickListener(v -> applyAndDismiss());
+        findViewById(R.id.btn_wp_close).setOnClickListener(v -> dismiss());
 
-        BaseQuickAdapter<WallpaperItem, BaseViewHolder> adapter =
-                new BaseQuickAdapter<WallpaperItem, BaseViewHolder>(R.layout.item_wallpaper) {
+        WallpaperManager mgr = WallpaperManager.get();
+        builtinList = mgr.getBuiltInWallpapers();
+        subList = mgr.getSubscriptionWallpapers();
+        onlineList = mgr.getOnlineWallpapers();
+
+        List<RecyclerView> pages = new ArrayList<>();
+        pages.add(buildGridPage(builtinList));
+        pages.add(subList.isEmpty() ? buildEmptyPage() : buildGridPage(subList));
+        pages.add(onlineList.isEmpty() ? buildEmptyPage() : buildGridPage(onlineList));
+
+        viewPager.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+            @NonNull
             @Override
-            protected void convert(BaseViewHolder holder, WallpaperItem item) {
-                ImageView iv = holder.getView(R.id.ivWallpaper);
-                holder.setText(R.id.tvWallpaperName, item.name);
+            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull android.view.ViewGroup parent, int viewType) {
+                RecyclerView rv = new RecyclerView(parent.getContext());
+                rv.setLayoutParams(new RecyclerView.LayoutParams(
+                        RecyclerView.LayoutParams.MATCH_PARENT,
+                        RecyclerView.LayoutParams.MATCH_PARENT));
+                return new RecyclerView.ViewHolder(rv) {};
+            }
 
-                if (item.resId != 0) {
-                    iv.setImageResource(item.resId);
+            @Override
+            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int pos) {
+                RecyclerView rv = (RecyclerView) holder.itemView;
+                if (rv.getAdapter() == null) {
+                    rv.setLayoutManager(new GridLayoutManager(getContext(), 4));
+                    rv.setAdapter(pages.get(pos).getAdapter());
+                }
+            }
+
+            @Override
+            public int getItemCount() { return pages.size(); }
+        });
+
+        tvTabBuiltin.setOnClickListener(v -> selectTab(0));
+        tvTabSub.setOnClickListener(v -> selectTab(1));
+        tvTabOnline.setOnClickListener(v -> selectTab(2));
+
+        selectTab(0);
+    }
+
+    private RecyclerView buildGridPage(List<WallpaperManager.WallpaperItem> items) {
+        RecyclerView rv = new RecyclerView(getContext());
+        rv.setLayoutManager(new GridLayoutManager(getContext(), 4));
+
+        BaseQuickAdapter<WallpaperManager.WallpaperItem, BaseViewHolder> adapter =
+                new BaseQuickAdapter<WallpaperManager.WallpaperItem, BaseViewHolder>(
+                        R.layout.item_wallpaper) {
+            @Override
+            protected void convert(BaseViewHolder holder, WallpaperManager.WallpaperItem item) {
+                ImageView iv = holder.getView(R.id.ivWallpaper);
+                TextView tv = holder.getView(R.id.tvWallpaperName);
+                tv.setText(item.name);
+
+                if (item.type == WallpaperManager.WallpaperItem.TYPE_BUILTIN) {
+                    if (item.resId != 0) {
+                        iv.setImageResource(item.resId);
+                    } else {
+                        iv.setBackgroundColor(0xFFE0E0E0);
+                    }
                 } else {
-                    iv.setImageResource(R.drawable.wallpaper_gradient_blue);
-                    OkGo.<File>get(item.value)
-                            .tag(this)
-                            .execute(new FileCallback() {
-                                @Override
-                                public void onSuccess(Response<File> response) {
-                                    iv.setImageBitmap(
-                                            android.graphics.BitmapFactory.decodeFile(
-                                                    response.body().getAbsolutePath()));
-                                }
-                                @Override
-                                public void onError(Response<File> response) {
-                                    // keep placeholder
-                                }
-                            });
+                    File cache = WallpaperManager.get().getCachedFile(item.url);
+                    if (cache.exists()) {
+                        Bitmap bmp = BitmapFactory.decodeFile(cache.getAbsolutePath());
+                        if (bmp != null) iv.setImageBitmap(bmp);
+                        else iv.setImageResource(R.drawable.wallpaper_gradient_blue);
+                    } else {
+                        iv.setImageResource(R.drawable.wallpaper_gradient_blue);
+                        downloadThumb(item, iv);
+                    }
                 }
             }
         };
 
         adapter.setOnItemClickListener((adp, view, position) -> {
-            WallpaperItem selected = mWallpapers.get(position);
-            if ("drawable".equals(selected.type)) {
-                Hawk.put(HawkConfig.WALLPAPER_URL, "drawable://" + selected.value);
-            } else {
-                Hawk.put(HawkConfig.WALLPAPER_URL, selected.value);
-            }
-            ToastUtils.showShort("壁纸已设置为: " + selected.name);
-            applyWallpaperToActivity();
-            dismiss();
+            selectedItem = items.get(position);
+            updatePreview(selectedItem);
         });
 
         rv.setAdapter(adapter);
-        adapter.setNewData(mWallpapers);
+        adapter.setNewData(items);
+        return rv;
     }
 
-    private void buildWallpaperList() {
-        mWallpapers.clear();
-        mWallpapers.add(new WallpaperItem("深邃蓝", "drawable",
-                "wallpaper_gradient_blue", R.drawable.wallpaper_gradient_blue));
-        mWallpapers.add(new WallpaperItem("极夜紫", "drawable",
-                "wallpaper_gradient_night", R.drawable.wallpaper_gradient_night));
-        mWallpapers.add(new WallpaperItem("日落橙", "drawable",
-                "wallpaper_gradient_sunset", R.drawable.wallpaper_gradient_sunset));
-        mWallpapers.add(new WallpaperItem("森林绿", "drawable",
-                "wallpaper_gradient_forest", R.drawable.wallpaper_gradient_forest));
-        mWallpapers.add(new WallpaperItem("海洋蓝", "drawable",
-                "wallpaper_gradient_ocean", R.drawable.wallpaper_gradient_ocean));
-        mWallpapers.add(new WallpaperItem("梅子紫", "drawable",
-                "wallpaper_gradient_plum", R.drawable.wallpaper_gradient_plum));
+    private RecyclerView buildEmptyPage() {
+        RecyclerView rv = new RecyclerView(getContext());
+        return rv;
+    }
 
-        String configWallpaper = ApiConfig.get().wallpaper;
-        if (configWallpaper != null && !configWallpaper.isEmpty()) {
-            String[] urls = configWallpaper.split(",");
-            for (int i = 0; i < urls.length; i++) {
-                String url = urls[i].trim();
-                if (url.startsWith("http")) {
-                    mWallpapers.add(new WallpaperItem("订阅壁纸" + (i + 1), "url", url, 0));
-                }
+    private void downloadThumb(WallpaperManager.WallpaperItem item, ImageView iv) {
+        com.lzy.okgo.OkGo.<File>get(item.url)
+                .execute(new com.lzy.okgo.callback.FileCallback() {
+                    @Override
+                    public void onSuccess(com.lzy.okgo.model.Response<File> response) {
+                        Bitmap bmp = BitmapFactory.decodeFile(response.body().getAbsolutePath());
+                        if (bmp != null) iv.post(() -> iv.setImageBitmap(bmp));
+                    }
+                    @Override
+                    public void onError(com.lzy.okgo.model.Response<File> response) {}
+                });
+    }
+
+    private void updatePreview(WallpaperManager.WallpaperItem item) {
+        if (item.type == WallpaperManager.WallpaperItem.TYPE_BUILTIN) {
+            if (item.resId != 0) {
+                ivPreview.setImageResource(item.resId);
+            } else {
+                ivPreview.setBackgroundColor(0xFFF5F5F5);
+            }
+        } else {
+            File cache = WallpaperManager.get().getCachedFile(item.url);
+            if (cache.exists()) {
+                Bitmap bmp = BitmapFactory.decodeFile(cache.getAbsolutePath());
+                if (bmp != null) ivPreview.setImageBitmap(bmp);
+            } else {
+                ivPreview.setImageResource(R.drawable.wallpaper_gradient_blue);
+                com.lzy.okgo.OkGo.<File>get(item.url)
+                        .execute(new com.lzy.okgo.callback.FileCallback() {
+                            @Override
+                            public void onSuccess(com.lzy.okgo.model.Response<File> response) {
+                                Bitmap bmp = BitmapFactory.decodeFile(response.body().getAbsolutePath());
+                                if (bmp != null) ivPreview.post(() -> ivPreview.setImageBitmap(bmp));
+                            }
+                            @Override
+                            public void onError(com.lzy.okgo.model.Response<File> response) {}
+                        });
             }
         }
-
-        mWallpapers.add(new WallpaperItem("随机渐变(在线)", "url",
-                "https://jianbian.chuqiuyu.workers.dev", 0));
-        mWallpapers.add(new WallpaperItem("随机风景(在线)", "url",
-                "https://picsum.photos/1280/720/?blur=10", 0));
-        mWallpapers.add(new WallpaperItem("随机动漫(在线)", "url",
-                "https://www.dmoe.cc/random.php", 0));
     }
 
-    private void applyWallpaperToActivity() {
-        if (getContext() instanceof Activity) {
-            View root = ((Activity) getContext()).findViewById(android.R.id.content);
-            if (root != null) applyCurrentWallpaper(root);
+    private void selectTab(int index) {
+        resetTabs();
+        switch (index) {
+            case 1: tvTabSub.setTextColor(0xFF2196F3); break;
+            case 2: tvTabOnline.setTextColor(0xFF2196F3); break;
+            default: tvTabBuiltin.setTextColor(0xFF2196F3); break;
         }
+        viewPager.setCurrentItem(index, false);
     }
 
-    public static void applyCurrentWallpaper(View rootView) {
-        String wallpaper = Hawk.get(HawkConfig.WALLPAPER_URL, "");
-        if (wallpaper.isEmpty()) {
-            rootView.setBackgroundResource(0);
-            return;
-        }
-        if (wallpaper.startsWith("drawable://")) {
-            String resName = wallpaper.substring("drawable://".length());
-            int resId = rootView.getResources().getIdentifier(
-                    resName, "drawable", rootView.getContext().getPackageName());
-            if (resId != 0) {
-                rootView.setBackgroundResource(resId);
+    private void resetTabs() {
+        tvTabBuiltin.setTextColor(0xFF666666);
+        tvTabSub.setTextColor(0xFF666666);
+        tvTabOnline.setTextColor(0xFF666666);
+    }
+
+    private void applyAndDismiss() {
+        if (selectedItem == null) {
+            int idx = viewPager.getCurrentItem();
+            List<WallpaperManager.WallpaperItem> list;
+            switch (idx) {
+                case 1: list = subList; break;
+                case 2: list = onlineList; break;
+                default: list = builtinList; break;
             }
-        } else if (wallpaper.startsWith("http")) {
-            OkGo.<File>get(wallpaper)
-                    .execute(new FileCallback() {
-                        @Override
-                        public void onSuccess(Response<File> response) {
-                            rootView.setBackground(new android.graphics.drawable.BitmapDrawable(
-                                    rootView.getResources(),
-                                    android.graphics.BitmapFactory.decodeFile(
-                                            response.body().getAbsolutePath())));
-                        }
-                        @Override
-                        public void onError(Response<File> response) {}
-                    });
+            if (list != null && !list.isEmpty()) selectedItem = list.get(0);
         }
+        if (selectedItem != null) {
+            WallpaperManager.get().saveWallpaper(selectedItem);
+            if (getContext() instanceof Activity) {
+                WallpaperManager.get().applyToActivity((Activity) getContext());
+            }
+        }
+        dismiss();
     }
 }

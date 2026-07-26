@@ -37,7 +37,7 @@ https://github.com/UndCover/PyramidStore/
 
 ## 📲软件合集（软件安装）
 ### TVBox for Android
-- TVbox-Mobile：[kukuqi666/TVBoxOS-Mobile](https://gh.xxooo.cf/https://gh.xxooo.cf/https://gh.xxooo.cf/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.24/TVBox-Mobile-v2.1.24.apk)
+- TVbox-Mobile：[kukuqi666/TVBoxOS-Mobile](https://gh.xxooo.cf/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.25/TVBox-Mobile-v2.1.25.apk)
 
 
 ## 🎁福利18+
@@ -45,9 +45,9 @@ https://github.com/UndCover/PyramidStore/
 
 ## 𝟭. 更新记录
 
->* **2026/07/25 TVBox Mobile v2.1.24：** 同步发布 Android APK、应用内更新清单和下载链接。
->
+>* **2026/07/26 TVBox Mobile v2.1.25：** 全局壁纸系统重写——新建 WallpaperManager 管理器实现壁纸本地缓存和全局生效；壁纸弹窗改为三标签页底部面板（内置壁纸 / 订阅壁纸 / 在线壁纸），带实时预览区；所有 Activity 通过 BaseActivity 统一应用壁纸，不再仅限首页。
 
+>* **2026/07/25 TVBox Mobile v2.1.24：** 同步发布 Android APK、应用内更新清单和下载链接。
 
 >* **2026/07/25 TVBox Mobile v2.1.23：** 更新检查与下载全部走 gh.xxooo.cf 加速，去掉直连 GitHub 回退；新增第二加速镜像做备选，国内更新更快更稳。
 >
