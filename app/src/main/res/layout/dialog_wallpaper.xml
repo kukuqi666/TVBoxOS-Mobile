@@ -17,15 +17,6 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/wallpaper_gradient_blue" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="预览"
-            android:textSize="28sp"
-            android:textColor="#AAFFFFFF"
-            android:visibility="gone" />
     </FrameLayout>
 
     <!-- Tabs -->
@@ -69,8 +60,8 @@
             android:textColor="#666666" />
     </LinearLayout>
 
-    <!-- Wallpaper grid pages -->
-    <androidx.viewpager2.widget.ViewPager2
+    <!-- Wallpaper grid -->
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/vp_wallpaper"
         android:layout_width="match_parent"
         android:layout_height="0dp"
