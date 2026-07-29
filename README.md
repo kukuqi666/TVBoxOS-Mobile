@@ -22,6 +22,50 @@
 
 > 🤝 **招募开发者：** 由于工作原因，项目更新可能不及时。如果你对 TVBox 感兴趣，愿意一起维护和改进这个项目，非常欢迎加入我们的大家庭！无论是提 PR、修 Bug、优化代码还是贡献接口源，任何形式的参与都非常感谢。感兴趣的话可以直接 Fork 项目提交 Pull Request，或者通过 Issue 联系我，一起让这个项目变得更好～
 
+## 🛠 协作开发指南
+
+本项目使用 **GitHub Actions** 自动构建和发布，代码合并后即可自动触发构建和 Release，无需手动操作。
+
+### 参与方式
+
+1. **Fork 本仓库** → 在你自己 Fork 的仓库中进行开发
+2. **提交 Pull Request** → 开发完成后向 `main` 分支提交 PR
+3. **代码审查合并** → 维护者 Review 通过后合并到主分支
+
+### 自动构建流程
+
+| 触发条件 | 行为 |
+|---------|------|
+| 推送代码到 `main` 分支 | 自动构建 Debug APK，上传到 Artifacts（保留 14 天） |
+| PR 提交 | 自动构建 Debug APK，用于验证代码是否正常编译 |
+| 推送 `v*` 格式的 Tag（如 `v2.1.27`） | 自动构建签名 APK → 创建 GitHub Release → 同步更新 `update.json` 和 README |
+
+### 如何发布新版本
+
+发布 Release 只需两步：
+
+1. **更新版本号**：修改 `app/build.gradle` 中的 `versionCode` 和 `versionName`
+   ```
+   versionCode 237
+   versionName '2.1.27'
+   ```
+2. **推送 Tag 触发发布**：
+   ```bash
+   git tag v2.1.27
+   git push origin v2.1.27
+   ```
+   > ⚠️ Tag 版本号必须与 `app/build.gradle` 中的 `versionName` 完全一致，否则构建会失败。
+
+推送 Tag 后，GitHub Actions 会自动执行以下操作：
+- 使用固定签名密钥构建 Release APK
+- 将 APK 和 `update.json` 上传到 GitHub Releases
+- 自动更新 README 中的下载链接和更新记录
+- 推送更新后的 `update.json` 和 README 回 `main` 分支
+
+### 注意事项
+
+- PR 合并后会触发普通构建验证，但不会自动发布 Release —— 只有推送 Tag 才会走发布流程
+
 ## 📖介绍
 - 本仓库聚合了APP、解析源、直播源等项目，总之你要的一个仓库全搞定(拉到👇有福利)
 
