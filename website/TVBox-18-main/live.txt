@@ -1,0 +1,326 @@
+更新至0716,#genre#
+熊猫频道,https://gcwbndks.v.kcdnvip.com/gcwbnd/ipanda1000_2/index.m3u8
+
+蜀小果,#genre#
+凤凰中文,https://php.61073736.repl.co/sxg.php?id=test1_4000
+凤凰资讯,https://php.61073736.repl.co/sxg.php?id=test2_4000
+CCTV-1 综合,https://php.61073736.repl.co/sxg.php?id=CCTV-1H265_4000
+CCTV-2 财经,https://php.61073736.repl.co/sxg.php?id=CCTV-2H265_4000
+CCTV-3 综艺,https://php.61073736.repl.co/sxg.php?id=CCTV-3H265_4000
+CCTV-4 中文国际,https://php.61073736.repl.co/sxg.php?id=CCTV-4H265_4000
+CCTV-5 体育,https://php.61073736.repl.co/sxg.php?id=CCTV-5H265_4000
+CCTV-5+ 体育赛事,https://php.61073736.repl.co/sxg.php?id=CCTV-5plusH265_4000
+CCTV-6 电影,https://php.61073736.repl.co/sxg.php?id=CCTV-6H265_4000
+CCTV-7 国防军事,https://php.61073736.repl.co/sxg.php?id=CCTV-7H265_4000
+CCTV-8 电视剧,https://php.61073736.repl.co/sxg.php?id=CCTV-8H265_4000
+CCTV-9 纪录,https://php.61073736.repl.co/sxg.php?id=CCTV-9H265_4000
+CCTV-10 科教,https://php.61073736.repl.co/sxg.php?id=CCTV-10H265_4000
+CCTV-11 戏曲,https://php.61073736.repl.co/sxg.php?id=CCTV-11-H265_4000
+CCTV-12 社会与法,https://php.61073736.repl.co/sxg.php?id=CCTV-12H265_4000
+CCTV-13 新闻,https://php.61073736.repl.co/sxg.php?id=CCTV-xw_4000
+CCTV-14 少儿,https://php.61073736.repl.co/sxg.php?id=CCTV-14H265_4000
+CCTV-15 音乐,https://php.61073736.repl.co/sxg.php?id=CCTV-15-yyH265_4000
+CCTV-16 奥林匹克,https://php.61073736.repl.co/sxg.php?id=CCTV-16_4000
+CCTV-16 奥林匹克 4K,https://php.61073736.repl.co/sxg.php?id=CCTV-16-4K_8000
+CCTV-17 农业农村,https://php.61073736.repl.co/sxg.php?id=CCTV-17_4000
+CCTV-4K 超高清,https://php.61073736.repl.co/sxg.php?id=ys4Kcq_2000
+4K超高清电影 4K,https://php.61073736.repl.co/sxg.php?id=emdy4k_8000
+欢笑剧场4K,https://php.61073736.repl.co/sxg.php?id=hxjc-4k_8000
+安徽卫视,https://php.61073736.repl.co/sxg.php?id=ahwsH265_4000
+北京卫视,https://php.61073736.repl.co/sxg.php?id=bjwsH265_4000
+兵团卫视,https://php.61073736.repl.co/sxg.php?id=btws_4000
+重庆卫视,https://php.61073736.repl.co/sxg.php?id=cqwsH265_4000
+东方卫视,https://php.61073736.repl.co/sxg.php?id=dfwsH265_4000
+东南卫视,https://php.61073736.repl.co/sxg.php?id=dnwsfjwsH265_4000
+甘肃卫视,https://php.61073736.repl.co/sxg.php?id=gsws_4000
+广东卫视,https://php.61073736.repl.co/sxg.php?id=gdwsH265_4000
+广西卫视,https://php.61073736.repl.co/sxg.php?id=gxws_4000
+贵州卫视,https://php.61073736.repl.co/sxg.php?id=gzwsH265_4000
+海南卫视,https://php.61073736.repl.co/sxg.php?id=hnws_4000
+河南卫视,https://php.61073736.repl.co/sxg.php?id=hnws35_4000
+黑龙江卫视,https://php.61073736.repl.co/sxg.php?id=hljwsH265_4000
+湖北卫视,https://php.61073736.repl.co/sxg.php?id=hbwsH265_4000
+湖南卫视,https://php.61073736.repl.co/sxg.php?id=hnwsH265_4000
+吉林卫视,https://php.61073736.repl.co/sxg.php?id=jlwsH265_4000
+江苏卫视,https://php.61073736.repl.co/sxg.php?id=jswsH265_4000
+江西卫视,https://php.61073736.repl.co/sxg.php?id=jxwsH265_4000
+康巴卫视,https://php.61073736.repl.co/sxg.php?id=kbwsH264_2000
+辽宁卫视,https://php.61073736.repl.co/sxg.php?id=lnwsHDH264_4000
+内蒙古卫视,https://php.61073736.repl.co/sxg.php?id=nmgws_4000
+山东教育卫视,https://php.61073736.repl.co/sxg.php?id=sdjy_4000
+山东卫视,https://php.61073736.repl.co/sxg.php?id=sdwsH265_4000
+山西卫视,https://php.61073736.repl.co/sxg.php?id=sxws42_4000
+陕西卫视,https://php.61073736.repl.co/sxg.php?id=sxws_4000
+深圳卫视,https://php.61073736.repl.co/sxg.php?id=szwsH265_4000
+四川卫视,https://php.61073736.repl.co/sxg.php?id=scwsH265_4000
+天津卫视,https://php.61073736.repl.co/sxg.php?id=tjwsH265_4000
+西藏卫视,https://php.61073736.repl.co/sxg.php?id=xzwsH264_2000
+云南卫视,https://php.61073736.repl.co/sxg.php?id=ynws_4000
+浙江卫视,https://php.61073736.repl.co/sxg.php?id=zjwsH265_4000
+CETV-1,https://php.61073736.repl.co/sxg.php?id=CETV-1H264_4000
+CHC动作电影,https://php.61073736.repl.co/sxg.php?id=wqCHCdzdyH265_4000
+CHC高清电影,https://php.61073736.repl.co/sxg.php?id=lnwsCHC-HDH265_4000
+CHC家庭影院,https://php.61073736.repl.co/sxg.php?id=jbtygqCHCjtyyH265_4000
+动漫秀场,https://php.61073736.repl.co/sxg.php?id=yybb-dmxc-H265_4000
+都市剧场,https://php.61073736.repl.co/sxg.php?id=yxfydsjcHDH265_4000
+法治天地,https://php.61073736.repl.co/sxg.php?id=fztx_4000
+极速汽车,https://php.61073736.repl.co/sxg.php?id=jsqcH265_4000
+纪实科教,https://php.61073736.repl.co/sxg.php?id=bjjs_2000
+嘉佳卡通,https://php.61073736.repl.co/sxg.php?id=jjkt_2000
+家庭理财,https://php.61073736.repl.co/sxg.php?id=jtlc_4000
+江苏财富天下,https://php.61073736.repl.co/sxg.php?id=cftx_4000
+金鹰纪实,https://php.61073736.repl.co/sxg.php?id=jyjsHDH265_4000
+金鹰卡通,https://php.61073736.repl.co/sxg.php?id=jykt_2000
+劲爆体育,https://php.61073736.repl.co/sxg.php?id=lqhxjcHDH265_4000
+卡酷少儿,https://php.61073736.repl.co/sxg.php?id=kkkt_4000
+快乐垂钓,https://php.61073736.repl.co/sxg.php?id=fyzqklcdHDH265_4000
+乐游,https://php.61073736.repl.co/sxg.php?id=qjs-HDH265_4000
+梨园频道,https://php.61073736.repl.co/sxg.php?id=ly_4000
+魅力足球,https://php.61073736.repl.co/sxg.php?id=mlyy_4000
+摄影频道,https://php.61073736.repl.co/sxg.php?id=sy_4000
+生活时尚,https://php.61073736.repl.co/sxg.php?id=shssH265_4000
+四海钓鱼,https://php.61073736.repl.co/sxg.php?id=shdy_4000
+天元围棋,https://php.61073736.repl.co/sxg.php?id=tywq_2000
+武术世界,https://php.61073736.repl.co/sxg.php?id=wssj_4000
+先锋乒羽,https://php.61073736.repl.co/sxg.php?id=xfpy_4000
+新视觉,https://php.61073736.repl.co/sxg.php?id=ycxsjH265_4000
+证劵服务,https://php.61073736.repl.co/sxg.php?id=jz_2000
+中国天气,https://php.61073736.repl.co/sxg.php?id=zgqx_4000
+中央新影-发现之旅,https://php.61073736.repl.co/sxg.php?id=fxzl_2000
+中央新影-老故事,https://php.61073736.repl.co/sxg.php?id=lgs_2000
+中央新影-中学生,https://php.61073736.repl.co/sxg.php?id=zxs_4000
+川广融媒,https://php.61073736.repl.co/sxg.php?id=cgrh_2000
+精品导视,https://php.61073736.repl.co/sxg.php?id=jpdsH265_4000
+沙湾融媒,https://php.61073736.repl.co/sxg.php?id=swxwzh_2000
+四川文化旅游,https://php.61073736.repl.co/sxg.php?id=SCTV-2-H265_4000
+四川经济,https://php.61073736.repl.co/sxg.php?id=SCTV-3-H265_4000
+四川新闻,https://php.61073736.repl.co/sxg.php?id=SCTV-4H265_4000
+四川影视文艺,https://php.61073736.repl.co/sxg.php?id=SCTV-5-scysH265_4000
+四川妇女儿童,https://php.61073736.repl.co/sxg.php?id=SCTV-7-_4000
+四川科教,https://php.61073736.repl.co/sxg.php?id=SCTV-ggSCTV-8_4000
+四川乡村,https://php.61073736.repl.co/sxg.php?id=SCTV-kjSCTV-9-_4000
+四川峨嵋电影,https://php.61073736.repl.co/sxg.php?id=emdygqH265_4000
+成都新闻综合,https://php.61073736.repl.co/sxg.php?id=CDTV-1_4000
+成都经济资讯,https://php.61073736.repl.co/sxg.php?id=CDTV-2_4000
+成都都市生活,https://php.61073736.repl.co/sxg.php?id=CDTV-3_4000
+成都影视文艺,https://php.61073736.repl.co/sxg.php?id=CDTV-4_4000
+成都公共频道,https://php.61073736.repl.co/sxg.php?id=CDTV-5_4000
+成都高新区,https://php.61073736.repl.co/sxg.php?id=cdgxdstgq_2000
+成都每日购物,https://php.61073736.repl.co/sxg.php?id=mrgw_4000
+阿坝州TV,https://php.61073736.repl.co/sxg.php?id=abxwzhpdgq_2000
+阿坝州藏语,https://php.61073736.repl.co/sxg.php?id=wypdgqH265_4000
+安居综合,https://php.61073736.repl.co/sxg.php?id=ajxw_2000
+安岳综合频道,https://php.61073736.repl.co/sxg.php?id=ayxwzh_4000
+安州综合频道,https://php.61073736.repl.co/sxg.php?id=azgq_2000
+巴州电视,https://php.61073736.repl.co/sxg.php?id=bzxw_4000
+宝兴综合,https://php.61073736.repl.co/sxg.php?id=bxdst_2000
+北川综合,https://php.61073736.repl.co/sxg.php?id=bcxwHD_2000
+苍溪综合,https://php.61073736.repl.co/sxg.php?id=cxxwgqH265_4000
+长宁综合,https://php.61073736.repl.co/sxg.php?id=znzh_2000
+朝天综合,https://php.61073736.repl.co/sxg.php?id=ctxwzh_2000
+崇州,https://php.61073736.repl.co/sxg.php?id=czyt_4000
+船山综合,https://php.61073736.repl.co/sxg.php?id=csxw_2000
+达川新闻综合,https://php.61073736.repl.co/sxg.php?id=dcxwzh_2000
+达州导视,https://php.61073736.repl.co/sxg.php?id=dzds_2000
+达州公共,https://php.61073736.repl.co/sxg.php?id=dzgg_2000
+达州通川,https://php.61073736.repl.co/sxg.php?id=tcq_2000
+达州新闻综合,https://php.61073736.repl.co/sxg.php?id=dzxwzh_2000
+大邑电视台,https://php.61073736.repl.co/sxg.php?id=dyytH265_4000
+大英新闻综合,https://php.61073736.repl.co/sxg.php?id=dyxwzhH265_4000
+丹棱综合,https://php.61073736.repl.co/sxg.php?id=dlxwzhH265_4000
+德昌电视台,https://php.61073736.repl.co/sxg.php?id=dcxw_4000
+东兴综合,https://php.61073736.repl.co/sxg.php?id=dxxwzh_4000
+都江堰,https://php.61073736.repl.co/sxg.php?id=djyzh_4000
+峨边电视台,https://php.61073736.repl.co/sxg.php?id=ebdst_2000
+峨眉综合,https://php.61073736.repl.co/sxg.php?id=emsxw_2000
+恩阳新闻,https://php.61073736.repl.co/sxg.php?id=eyxw_2000
+甘孜综合,https://php.61073736.repl.co/sxg.php?id=gzxwzh_2000
+高县-1,https://php.61073736.repl.co/sxg.php?id=gxt_2000
+古蔺新闻综合,https://php.61073736.repl.co/sxg.php?id=glxwzhgq_2000
+广安公共,https://php.61073736.repl.co/sxg.php?id=gagg_2000
+广安区电视台,https://php.61073736.repl.co/sxg.php?id=gaqxw_2000
+广安新闻综合,https://php.61073736.repl.co/sxg.php?id=gaxwzh_2000
+广汉综合,https://php.61073736.repl.co/sxg.php?id=ghxwzh_2000
+广元文化生活,https://php.61073736.repl.co/sxg.php?id=gyggH265_4000
+广元综合,https://php.61073736.repl.co/sxg.php?id=gyzhH265_4000
+汉源综合,https://php.61073736.repl.co/sxg.php?id=hyxwzh_2000
+合江新闻综合,https://php.61073736.repl.co/sxg.php?id=hjxw_2000
+黑水,https://php.61073736.repl.co/sxg.php?id=hsxwzhpdH264_2000
+洪雅新闻综合,https://php.61073736.repl.co/sxg.php?id=hyzh_2000
+华蓥综合,https://php.61073736.repl.co/sxg.php?id=hyxw_2000
+会理新闻,https://php.61073736.repl.co/sxg.php?id=hlyt_4000
+夹江新闻综合,https://php.61073736.repl.co/sxg.php?id=jjxw_2000
+简阳新闻综合,https://php.61073736.repl.co/sxg.php?id=jyxwzh_2000
+剑阁综合,https://php.61073736.repl.co/sxg.php?id=jgxwzhH265_4000
+江安电视台,https://php.61073736.repl.co/sxg.php?id=jat_2000
+江油综合,https://php.61073736.repl.co/sxg.php?id=jyxwHD_2000
+金口河综合,https://php.61073736.repl.co/sxg.php?id=jkhdst_2000
+金牛,https://php.61073736.repl.co/sxg.php?id=jnyx_2000
+金堂电视台,https://php.61073736.repl.co/sxg.php?id=jtzhpd_2000
+开江新闻综合,https://php.61073736.repl.co/sxg.php?id=kjxwzh_2000
+乐山公共,https://php.61073736.repl.co/sxg.php?id=lsggpd_4000
+乐山新闻综合,https://php.61073736.repl.co/sxg.php?id=lsxwzh_4000
+利州综合,https://php.61073736.repl.co/sxg.php?id=lzxwzh_2000
+凉山新闻综合,https://php.61073736.repl.co/sxg.php?id=lsxwHDH265_4000
+凉山彝语综合,https://php.61073736.repl.co/sxg.php?id=yyzh_2000
+邻水,https://php.61073736.repl.co/sxg.php?id=lsxw_2000
+龙泉综合,https://php.61073736.repl.co/sxg.php?id=lqxw_2000
+隆昌综合,https://php.61073736.repl.co/sxg.php?id=lcxw_2000
+芦山综合频道,https://php.61073736.repl.co/sxg.php?id=lszh_2000
+罗江,https://php.61073736.repl.co/sxg.php?id=ljxwzh_2000
+马尔康,https://php.61073736.repl.co/sxg.php?id=mekxwzhpd_2000
+眉山综合,https://php.61073736.repl.co/sxg.php?id=msxwzhgq_2000
+米易综合,https://php.61073736.repl.co/sxg.php?id=myxwzh_2000
+绵阳科技,https://php.61073736.repl.co/sxg.php?id=myetH265_4000
+绵阳新闻综合,https://php.61073736.repl.co/sxg.php?id=myytH265_4000
+绵竹,https://php.61073736.repl.co/sxg.php?id=mzxwzh_2000
+冕宁综合,https://php.61073736.repl.co/sxg.php?id=mnxw_2000
+木里,https://php.61073736.repl.co/sxg.php?id=mltHD_4000
+纳溪-1,https://php.61073736.repl.co/sxg.php?id=nxxw_2000
+南部综合,https://php.61073736.repl.co/sxg.php?id=nbxw_2000
+南充综合,https://php.61073736.repl.co/sxg.php?id=ncxwzh_2000
+南江电视台,https://php.61073736.repl.co/sxg.php?id=njxw_2000
+南溪综合,https://php.61073736.repl.co/sxg.php?id=nxt_2000
+内江公共,https://php.61073736.repl.co/sxg.php?id=njgg_4000
+内江综合,https://php.61073736.repl.co/sxg.php?id=njzh_4000
+宁南综合,https://php.61073736.repl.co/sxg.php?id=nnt_4000
+攀钢新闻综合,https://php.61073736.repl.co/sxg.php?id=pgxwzh_2000
+攀枝花新闻综合,https://php.61073736.repl.co/sxg.php?id=pzhytH265_4000
+彭山综合,https://php.61073736.repl.co/sxg.php?id=pszh_2000
+蓬安综合,https://php.61073736.repl.co/sxg.php?id=pazh_2000
+蓬溪新闻综合,https://php.61073736.repl.co/sxg.php?id=pxxw_2000
+平昌综合,https://php.61073736.repl.co/sxg.php?id=pcxw_2000
+平武综合,https://php.61073736.repl.co/sxg.php?id=pwgq_4000
+屏山综合,https://php.61073736.repl.co/sxg.php?id=psxwzh_2000
+蒲江综合,https://php.61073736.repl.co/sxg.php?id=pjxw_4000
+普格综合,https://php.61073736.repl.co/sxg.php?id=pgt_4000
+前锋,https://php.61073736.repl.co/sxg.php?id=qfxw_2000
+青白江综合,https://php.61073736.repl.co/sxg.php?id=qbjxwzh_2000
+青川综合,https://php.61073736.repl.co/sxg.php?id=qcxwzhH265_4000
+青神综合,https://php.61073736.repl.co/sxg.php?id=qszh_2000
+渠县新闻综合,https://php.61073736.repl.co/sxg.php?id=qxxwzh_2000
+荣县综合,https://php.61073736.repl.co/sxg.php?id=rxzh_2000
+三台TV,https://php.61073736.repl.co/sxg.php?id=stxwHD_2000
+射洪综合,https://php.61073736.repl.co/sxg.php?id=shzhH264_2000
+石棉,https://php.61073736.repl.co/sxg.php?id=smxwzh_2000
+什邡新闻综合,https://php.61073736.repl.co/sxg.php?id=sfx_2000
+双流综合,https://php.61073736.repl.co/sxg.php?id=slgq_2000
+松潘,https://php.61073736.repl.co/sxg.php?id=spxwzhpdH264_2000
+遂宁综合,https://php.61073736.repl.co/sxg.php?id=snxwzhHDH265_4000
+天全新闻,https://php.61073736.repl.co/sxg.php?id=tqzh_2000
+通江综合,https://php.61073736.repl.co/sxg.php?id=tjxwH265_4000
+万源,https://php.61073736.repl.co/sxg.php?id=wyxwzh_2000
+旺苍新闻综合,https://php.61073736.repl.co/sxg.php?id=wcxwzhH265_4000
+武胜综合,https://php.61073736.repl.co/sxg.php?id=wsxw_2000
+五通桥,https://php.61073736.repl.co/sxg.php?id=wtqxwzh_2000
+西昌,https://php.61073736.repl.co/sxg.php?id=xctHD_2000
+西充综合,https://php.61073736.repl.co/sxg.php?id=xczh_2000
+喜德,https://php.61073736.repl.co/sxg.php?id=xdxw_4000
+新都综合,https://php.61073736.repl.co/sxg.php?id=xdzhpd_2000
+新津,https://php.61073736.repl.co/sxg.php?id=xjzh_4000
+兴文电视台,https://php.61073736.repl.co/sxg.php?id=xwt_2000
+叙永电视台,https://php.61073736.repl.co/sxg.php?id=xyxw_2000
+叙州新闻综合,https://php.61073736.repl.co/sxg.php?id=ybx_2000
+宣汉综合,https://php.61073736.repl.co/sxg.php?id=xhxwzh_2000
+雅安新闻综合,https://php.61073736.repl.co/sxg.php?id=yazh_2000
+盐边电视台,https://php.61073736.repl.co/sxg.php?id=ybtgq_2000
+盐亭1,https://php.61073736.repl.co/sxg.php?id=ytzh_2000
+仪陇新闻综合,https://php.61073736.repl.co/sxg.php?id=ylxw_2000
+营山,https://php.61073736.repl.co/sxg.php?id=ysxw_2000
+越西综合,https://php.61073736.repl.co/sxg.php?id=yxt_4000
+岳池,https://php.61073736.repl.co/sxg.php?id=ycxw_2000
+昭化综合,https://php.61073736.repl.co/sxg.php?id=zhxwzh_2000
+中江新闻综合,https://php.61073736.repl.co/sxg.php?id=zjxwzh_2000
+资阳新闻综合,https://php.61073736.repl.co/sxg.php?id=zyxwzh_2000
+资中综合,https://php.61073736.repl.co/sxg.php?id=zzzh_2000
+自贡文化生活,https://php.61073736.repl.co/sxg.php?id=zggg_4000
+自贡综合,https://php.61073736.repl.co/sxg.php?id=zgxw_4000
+郫县新闻综合,https://php.61073736.repl.co/sxg.php?id=pxds1_2000
+荥经电视台,https://php.61073736.repl.co/sxg.php?id=xjdst_2000
+阆中综合,https://php.61073736.repl.co/sxg.php?id=lzxw_2000
+沐川综合,https://php.61073736.repl.co/sxg.php?id=mcxw_2000
+泸定综合频道,https://php.61073736.repl.co/sxg.php?id=ldxw_4000
+泸县综合,https://php.61073736.repl.co/sxg.php?id=lxxwzh_2000
+珙县新闻,https://php.61073736.repl.co/sxg.php?id=gxzh_2000
+梓潼综合,https://php.61073736.repl.co/sxg.php?id=ztgq_2000
+犍为新闻综合,https://php.61073736.repl.co/sxg.php?id=qwxwzh_2000
+筠连TV,https://php.61073736.repl.co/sxg.php?id=ylyt_2000
+CGTN-俄语,https://php.61073736.repl.co/sxg.php?id=ey_2000
+CGTN-法语,https://php.61073736.repl.co/sxg.php?id=fy_2000
+CGTN-西语,https://php.61073736.repl.co/sxg.php?id=xbyy_2000
+CGTN-英语,https://php.61073736.repl.co/sxg.php?id=CGTN_4000
+家家购物,https://php.61073736.repl.co/sxg.php?id=jjgw_4000
+家有购物,https://php.61073736.repl.co/sxg.php?id=jygw_4000
+央广购物,https://php.61073736.repl.co/sxg.php?id=yggwgq_4000
+优购物,https://php.61073736.repl.co/sxg.php?id=ygw_4000m/8000000
+金色学堂 8M,https://live.goodiptv.club/api/bestv.php?id=jingsepd8m/8000000
+魅力足球 8M,https://live.goodiptv.club/api/bestv.php?id=mlyyhd8m/8000000
+
+油管代理,#genre#
+TVBS NEWS LIVE,https://golang.61073736.repl.co/youtube/m_dhMSvUCIc
+TVBS 55頻道,https://golang.61073736.repl.co/youtube/2mCSYvcfhtc
+中天新闻,https://golang.61073736.repl.co/youtube/oIgbl7t0S_w
+中天新闻2台,https://golang.61073736.repl.co/youtube/WPfPjbOLNfE
+寰宇新聞台,https://golang.61073736.repl.co/youtube/B7Zp3d6xXWw
+寰宇新聞台灣台,https://golang.61073736.repl.co/youtube/UcTIv4ZaE5Y
+民视新闻,https://golang.61073736.repl.co/youtube/ylYJSBUgaMA
+華視新聞,https://golang.61073736.repl.co/youtube/wM0g8EoUZ_E
+公視新聞,https://golang.61073736.repl.co/youtube/quwqlazU-c8
+台視新聞台,https://golang.61073736.repl.co/youtube/xL0ch83RAK8
+中視新聞,https://golang.61073736.repl.co/youtube/TCnaIE_SAtM
+鏡新聞,https://golang.61073736.repl.co/youtube/5n0y6b0Q25o
+新唐人LIVE,https://golang.61073736.repl.co/youtube/WIhgU_mc05A
+信大電視台,https://golang.61073736.repl.co/youtube/AQymzwl3uSk
+东森新闻,https://golang.61073736.repl.co/youtube/S5WOGu2HSes
+东森LIVE,https://golang.61073736.repl.co/youtube/R2iMq5LKXco
+东森财经新闻,https://golang.61073736.repl.co/youtube/WHEPzbFA3hw
+三立新闻,https://golang.61073736.repl.co/youtube/oZdzzvxTfUY
+三立 iNEWS 新聞,https://golang.61073736.repl.co/youtube/CKjSm5ZeehE
+三立海外直播,https://golang.61073736.repl.co/youtube/FoBfXvlOR6I
+凤凰资讯台,https://golang.61073736.repl.co/youtube/if6yQq_JJyY
+TaiwanPlus,https://golang.61073736.repl.co/youtube/dZp87qnWelE
+東京都-新宿,https://golang.61073736.repl.co/youtube/DjdUEyjx8GM
+台灣地震監視,https://golang.61073736.repl.co/youtube/Owke6Quk7T0
+DW,https://golang.61073736.repl.co/youtube/pqabxBKzZ6M
+FRANCE 24,https://golang.61073736.repl.co/youtube/h3MuIUNCCzI
+Sky News,https://golang.61073736.repl.co/youtube/9Auq9mYxFEE
+ABC News,https://golang.61073736.repl.co/youtube/w_Ma8oQLmSM
+Euronews,https://golang.61073736.repl.co/youtube/pykpO5kQJ98
+CNA,https://golang.61073736.repl.co/youtube/XWq5kBlakcQ
+National Geographic,https://golang.61073736.repl.co/youtube/306xLRnW3Cc
+Nat Geo WILD,https://golang.61073736.repl.co/youtube/6zGV59Ldp3s
+ANIMALS OF AFRICA 4K,https://golang.61073736.repl.co/youtube/XHI_U7suyxg
+GREAT HUNTER - 4K,https://golang.61073736.repl.co/youtube/vQP8AwAFzI8
+Most Beautiful Places 12K,https://golang.61073736.repl.co/youtube/Rse-E5tARaY
+4K African Animal,https://golang.61073736.repl.co/youtube/rkPCR6Ujtak
+
+虎牙解说,#genre#
+电影狂人,http://golang.61073736.repl.co/huya/18715610
+鹿哥电影,http://golang.61073736.repl.co/huya/24396360
+斌哥漫说,http://golang.61073736.repl.co/huya/18632116
+续哥说电影,http://golang.61073736.repl.co/huya/24396472
+小川侃电影,http://golang.61073736.repl.co/huya/15870999
+阿钙扒瞎,http://golang.61073736.repl.co/huya/15978172
+阿良说剧,http://golang.61073736.repl.co/huya/20488841
+鱼丸电影,http://golang.61073736.repl.co/huya/16615910
+阿斗说电影,http://golang.61073736.repl.co/huya/13303478
+扁豆看电影,http://golang.61073736.repl.co/huya/16028551
+乌贼说电影,http://golang.61073736.repl.co/huya/16604522
+大象放映室,http://golang.61073736.repl.co/huya/21277391
+科幻梦工场,http://golang.61073736.repl.co/huya/15152155
+亮哥讲电影,http://golang.61073736.repl.co/huya/16144175
+越哥说电影,http://golang.61073736.repl.co/huya/15894162
+小冉看电影,http://golang.61073736.repl.co/huya/17341907
+嫦娥撩电影,http://golang.61073736.repl.co/huya/18201106
+阿翔说电影,http://golang.61073736.repl.co/huya/16868935
+疯狂解说家,http://golang.61073736.repl.co/huya/18366196
+虎妞说电影,http://golang.61073736.repl.co/huya/20343144
+顾久撩电影,http://golang.61073736.repl.co/huya/16422212
+俗哥看电影,http://golang.61073736.repl.co/huya/15452736
+老皮讲电影,http://golang.61073736.repl.co/huya/16968572
+默爷侃电影,http://golang.61073736.repl.co/huya/17204307
+冷君说电影,http://golang.61073736.repl.co/huya/16739452
+老炮说电影,http://golang.61073736.repl.co/huya/15454716
+刘老师说电影,http://golang.61073736.repl.co/huya/20289754
+恐怖电影解说,http://golang.61073736.repl.co/huya/16741179
+
