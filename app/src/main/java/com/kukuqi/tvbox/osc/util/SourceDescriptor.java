@@ -21,14 +21,14 @@ public final class SourceDescriptor {
         if (content.isJsonArray()) return content.getAsJsonArray();
         if (!content.isJsonObject()) return new JsonArray();
         JsonObject object = content.getAsJsonObject();
-        if (object.has("channels")) { JsonArray result = new JsonArray(); result.add(object); return result; }
+        if (object.has("channels") || object.has("channel") || object.has("groups")) { JsonArray result = new JsonArray(); result.add(object); return result; }
         return array(object, "lives");
     }
     public boolean hasLive() {
         for (JsonElement item : lives()) {
             if (!item.isJsonObject()) continue;
             JsonObject object = item.getAsJsonObject();
-            if (array(object, "channels").size() > 0 || !string(object, "url").isEmpty()) return true;
+            if (array(object, "channels").size() > 0 || array(object, "channel").size() > 0 || array(object, "groups").size() > 0 || !string(object, "url").isEmpty() || !string(object, "api").isEmpty()) return true;
         }
         return false;
     }
@@ -94,6 +94,7 @@ public final class SourceDescriptor {
         return value != null && value.isJsonPrimitive() ? value.getAsString().trim() : "";
     }
     public static String resolve(String base, String value) {
+        if (value == null || value.isEmpty()) return "";
         try { return new URI(base).resolve(value.replace("{", "%7B").replace("}", "%7D")).toString()
                 .replace("%7B", "{").replace("%7D", "}"); } catch (Exception ignored) { return value; }
     }

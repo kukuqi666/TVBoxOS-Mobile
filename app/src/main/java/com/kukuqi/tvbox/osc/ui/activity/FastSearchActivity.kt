@@ -86,7 +86,7 @@ class FastSearchActivity : BaseVbActivity<ActivityFastSearchBinding>(), TextWatc
         //历史搜索
         initHistorySearch()
         // 热门搜索
-        hotWords
+        loadHotWords(false)
     }
 
     override fun onResume() {
@@ -250,56 +250,24 @@ class FastSearchActivity : BaseVbActivity<ActivityFastSearchBinding>(), TextWatc
     /**
      * 热门搜索
      */
-    private val hotWords: Unit
-        get() {
-            // 加载热词
-            OkGo.get<String>("https://node.video.qq.com/x/api/hot_search")
-                .params("channdlId", "0")
-                .params("_", System.currentTimeMillis())
-                .execute(object : AbsCallback<String?>() {
-                    override fun onSuccess(response: com.lzy.okgo.model.Response<String?>) {
-                        try {
-                            val hots = ArrayList<String>()
-                            val itemList =
-                                JsonParser.parseString(response.body()).asJsonObject["data"].asJsonObject["mapResult"].asJsonObject["0"].asJsonObject["listInfo"].asJsonArray
-                            //                            JsonArray itemList = JsonParser.parseString(response.body()).getAsJsonObject().get("data").getAsJsonArray();
-                            for (ele: JsonElement in itemList) {
-                                val obj = ele as JsonObject
-                                hots.add(obj["title"].asString.trim { it <= ' ' }
-                                    .replace("<|>|《|》|-".toRegex(), "").split(" ".toRegex())
-                                    .dropLastWhile { it.isEmpty() }
-                                    .toTypedArray()[0])
-                            }
-                            mBinding.flHot.adapter = object : TagAdapter<String?>(hots as List<String?>?) {
-                                override fun getView(
-                                    parent: FlowLayout,
-                                    position: Int,
-                                    s: String?
-                                ): View {
-                                    val tv: TextView =
-                                        LayoutInflater.from(this@FastSearchActivity).inflate(
-                                            R.layout.item_search_word_hot,
-                                            mBinding.flHot, false
-                                        ) as TextView
-                                    tv.text = s
-                                    return tv
-                                }
-                            }
-                            mBinding.flHot.setOnTagClickListener { _: View?, position: Int, _: FlowLayout? ->
-                                search(hots.get(position))
-                                true
-                            }
-                        } catch (th: Throwable) {
-                            th.printStackTrace()
-                        }
-                    }
-
-                    @Throws(Throwable::class)
-                    override fun convertResponse(response: Response): String {
-                        return response.body()!!.string()
-                    }
-                })
+    private var hotGeneration = 0
+    private fun loadHotWords(force: Boolean) {
+        val generation = ++hotGeneration
+        mBinding.tvHotStatus.text = "正在加载热门搜索…"
+        mBinding.tvHotStatus.setOnClickListener { loadHotWords(true) }
+        com.kukuqi.tvbox.osc.util.HotSearch.load(force) { words, status ->
+            if (isDestroyed || isFinishing || generation != hotGeneration) return@load
+            mBinding.tvHotStatus.text = status
+            mBinding.flHot.adapter = object : TagAdapter<String>(words) {
+                override fun getView(parent: FlowLayout, position: Int, word: String): View {
+                    val text = LayoutInflater.from(this@FastSearchActivity).inflate(R.layout.item_search_word_hot, mBinding.flHot, false) as TextView
+                    text.text = word
+                    return text
+                }
+            }
+            mBinding.flHot.setOnTagClickListener { _, position, _ -> search(words[position]); true }
         }
+    }
 
     /**
      * 联想搜索

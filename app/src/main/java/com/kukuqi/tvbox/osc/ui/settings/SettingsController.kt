@@ -59,6 +59,14 @@ class SettingsController(
 
     fun refresh() {
         mBinding.tvVodApi.text = shortSourceName(Hawk.get(HawkConfig.API_URL, ""), "未选择")
+        mBinding.tvPlay.text = PlayerHelper.getPlayerName(Hawk.get(HawkConfig.PLAY_TYPE, 0))
+        mBinding.tvRenderType.text = PlayerHelper.getRenderName(Hawk.get(HawkConfig.PLAY_RENDER, 0))
+        mBinding.tvScaleType.text = PlayerHelper.getScaleName(Hawk.get(HawkConfig.PLAY_SCALE, 0))
+        mBinding.tvBackgroundPlayType.text = arrayOf("关闭", "开启", "画中画")[Hawk.get(HawkConfig.BACKGROUND_PLAY_TYPE, 2).coerceIn(0, 2)]
+        mBinding.switchVideoPurify.setChecked(Hawk.get(HawkConfig.VIDEO_PURIFY, true))
+        mBinding.switchIjkCachePlay.setChecked(Hawk.get(HawkConfig.IJK_CACHE_PLAY, false))
+        mBinding.tvImageSize.text = arrayOf("小", "中", "大", "特大")[Hawk.get("poster_size", 2).coerceIn(0, 3)]
+        mBinding.tvThemeColor.text = ThemeColors.NAMES[Hawk.get(ThemeColors.KEY, 0).coerceIn(ThemeColors.NAMES.indices)]
         onSourceChanged(com.kukuqi.tvbox.osc.event.SourceChangedEvent())
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -69,12 +77,40 @@ class SettingsController(
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onSourceChanged(event: com.kukuqi.tvbox.osc.event.SourceChangedEvent) {
         val live = Hawk.get(HawkConfig.LIVE_URL, "")
-        mBinding.tvLiveApi.text = if (live.isEmpty()) "未设置" else com.kukuqi.tvbox.osc.util.SourceLibrary.name(com.kukuqi.tvbox.osc.util.SourceLibrary.LIVE, live)
+        mBinding.tvLiveApi.text = if (live.isEmpty()) {
+            val vod = com.kukuqi.tvbox.osc.util.SourceManager.cached(Hawk.get(HawkConfig.API_URL, ""))
+            if (vod?.hasLive() == true) "跟随点播源" else "未设置"
+        } else com.kukuqi.tvbox.osc.util.SourceLibrary.name(com.kukuqi.tvbox.osc.util.SourceLibrary.LIVE, live)
         mBinding.tvWallpaper.text = WallpaperManager.get().sourceDescription()
     }
 
     fun init() {
         EventBus.getDefault().register(this)
+        mBinding.llModuleManager.setOnClickListener { com.kukuqi.tvbox.osc.ui.dialog.FeatureSettingsDialog.modules(host) }
+        mBinding.llPlaybackSettings.setOnClickListener { com.kukuqi.tvbox.osc.ui.dialog.FeatureSettingsDialog.playback(host) { refresh() } }
+        mBinding.llDanmakuSettings.setOnClickListener { com.kukuqi.tvbox.osc.ui.dialog.FeatureSettingsDialog.danmaku(host) }
+        mBinding.llVodHome.setOnClickListener { com.kukuqi.tvbox.osc.ui.dialog.FeatureSettingsDialog.homeSite(host) }
+        mBinding.llLiveHome.setOnClickListener { selectLivePlaylist() }
+        mBinding.llSourceHistory.setOnClickListener {
+            android.app.AlertDialog.Builder(host).setTitle("来源历史").setItems(arrayOf("点播", "直播", "壁纸")) { _, index ->
+                when (index) {
+                    0 -> jumpActivity(SubscriptionActivity::class.java)
+                    1 -> mBinding.llLiveApi.performClick()
+                    else -> mBinding.llWallpaper.performClick()
+                }
+            }.show()
+        }
+        mBinding.llHotSearch.setOnClickListener { jumpActivity(com.kukuqi.tvbox.osc.ui.activity.FastSearchActivity::class.java) }
+        mBinding.llImageSize.setOnClickListener {
+            android.app.AlertDialog.Builder(host).setTitle("图片尺寸").setSingleChoiceItems(arrayOf("小", "中", "大", "特大"), Hawk.get("poster_size", 2)) { dialog, index ->
+                Hawk.put("poster_size", index); refresh(); dialog.dismiss()
+            }.setNegativeButton("取消", null).show()
+        }
+        mBinding.llThemeColor.setOnClickListener {
+            android.app.AlertDialog.Builder(host).setTitle("主题色彩").setSingleChoiceItems(ThemeColors.NAMES, Hawk.get(ThemeColors.KEY, 0)) { dialog, index ->
+                Hawk.put(ThemeColors.KEY, index); ThemeColors.apply(host.window.decorView); refresh(); dialog.dismiss()
+            }.setNegativeButton("取消", null).show()
+        }
 
         mBinding.tvMediaCodec.text = Hawk.get(HawkConfig.IJK_CODEC, "")
 
@@ -114,13 +150,13 @@ class SettingsController(
                 .show()
         }
 
-        val defaultBgPlayTypePos = Hawk.get(HawkConfig.BACKGROUND_PLAY_TYPE, 0)
         val bgPlayTypes = ArrayList<String>()
         bgPlayTypes.add("关闭")
         bgPlayTypes.add("开启")
         bgPlayTypes.add("画中画")
-        mBinding.tvBackgroundPlayType.text = bgPlayTypes[defaultBgPlayTypePos]
+        mBinding.tvBackgroundPlayType.text = bgPlayTypes[Hawk.get(HawkConfig.BACKGROUND_PLAY_TYPE, 0).coerceIn(bgPlayTypes.indices)]
         mBinding.llBackgroundPlay.setOnClickListener { view: View? ->
+            val defaultBgPlayTypePos = Hawk.get(HawkConfig.BACKGROUND_PLAY_TYPE, 0).coerceIn(bgPlayTypes.indices)
             FastClickCheckUtil.check(view)
             val dialog = SelectDialog<String>(host)
             dialog.setTip("请选择")
@@ -470,6 +506,24 @@ class SettingsController(
             mBinding.switchIjkCachePlay.setChecked(newConfig)
             Hawk.put(HawkConfig.IJK_CACHE_PLAY, newConfig)
         }
+        refresh()
+    }
+
+    private fun selectLivePlaylist() {
+        val url = Hawk.get(HawkConfig.LIVE_URL, "").ifEmpty { Hawk.get(HawkConfig.API_URL, "") }
+        val source = com.kukuqi.tvbox.osc.util.SourceManager.cached(url)
+        val playlists = source?.playlists().orEmpty()
+        if (playlists.isEmpty()) {
+            ToastUtils.showShort("当前来源只有一组频道，或尚未加载；可在直播页切换频道线路")
+            return
+        }
+        val names = source!!.lives().filter { it.isJsonObject && !com.kukuqi.tvbox.osc.util.SourceDescriptor.string(it.asJsonObject, "url").isEmpty() }
+            .map { com.kukuqi.tvbox.osc.util.SourceDescriptor.string(it.asJsonObject, "name").ifEmpty { "直播线路" } }
+        android.app.AlertDialog.Builder(host).setTitle("直播线路").setItems(playlists.mapIndexed { index, address -> names.getOrNull(index) ?: address }.toTypedArray()) { _, index ->
+            Hawk.put("live_playlist_url", playlists[index])
+            EventBus.getDefault().post(com.kukuqi.tvbox.osc.event.SourceChangedEvent(true))
+            ToastUtils.showShort("直播线路已切换")
+        }.show()
     }
 
     private fun pickWallpaper() {
@@ -532,12 +586,13 @@ class SettingsController(
         if (!cacheDir.exists()) return
         Thread {
             try {
-                FileUtils.cleanDirectory(cacheDir)
+                com.kukuqi.tvbox.osc.util.CacheCleaner.clear(cacheDir)
+                com.kukuqi.tvbox.osc.util.CacheCleaner.clear(host.externalCacheDir)
+                host.runOnUiThread { if (!disposed) ToastUtils.showLong("缓存已清空") }
             } catch (e: Exception) {
-                e.printStackTrace()
+                host.runOnUiThread { if (!disposed) ToastUtils.showLong("清空缓存失败，请重试") }
             }
         }.start()
-        ToastUtils.showLong("缓存已清空")
     }
 
     private fun getHomeRecName(type: Int): String {

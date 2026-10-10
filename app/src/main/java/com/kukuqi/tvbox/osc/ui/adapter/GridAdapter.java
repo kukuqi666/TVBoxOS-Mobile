@@ -33,6 +33,9 @@ public class GridAdapter extends BaseQuickAdapter<Movie.Video, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, Movie.Video item) {
 
+        int size = Math.max(0, Math.min(3, com.orhanobut.hawk.Hawk.get("poster_size", 2)));
+        android.view.ViewGroup.LayoutParams layout = helper.itemView.getLayoutParams();
+        if (layout != null) { layout.height = (int) (new int[]{105, 140, 175, 225}[size] * helper.itemView.getResources().getDisplayMetrics().density); helper.itemView.setLayoutParams(layout); }
         TextView tvYear = helper.getView(R.id.tvYear);
         if (item.year <= 0) {
             tvYear.setVisibility(View.GONE);

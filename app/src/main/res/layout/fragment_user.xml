@@ -6,6 +6,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tvHotList1"
         android:layout_width="match_parent"
@@ -15,6 +20,8 @@
         tools:spanCount="3"
         android:paddingHorizontal="10dp"
         />
+        </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_live"
@@ -25,6 +32,7 @@
         android:layout_margin="20dp"
         android:backgroundTint="@color/colorPrimary"
         app:borderWidth="0dp"
+        android:contentDescription="链接播放"
         android:src="@drawable/ic_live_tv_48"
         app:tint="@android:color/white"
         />

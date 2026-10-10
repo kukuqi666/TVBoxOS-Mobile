@@ -66,6 +66,7 @@ public class BackupDialog extends BaseDialog {
             String root = Environment.getExternalStorageDirectory().getAbsolutePath();
             File file = new File(root + "/tvbox_backup/");
             File[] list = file.listFiles();
+            if (list == null) return result;
             Arrays.sort(list, new Comparator<File>() {
                 @Override
                 public int compare(File o1, File o2) {
@@ -95,12 +96,12 @@ public class BackupDialog extends BaseDialog {
             String root = Environment.getExternalStorageDirectory().getAbsolutePath();
             File backup = new File(root + "/tvbox_backup/" + dir);
             if (backup.exists()) {
+                byte[] data = FileUtils.readSimple(new File(backup, "hawk"));
+                if (data == null) throw new java.io.IOException("备份中没有设置数据");
+                JSONObject jsonObject = new JSONObject(new String(data, "UTF-8"));
                 File db = new File(backup, "sqlite");
                 if (AppDataManager.restore(db)) {
-                    byte[] data = FileUtils.readSimple(new File(backup, "hawk"));
                     if (data != null) {
-                        String hawkJson = new String(data, "UTF-8");
-                        JSONObject jsonObject = new JSONObject(hawkJson);
                         Iterator<String> it = jsonObject.keys();
                         SharedPreferences sharedPreferences = App.getInstance().getSharedPreferences("Hawk2", Context.MODE_PRIVATE);
                         while (it.hasNext()) {
@@ -123,6 +124,7 @@ public class BackupDialog extends BaseDialog {
             }
         } catch (Throwable e) {
             e.printStackTrace();
+            Toast.makeText(getContext(), "恢复失败，请检查备份文件", Toast.LENGTH_SHORT).show();
         }
     }
 

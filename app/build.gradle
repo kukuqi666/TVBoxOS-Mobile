@@ -27,8 +27,8 @@ android {
         applicationId 'com.kukuqi.tvbox.osc'
         minSdkVersion 24
         targetSdkVersion 34
-        versionCode 302
-        versionName '3.0.2'
+        versionCode 303
+        versionName '3.0.3'
         multiDexEnabled true
         testInstrumentationRunner 'com.kukuqi.tvbox.osc.RegressionTestRunner'
         //设置room的Schema的位置
@@ -145,6 +145,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation files('libs/thunder.jar')
     implementation files('libs/commons-lang3-3.12.0.jar')

@@ -1,4 +1,4 @@
-package com.kukuqi.tvbox.osc.ui.dialog;
+package com.kukuqi.tvbox.osc.ui.activity;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
@@ -23,15 +22,18 @@ import com.kukuqi.tvbox.osc.update.UpdateInstaller;
 import com.kukuqi.tvbox.osc.update.UpdateStore;
 import com.kukuqi.tvbox.osc.util.HeavyTaskUtil;
 import com.kukuqi.tvbox.osc.util.UpdateManifest;
-import com.lxj.xpopup.core.BottomPopupView;
+import com.kukuqi.tvbox.osc.base.BaseActivity;
+import static android.view.View.VISIBLE;
+import static android.view.View.INVISIBLE;
+import static android.view.View.GONE;
 import java.io.File;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import com.lxj.xpopup.XPopup;
 
 /** A view of the persistent update task; closing it never interrupts the download. */
-public class AboutDialog extends BottomPopupView {
-    private final UpdateStore store;
+public class AboutActivity extends BaseActivity {
+    private UpdateStore store;
     private MaterialButton button;
     private LinearProgressIndicator progress;
     private TextView status, title;
@@ -42,21 +44,15 @@ public class AboutDialog extends BottomPopupView {
         if (!closed && button != null) render();
     };
 
-    public AboutDialog(@NonNull Context context) { super(context); store = new UpdateStore(context); }
-    /** Reuse this configuration for every entry, including notifications and tests. */
-    @Override protected void onAttachedToWindow() {
-        popupInfo.hasBlurBg = true;
-        super.onAttachedToWindow();
+    public static void start(Context context) {
+        context.startActivity(new Intent(context, AboutActivity.class));
     }
-    @Override protected int getMaxWidth() {
-        int limit = Math.min(getResources().getDisplayMetrics().widthPixels, (int) (520 * getResources().getDisplayMetrics().density));
-        return super.getMaxWidth() > 0 ? Math.min(super.getMaxWidth(), limit) : limit;
-    }
-    @Override protected int getImplLayoutId() { return R.layout.dialog_about; }
+    @Override protected int getLayoutResID() { return R.layout.activity_about; }
+    private Context getContext() { return this; }
+    private void post(Runnable action) { runOnUiThread(action); }
 
-    @Override protected void onCreate() {
-        super.onCreate();
-        findViewById(R.id.iv_close).setOnClickListener(view -> dismiss());
+    @Override protected void init() {
+        store = new UpdateStore(this);
         ((TextView) findViewById(R.id.tv_about_version)).setText("版本 " + BuildConfig.VERSION_NAME);
         button = findViewById(R.id.btn_check_update);
         progress = findViewById(R.id.pb_update_progress);
@@ -179,10 +175,10 @@ public class AboutDialog extends BottomPopupView {
         new XPopup.Builder(getContext()).asConfirm("更新记录", notes.toString(), null, "知道了", () -> {}, null, true).show();
     }
 
-    @Override protected void onDismiss() {
+    @Override protected void onDestroy() {
         closed = true;
-        store.prefs.unregisterOnSharedPreferenceChangeListener(listener);
+        if (store != null) store.prefs.unregisterOnSharedPreferenceChangeListener(listener);
         animate(false);
-        super.onDismiss();
+        super.onDestroy();
     }
 }

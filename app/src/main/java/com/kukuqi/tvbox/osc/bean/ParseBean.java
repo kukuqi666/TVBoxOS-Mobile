@@ -11,9 +11,9 @@ import com.kukuqi.tvbox.osc.util.DefaultConfig;
  */
 public class ParseBean {
 
-    private String name;
-    private String url;
-    private String ext;
+    private String name = "";
+    private String url = "";
+    private String ext = "";
     private int type;   // 0 普通嗅探 1 json 2 Json扩展 3 聚合
 
     private boolean isDefault = false;
@@ -51,15 +51,31 @@ public class ParseBean {
     }
 
     public String getExt() {
-        return ext;
+        return ext == null ? "" : ext;
     }
 
     public void setExt(String ext) {
         this.ext = ext;
     }
 
+    public java.util.Map<String, String> getHeaders() {
+        try {
+            com.google.gson.JsonElement value = com.google.gson.JsonParser.parseString(getExt());
+            return value.isJsonObject() ? com.kukuqi.tvbox.osc.util.ConfigCompat.headers(value.getAsJsonObject().get("header")) : new java.util.LinkedHashMap<>();
+        } catch (Exception ignored) { return new java.util.LinkedHashMap<>(); }
+    }
+
+    public boolean supportsFlag(String flag) {
+        try {
+            com.google.gson.JsonObject value = com.google.gson.JsonParser.parseString(getExt()).getAsJsonObject();
+            for (com.google.gson.JsonElement item : com.kukuqi.tvbox.osc.util.ConfigCompat.array(value, "flag"))
+                if (item.isJsonPrimitive() && item.getAsString().equals(flag)) return true;
+        } catch (Exception ignored) {}
+        return false;
+    }
+
     public String mixUrl() {
-        if (!ext.isEmpty()) {
+        if (!getExt().isEmpty()) {
             int idx = url.indexOf("?");
             if (idx > 0) {
                 return url.substring(0, idx + 1) + "cat_ext=" + Base64.encodeToString(ext.getBytes(), Base64.DEFAULT | Base64.URL_SAFE | Base64.NO_WRAP) + "&" + url.substring(idx + 1);

@@ -16,6 +16,13 @@ public class SourceBean {
     private ArrayList<String> categories = null; // 分类&排序
     private int playerType; // 0 system 1 ikj 2 exo 10 mxplayer -1 以参数设置页面的为准
     private String clickSelector; // 需要点击播放的嗅探站点selector   ddrk.me;#id
+    private java.util.Map<String, String> headers = new java.util.LinkedHashMap<>();
+    public void setHeaders(java.util.Map<String, String> value) { headers = value; }
+    public java.util.Map<String, String> getHeaders() { return headers; }
+    public com.lzy.okgo.model.HttpHeaders getHttpHeaders() {
+        com.lzy.okgo.model.HttpHeaders result = new com.lzy.okgo.model.HttpHeaders();
+        headers.forEach(result::put); return result;
+    }
 
     public String getKey() {
         return key;

@@ -57,6 +57,10 @@
             android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
+            android:name=".ui.activity.AboutActivity"
+            android:configChanges="orientation|screenSize|uiMode"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.VideoListActivity"
             android:configChanges="orientation|screenSize"/>
         <activity
@@ -65,7 +69,8 @@
             android:exported="false"/>
         <activity
             android:name=".ui.activity.LocalPlayActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:supportsPictureInPicture="true"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode"
             android:exported="false"
             android:screenOrientation="landscape" />
         <activity
@@ -74,8 +79,9 @@
             android:exported="true"/>
         <activity
             android:name=".ui.activity.LiveActivity"
+            android:supportsPictureInPicture="true"
             android:launchMode="singleTop"
-            android:configChanges="orientation|screenSize|keyboardHidden|uiMode|screenLayout"/>
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboardHidden|uiMode|screenLayout"/>
         <activity
             android:name=".ui.activity.DetailActivity"
             android:supportsPictureInPicture="true"

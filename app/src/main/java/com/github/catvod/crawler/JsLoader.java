@@ -43,6 +43,7 @@ public class JsLoader {
             File cacheDir = new File(App.getInstance().getCacheDir().getAbsolutePath() + "/catvod_jsapi");
             if (!cacheDir.exists())
                 cacheDir.mkdirs();
+            if (!new File(jar).setReadOnly()) throw new java.io.IOException("模块文件无法设为只读");
             DexClassLoader classLoader = new DexClassLoader(jar, cacheDir.getAbsolutePath(), null, App.getInstance().getClassLoader());
             // make force wait here, some device async dex load
             int count = 0;
@@ -81,23 +82,17 @@ public class JsLoader {
             }
         }
         try {
-            Response response = OkGo.<File>get(jar).execute();
-            InputStream is = response.body().byteStream();
-            OutputStream os = new FileOutputStream(cache);
-            try {
-                byte[] buffer = new byte[2048];
-                int length;
-                while ((length = is.read(buffer)) > 0) {
-                    os.write(buffer, 0, length);
-                }
-            } finally {
-                try {
-                    is.close();
-                    os.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
+            if (com.kukuqi.tvbox.osc.util.SourceManager.isLocal(jar)) {
+                com.kukuqi.tvbox.osc.util.SourceManager.copyLocal(jar, cache);
+            } else try (Response response = OkGo.<File>get(jar).execute()) {
+                if (!response.isSuccessful() || response.body() == null) throw new java.io.IOException("模块下载失败");
+                if (cache.exists() && !cache.delete()) throw new java.io.IOException("旧模块缓存无法替换");
+                try (InputStream input = response.body().byteStream(); OutputStream output = new FileOutputStream(cache)) {
+                    byte[] buffer = new byte[8192]; int count;
+                    while ((count = input.read(buffer)) != -1) output.write(buffer, 0, count);
                 }
             }
+            if (!md5.isEmpty() && !md5.equalsIgnoreCase(MD5.getFileMd5(cache))) throw new java.io.IOException("模块校验失败");
             loadClassLoader(cache.getAbsolutePath(), key);
             return classs.get(key);
         } catch (Throwable e) {

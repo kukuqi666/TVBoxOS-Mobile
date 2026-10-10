@@ -19,9 +19,7 @@ import com.kukuqi.tvbox.osc.ui.fragment.LocalVideoFragment
 import com.kukuqi.tvbox.osc.util.HawkConfig
 import com.kukuqi.tvbox.osc.update.UpdateCoordinator
 import com.kukuqi.tvbox.osc.update.UpdateStore
-import com.kukuqi.tvbox.osc.ui.dialog.AboutDialog
 import com.google.android.material.snackbar.Snackbar
-import com.lxj.xpopup.XPopup
 import com.orhanobut.hawk.Hawk
 import kotlin.system.exitProcess
 
@@ -32,6 +30,8 @@ class MainActivity : BaseVbActivity<ActivityMainBinding>() {
     }
     private val fragments = listOf(HomeFragment(), LocalVideoFragment(), MyFragment())
     private var sourceUrl = Hawk.get(HawkConfig.API_URL, "")
+    private val posterSize = Hawk.get("poster_size", 2)
+    private val homeSite = Hawk.get(HawkConfig.HOME_API, "")
     private val homeRec = Hawk.get(HawkConfig.HOME_REC, 0)
     private val dnsOpt = Hawk.get(HawkConfig.DOH_URL, 0)
     private var exitTime = 0L
@@ -54,7 +54,7 @@ class MainActivity : BaseVbActivity<ActivityMainBinding>() {
             when (it.itemId) {
                 R.id.navigation_home -> {
                     mBinding.vp.setCurrentItem(0, false)
-                    if (homeRec != Hawk.get(HawkConfig.HOME_REC, 0) || dnsOpt != Hawk.get(HawkConfig.DOH_URL, 0)) {
+                    if (posterSize != Hawk.get("poster_size", 2) || homeSite != Hawk.get(HawkConfig.HOME_API, "") || homeRec != Hawk.get(HawkConfig.HOME_REC, 0) || dnsOpt != Hawk.get(HawkConfig.DOH_URL, 0)) {
                         intent.putExtra(IntentKey.CACHE_CONFIG_CHANGED, true)
                         intent.putExtra(EXTRA_START_DESTINATION, R.id.navigation_home)
                         recreate()
@@ -97,7 +97,7 @@ class MainActivity : BaseVbActivity<ActivityMainBinding>() {
     private fun openUpdatePanel(intent: Intent) {
         if (intent.getBooleanExtra(UpdateCoordinator.OPEN_UPDATES, false)) {
             intent.removeExtra(UpdateCoordinator.OPEN_UPDATES)
-            mBinding.root.post { if (!isFinishing) XPopup.Builder(this).asCustom(AboutDialog(this)).show() }
+            mBinding.root.post { if (!isFinishing) AboutActivity.start(this) }
         }
     }
     private fun showReadyUpdate() {
@@ -106,7 +106,7 @@ class MainActivity : BaseVbActivity<ActivityMainBinding>() {
         shownUpdateCode = manifest.versionCode
         Snackbar.make(mBinding.root, "新版本 ${manifest.version} 已在后台下载完成", Snackbar.LENGTH_LONG)
             .setAnchorView(mBinding.bottomNav.root)
-            .setAction("查看") { XPopup.Builder(this).asCustom(AboutDialog(this)).show() }.show()
+            .setAction("查看") { AboutActivity.start(this) }.show()
     }
     override fun onResume() {
         super.onResume()
@@ -117,7 +117,7 @@ class MainActivity : BaseVbActivity<ActivityMainBinding>() {
             intent.removeExtra(IntentKey.CACHE_CONFIG_CHANGED)
             intent.putExtra(EXTRA_START_DESTINATION, mBinding.bottomNav.root.selectedItemId)
             recreate()
-        } else if (homeRec != Hawk.get(HawkConfig.HOME_REC, 0) || dnsOpt != Hawk.get(HawkConfig.DOH_URL, 0)) {
+        } else if (posterSize != Hawk.get("poster_size", 2) || homeSite != Hawk.get(HawkConfig.HOME_API, "") || homeRec != Hawk.get(HawkConfig.HOME_REC, 0) || dnsOpt != Hawk.get(HawkConfig.DOH_URL, 0)) {
             intent.putExtra(IntentKey.CACHE_CONFIG_CHANGED, true)
             intent.putExtra(EXTRA_START_DESTINATION, mBinding.bottomNav.root.selectedItemId)
             recreate()

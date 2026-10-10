@@ -34,16 +34,22 @@ public class PlayService extends Service {
 
     static String videoInfo = "MBox&&第一集";
     private static MyVideoView videoView;
+    private static Intent resumeIntent;
 
     public static void start(MyVideoView controller,String currentVideoInfo) {
+        start(controller, currentVideoInfo, new Intent(App.getInstance(), DetailActivity.class));
+    }
+    public static void start(MyVideoView controller, String currentVideoInfo, Intent target) {
         videoInfo = currentVideoInfo;
         PlayService.videoView = controller;
+        resumeIntent = target;
         ContextCompat.startForegroundService(App.getInstance(), new Intent(App.getInstance(), PlayService.class));
     }
 
     public static void stop() {
         App.getInstance().stopService(new Intent(App.getInstance(), PlayService.class));
     }
+    public static void stop(MyVideoView owner) { if (owner != null && owner == videoView) stop(); }
 
 
     private static final String CHANNEL_ID = "MyChannelId";
@@ -62,8 +68,8 @@ public class PlayService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (videoView == null) { stopSelf(); return START_NOT_STICKY; }
         startForeground(NOTIFICATION_ID, buildNotification());
-        videoView.start();
         return START_NOT_STICKY;
     }
 
@@ -79,8 +85,9 @@ public class PlayService extends Service {
 
     private Notification buildNotification(){
 
-        String title = videoInfo.split("&&")[0];
-        String episodes = videoInfo.split("&&")[1];
+        String[] parts = videoInfo.split("&&", 2);
+        String title = parts[0];
+        String episodes = parts.length > 1 ? parts[1] : "";
         // 展开布局
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification_player);
         remoteViews.setTextViewText(R.id.tv_title, title);
@@ -110,17 +117,19 @@ public class PlayService extends Service {
     }
 
     private PendingIntent getPendingIntentActivity() {
-        Intent intent = new Intent(this, DetailActivity.class);
+        Intent intent = resumeIntent == null ? new Intent(this, DetailActivity.class) : resumeIntent;
         return PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
     public static PendingIntent getPendingIntent(int actionCode) {
-        return PendingIntent.getBroadcast(App.getInstance(), actionCode, new Intent(IntentKey.BROADCAST_ACTION).putExtra("action", actionCode).setPackage(App.getInstance().getPackageName()),PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(App.getInstance(), actionCode, new Intent(IntentKey.BROADCAST_ACTION).putExtra("action", actionCode).setPackage(App.getInstance().getPackageName()),PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
         stopForeground(true);
+        videoView = null; resumeIntent = null;
+        super.onDestroy();
     }
 
     @Nullable

@@ -26,6 +26,10 @@ public abstract class Spider {
         return "";
     }
 
+    public String liveContent(String url) throws Exception {
+        return "";
+    }
+
     public String categoryContent(String tid, String pg, boolean filter, HashMap < String, String > extend) throws Exception {
         return "";
     }

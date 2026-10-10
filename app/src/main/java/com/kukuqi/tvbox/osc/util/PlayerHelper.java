@@ -223,7 +223,7 @@ public class PlayerHelper {
     }
 
     public static Boolean runExternalPlayer(int playerType, Activity activity, String url, String title, String subtitle, HashMap<String, String> headers) {
-        return runExternalPlayer(playerType, activity, url, title, subtitle, headers);
+        return runExternalPlayer(playerType, activity, url, title, subtitle, headers, 0);
     }
 
     public static Boolean runExternalPlayer(int playerType, Activity activity, String url, String title, String subtitle, HashMap<String, String> headers, long progress) {

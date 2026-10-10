@@ -220,6 +220,7 @@ public class PlayFragment extends BaseLazyFragment {
         ProgressManager progressManager = new ProgressManager() {
             @Override
             public void saveProgress(String url, long progress) {
+                if (Hawk.get(HawkConfig.PRIVATE_BROWSING, false)) return;
                 CacheManager.save(MD5.string2MD5(url), progress);
             }
 
@@ -1029,6 +1030,7 @@ public class PlayFragment extends BaseLazyFragment {
 
                         }
                     }
+                    playerRequestHeaders = headers == null ? new HashMap<>() : new HashMap<>(headers);
                     if (parse || jx) {
                         boolean userJxList = (playUrl.isEmpty() && ApiConfig.get().getVipParseFlags().contains(flag)) || jx;
                         initParse(flag, userJxList, playUrl, url);
@@ -1036,6 +1038,10 @@ public class PlayFragment extends BaseLazyFragment {
                         mController.showParse(false);
                         playUrl(playUrl + url, headers);
                     }
+                    com.google.gson.JsonElement comments = info.has("danmaku") && !info.isNull("danmaku")
+                            ? com.google.gson.JsonParser.parseString(info.toString()).getAsJsonObject().get("danmaku") : null;
+                    mVideoView.setDanmakuContext(comments, mVodInfo == null ? "" : mVodInfo.name,
+                            mVodInfo == null ? "" : mVodInfo.playNote);
                 } catch (Throwable th) {
                     LogUtils.e(th.toString());
 //                        errorWithRetry("获取播放信息错误", true);
@@ -1110,7 +1116,8 @@ public class PlayFragment extends BaseLazyFragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (mVideoView != null) {
+        if (mVideoView != null && (!(getActivity() instanceof DetailActivity)
+                || !((DetailActivity) getActivity()).keepsPlayingInBackground())) {
             mVideoView.pause();
         }
     }
@@ -1280,6 +1287,11 @@ public class PlayFragment extends BaseLazyFragment {
     private String webUrl;
     private String webUserAgent;
     private Map<String, String> webHeaderMap;
+    private Map<String, String> playerRequestHeaders = new HashMap<>();
+    private Map<String, String> parseHeaders(ParseBean parse) {
+        Map<String, String> result = new HashMap<>(playerRequestHeaders);
+        result.putAll(parse.getHeaders()); return result;
+    }
 
     private void initParse(String flag, boolean useParse, String playUrl, final String url) {
         parseFlag = flag;
@@ -1312,39 +1324,20 @@ public class PlayFragment extends BaseLazyFragment {
     }
 
     JSONObject jsonParse(String input, String json) throws JSONException {
-        JSONObject jsonPlayData = new JSONObject(json);
-        //小窗版解析方法改到这了  之前那个位置data解析无效
-        String url;
-        if (jsonPlayData.has("data")) {
-            url = jsonPlayData.getJSONObject("data").getString("url");
-        } else {
-            url = jsonPlayData.getString("url");
-        }
-        if (url.startsWith("//")) {
-            url = "http:" + url;
-        }
-        if (!url.startsWith("http")) {
-            return null;
-        }
-        JSONObject headers = new JSONObject();
-        String ua = jsonPlayData.optString("user-agent", "");
-        if (ua.trim().length() > 0) {
-            headers.put("User-Agent", " " + ua);
-        }
-        String referer = jsonPlayData.optString("referer", "");
-        if (referer.trim().length() > 0) {
-            headers.put("Referer", " " + referer);
-        }
-        JSONObject taskResult = new JSONObject();
-        taskResult.put("header", headers);
-        taskResult.put("url", url);
-        return taskResult;
+        com.kukuqi.tvbox.osc.util.ParseResult parsed = com.kukuqi.tvbox.osc.util.ParseResult.read(json, null);
+        JSONObject result = new JSONObject();
+        result.put("url", parsed.url);
+        result.put("header", new JSONObject(parsed.headers));
+        return result;
     }
 
     void stopParse() {
+        parseGeneration++;
+        if (automaticParser != null) { automaticParser.stop(); automaticParser = null; }
         mHandler.removeMessages(100);
         stopLoadWebView(false);
         OkGo.getInstance().cancelTag("json_jx");
+        OkGo.getInstance().cancelTag("auto_jx");
         if (parseThreadPool != null) {
             try {
                 parseThreadPool.shutdown();
@@ -1356,56 +1349,46 @@ public class PlayFragment extends BaseLazyFragment {
     }
 
     ExecutorService parseThreadPool;
+    private int parseGeneration;
+
+    private com.kukuqi.tvbox.osc.player.AutomaticParser automaticParser;
+    private void autoParse() {
+        setTip("正在自动解析播放地址", true, false);
+        final int generation = parseGeneration;
+        automaticParser = new com.kukuqi.tvbox.osc.player.AutomaticParser(requireActivity(), this::checkVideoFormat,
+                new com.kukuqi.tvbox.osc.player.AutomaticParser.Result() {
+                    public void success(String url, Map<String, String> headers) {
+                        if (generation == parseGeneration && isAdded()) playUrl(url, new HashMap<>(headers));
+                    }
+                    public void failure() {
+                        if (generation == parseGeneration && isAdded()) setTip("自动解析失败，请切换线路或重试", false, true);
+                    }
+                });
+        automaticParser.start(ApiConfig.get().getParseBeanList(1, parseFlag),
+                ApiConfig.get().getParseBeanList(0, parseFlag), webUrl,
+                sourceBean == null ? "" : sourceBean.getClickSelector(), playerRequestHeaders);
+    }
 
     private void doParse(ParseBean pb) {
         stopParse();
         initParseLoadFound();
+        if (pb == null) { setTip("当前配置没有解析线路", false, true); return; }
+        if (pb.getType() < 0 || pb.getType() > 4) { setTip("不支持此解析类型：" + pb.getType(), false, true); return; }
+        if (pb.getType() == 4) { autoParse(); return; }
+        webUserAgent = null;
+        webHeaderMap = new HashMap<>(parseHeaders(pb));
+        if (webHeaderMap.containsKey("User-Agent")) webUserAgent = webHeaderMap.remove("User-Agent");
         if (pb.getType() == 0) {
             setTip("正在嗅探播放地址", true, false);
             mHandler.removeMessages(100);
             mHandler.sendEmptyMessageDelayed(100, 20 * 1000);
-            if (pb.getExt() != null) {
-                // 解析ext
-                try {
-                    HashMap<String, String> reqHeaders = new HashMap<>();
-                    JSONObject jsonObject = new JSONObject(pb.getExt());
-                    if (jsonObject.has("header")) {
-                        JSONObject headerJson = jsonObject.optJSONObject("header");
-                        Iterator<String> keys = headerJson.keys();
-                        while (keys.hasNext()) {
-                            String key = keys.next();
-                            if (key.equalsIgnoreCase("user-agent")) {
-                                webUserAgent = headerJson.getString(key).trim();
-                            } else {
-                                reqHeaders.put(key, headerJson.optString(key, ""));
-                            }
-                        }
-                        if (reqHeaders.size() > 0) webHeaderMap = reqHeaders;
-                    }
-                } catch (Throwable e) {
-                    e.printStackTrace();
-                }
-            }
             loadWebView(pb.getUrl() + webUrl);
 
         } else if (pb.getType() == 1) { // json 解析
             setTip("正在解析播放地址", true, false);
-            // 解析ext
             HttpHeaders reqHeaders = new HttpHeaders();
-            try {
-                JSONObject jsonObject = new JSONObject(pb.getExt());
-                if (jsonObject.has("header")) {
-                    JSONObject headerJson = jsonObject.optJSONObject("header");
-                    Iterator<String> keys = headerJson.keys();
-                    while (keys.hasNext()) {
-                        String key = keys.next();
-                        reqHeaders.put(key, headerJson.optString(key, ""));
-                    }
-                }
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-            OkGo.<String>get(pb.getUrl() + encodeUrl(webUrl))
+            parseHeaders(pb).forEach(reqHeaders::put);
+            OkGo.<String>get(pb.getUrl() + webUrl)
                     .tag("json_jx")
                     .headers(reqHeaders)
                     .execute(new AbsCallback<String>() {
@@ -1422,8 +1405,9 @@ public class PlayFragment extends BaseLazyFragment {
                         public void onSuccess(Response<String> response) {
                             String json = response.body();
                             try {
-                                JSONObject rs = jsonParse(webUrl, json);
-                                HashMap<String, String> headers = null;
+                                com.kukuqi.tvbox.osc.util.ParseResult parsed = com.kukuqi.tvbox.osc.util.ParseResult.read(json, parseHeaders(pb));
+                                JSONObject rs = new JSONObject(); rs.put("url", parsed.url); rs.put("header", new JSONObject(parsed.headers));
+                                HashMap<String, String> headers = new HashMap<>(parseHeaders(pb));
                                 if (rs.has("header")) {
                                     try {
                                         JSONObject hds = rs.getJSONObject("header");
@@ -1433,7 +1417,7 @@ public class PlayFragment extends BaseLazyFragment {
                                             if (headers == null) {
                                                 headers = new HashMap<>();
                                             }
-                                            headers.put(key, hds.getString(key));
+                                            headers.put(com.kukuqi.tvbox.osc.util.ConfigCompat.headerKey(key), hds.getString(key).trim());
                                         }
                                     } catch (Throwable th) {
 
@@ -1471,7 +1455,7 @@ public class PlayFragment extends BaseLazyFragment {
 //                        errorWithRetry("解析错误", false);
                         setTip("解析错误", false, true);
                     } else {
-                        HashMap<String, String> headers = null;
+                        HashMap<String, String> headers = new HashMap<>(parseHeaders(pb));
                         if (rs.has("header")) {
                             try {
                                 JSONObject hds = rs.getJSONObject("header");
@@ -1481,7 +1465,7 @@ public class PlayFragment extends BaseLazyFragment {
                                     if (headers == null) {
                                         headers = new HashMap<>();
                                     }
-                                    headers.put(key, hds.getString(key));
+                                    headers.put(com.kukuqi.tvbox.osc.util.ConfigCompat.headerKey(key), hds.getString(key).trim());
                                 }
                             } catch (Throwable th) {
 
@@ -1519,7 +1503,7 @@ public class PlayFragment extends BaseLazyFragment {
             parseThreadPool.execute(new Runnable() {
                 @Override
                 public void run() {
-                    JSONObject rs = ApiConfig.get().jsonExtMix(parseFlag + "111", pb.getUrl(), finalExtendName, jxs, webUrl);
+                    JSONObject rs = ApiConfig.get().jsonExtMix(parseFlag, pb.getUrl(), finalExtendName, jxs, webUrl);
                     if (rs == null || !rs.has("url") || rs.optString("url").isEmpty()) {
 //                        errorWithRetry("解析错误", false);
                         setTip("解析错误", false, true);
@@ -1541,7 +1525,7 @@ public class PlayFragment extends BaseLazyFragment {
                                 }
                             });
                         } else {
-                            HashMap<String, String> headers = null;
+                            HashMap<String, String> headers = new HashMap<>(parseHeaders(pb));
                             if (rs.has("header")) {
                                 try {
                                     JSONObject hds = rs.getJSONObject("header");
@@ -1551,7 +1535,7 @@ public class PlayFragment extends BaseLazyFragment {
                                         if (headers == null) {
                                             headers = new HashMap<>();
                                         }
-                                        headers.put(key, hds.getString(key));
+                                        headers.put(com.kukuqi.tvbox.osc.util.ConfigCompat.headerKey(key), hds.getString(key).trim());
                                     }
                                 } catch (Throwable th) {
                                     th.printStackTrace();

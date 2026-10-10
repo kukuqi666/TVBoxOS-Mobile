@@ -128,7 +128,15 @@ public class DetailActivity extends BaseVbActivity<ActivityDetailBinding> {
     /**
      * 是否开启后台播放标记,不在广播开启,onPause根据标记开启
      */
-    boolean openBackgroundPlay;
+    private final com.kukuqi.tvbox.osc.player.PlaybackBackground background =
+            new com.kukuqi.tvbox.osc.player.PlaybackBackground(this,
+                    () -> playFragment == null ? null : playFragment.getPlayer(),
+                    () -> vodInfo == null ? "点播" : vodInfo.name,
+                    () -> { if (playFragment != null) playFragment.playPrevious(); },
+                    () -> { if (playFragment != null) playFragment.playNext(false); });
+    public boolean keepsPlayingInBackground() { return background.keepsPlaying(); }
+    @Override protected void onUserLeaveHint() { super.onUserLeaveHint(); background.onUserLeaveHint(); }
+    @Override protected void onStop() { super.onStop(); background.onStop(); }
     private BroadcastReceiver mRemoteActionReceiver;
 
     /**
@@ -138,7 +146,7 @@ public class DetailActivity extends BaseVbActivity<ActivityDetailBinding> {
 
     @Override
     protected void init() {
-        initReceiver();
+
         initView();
         initViewModel();
         initData();
@@ -155,8 +163,7 @@ public class DetailActivity extends BaseVbActivity<ActivityDetailBinding> {
     @Override
     protected void onResume() {
         super.onResume();
-        openBackgroundPlay = false;
-        playServerSwitch(false);
+        background.onResume();
         mBinding.ivPrivateBrowsing.postDelayed(NotificationUtils::cancelAll, 800);
     }
 
@@ -273,25 +280,7 @@ public class DetailActivity extends BaseVbActivity<ActivityDetailBinding> {
     @Override
     protected void onPause() {
         super.onPause();
-        if (openBackgroundPlay) {
-            playServerSwitch(true);
-        }
-    }
-
-    private void initReceiver() {
-        // 注册广播接收器
-        if (mHomeKeyReceiver == null) {
-            mHomeKeyReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    String action = intent.getAction();
-                    if (action != null && action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
-                        openBackgroundPlay = Hawk.get(HawkConfig.BACKGROUND_PLAY_TYPE, 0) == 1 && playFragment.getPlayer() != null && playFragment.getPlayer().isPlaying();
-                    }
-                }
-            };
-            registerReceiver(mHomeKeyReceiver, new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
-        }
+        background.onPause();
     }
 
     /**
@@ -725,7 +714,7 @@ public class DetailActivity extends BaseVbActivity<ActivityDetailBinding> {
 
     @Override
     protected void onDestroy() {
-        registerActionReceiver(false);
+        background.onDestroy();
         super.onDestroy();
         unregisterReceiver(mBatteryReceiver);
         // 注销广播接收器
@@ -861,119 +850,9 @@ public class DetailActivity extends BaseVbActivity<ActivityDetailBinding> {
      * 画中画模式
      */
     public void enterPip() {
-        if (Utils.supportsPiPMode()) {
-            // 创建一个Intent对象，模拟按下Home键
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            startActivity(intent);
-
-            // Calculate Video Resolution
-            int vWidth = playFragment.getPlayer().getVideoSize()[0];
-            int vHeight = playFragment.getPlayer().getVideoSize()[1];
-            Rational ratio;
-            if (vWidth != 0) {
-                if ((((double) vWidth) / ((double) vHeight)) > 2.39) {
-                    vHeight = (int) (((double) vWidth) / 2.35);
-                }
-                ratio = new Rational(vWidth, vHeight);
-            } else {
-                ratio = new Rational(16, 9);
-            }
-            List<RemoteAction> actions = new ArrayList<>();
-            actions.add(generateRemoteAction(android.R.drawable.ic_media_previous, IntentKey.BROADCAST_ACTION_PREV, "Prev", "Play Previous"));
-            actions.add(generateRemoteAction(android.R.drawable.ic_media_play, IntentKey.BROADCAST_ACTION_PLAYPAUSE, "Play", "Play/Pause"));
-            actions.add(generateRemoteAction(android.R.drawable.ic_media_next, IntentKey.BROADCAST_ACTION_NEXT, "Next", "Play Next"));
-            PictureInPictureParams params = new PictureInPictureParams.Builder()
-                    .setAspectRatio(ratio)
-                    .setActions(actions).build();
-            playFragment.getPlayer().postDelayed(() -> {//代码模拟home键时会立即执行,toggleFullPreview中竖屏有切换横屏操作,
-                if (!fullWindows) {
-                    toggleFullPreview();
-                }
-            }, 300);
-            enterPictureInPictureMode(params);
-            playFragment.getController().hideBottom();
-
-            playFragment.getPlayer().postDelayed(() -> {
-                if (!playFragment.getPlayer().isPlaying()) {
-                    playFragment.getController().togglePlay();
-                }
-            }, 400);
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private RemoteAction generateRemoteAction(int iconResId, int actionCode, String title, String desc) {
-        final PendingIntent intent =
-                PendingIntent.getBroadcast(
-                        DetailActivity.this,
-                        actionCode,
-                        new Intent(IntentKey.BROADCAST_ACTION).putExtra("action", actionCode),
-                        0);
-        final Icon icon = Icon.createWithResource(DetailActivity.this, iconResId);
-        return (new RemoteAction(icon, title, desc, intent));
-    }
-
-    /**
-     * 事件接收广播(画中画/后台播放点击事件)
-     * @param isRegister 注册/注销
-     */
-    private void registerActionReceiver(boolean isRegister) {
-        if (isRegister) {
-            mRemoteActionReceiver = new BroadcastReceiver() {
-
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    if (intent == null || !intent.getAction().equals(IntentKey.BROADCAST_ACTION) || playFragment.getController() == null) {
-                        return;
-                    }
-
-                    int currentStatus = intent.getIntExtra("action", 1);
-                    if (currentStatus == IntentKey.BROADCAST_ACTION_PREV) {
-                        playFragment.playPrevious();
-                    } else if (currentStatus == IntentKey.BROADCAST_ACTION_PLAYPAUSE) {
-                        playFragment.getController().togglePlay();
-                    } else if (currentStatus == IntentKey.BROADCAST_ACTION_NEXT) {
-                        playFragment.playNext(false);
-                    } else if (currentStatus == IntentKey.BROADCAST_ACTION_CLOSE) {
-                        playServerSwitch(false);
-                        finish();
-                        NotificationUtils.cancelAll();
-                    }
-                }
-            };
-            registerReceiver(mRemoteActionReceiver, new IntentFilter(IntentKey.BROADCAST_ACTION));
-        } else {
-            if (mRemoteActionReceiver != null) {
-                unregisterReceiver(mRemoteActionReceiver);
-                mRemoteActionReceiver = null;
-            }
-            if (playFragment.getPlayer().isPlaying()) {// 退出画中画时,暂停播放(画中画的全屏也会触发,但全屏后会自动播放)
-                playFragment.getController().togglePlay();
-            }
-        }
-    }
-
-    @Override
-    public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode) {
-        super.onPictureInPictureModeChanged(isInPictureInPictureMode);
-        registerActionReceiver(Utils.supportsPiPMode() && isInPictureInPictureMode);
-    }
-
-    /**
-     * 后台播放服务开关,开启时注册操作广播,关闭时注销
-     */
-    private void playServerSwitch(boolean open) {
-        if (open) {
-            VodInfo.VodSeries vod = vodInfo.seriesMap.get(vodInfo.playFlag).get(vodInfo.playIndex);
-            PlayService.start(playFragment.getPlayer(), vodInfo.name + "&&" + vod.name);
-            registerActionReceiver(true);
-        } else {
-            if (ServiceUtils.isServiceRunning(PlayService.class)) {
-                PlayService.stop();
-                registerActionReceiver(false);
-            }
-        }
+        if (playFragment == null || playFragment.getPlayer() == null) return;
+        background.onUserLeaveHint();
+        if (background.keepsPlaying()) playFragment.getController().hideBottom();
     }
 
     public String getCurrentVodUrl() {

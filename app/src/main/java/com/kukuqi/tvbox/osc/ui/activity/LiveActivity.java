@@ -98,7 +98,12 @@ import xyz.doikki.videoplayer.player.VideoView;
  */
 public class LiveActivity extends BaseActivity {
     public static Context context;
-    private VideoView mVideoView;
+    private com.kukuqi.tvbox.osc.player.MyVideoView mVideoView;
+    private final com.kukuqi.tvbox.osc.player.PlaybackBackground background =
+            new com.kukuqi.tvbox.osc.player.PlaybackBackground(this, () -> this.mVideoView,
+                    () -> this.currentLiveChannelItem == null ? "直播" : this.currentLiveChannelItem.getChannelName(), this::playPrevious, this::playNext);
+    @Override protected void onUserLeaveHint() { super.onUserLeaveHint(); background.onUserLeaveHint(); }
+    @Override protected void onStop() { super.onStop(); background.onStop(); }
     private TextView tvChannelInfo;
     private LinearLayout tvLeftChannelListLayout;
     private RecyclerView mChannelGroupView;
@@ -405,6 +410,7 @@ public class LiveActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        background.onResume();
         mHandler.removeCallbacks(epgTick);
         mHandler.post(epgTick);
         if (mVideoView != null) mVideoView.resume();
@@ -414,6 +420,7 @@ public class LiveActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        background.onPause();
         mHandler.removeCallbacks(epgTick);
         mHandler.removeCallbacks(mConnectTimeoutChangeSourceRun);
         if (epgDialog != null) epgDialog.dismiss();
@@ -421,7 +428,7 @@ public class LiveActivity extends BaseActivity {
         if (mSettingRightDialog != null) mSettingRightDialog.dismiss();
         if (mAllChannelRightDialog != null) mAllChannelRightDialog.dismiss();
         if (mVideoView != null) {
-            mVideoView.pause();
+            if (!background.keepsPlaying()) mVideoView.pause();
         }
     }
 
@@ -433,6 +440,7 @@ public class LiveActivity extends BaseActivity {
         if (channel_Name == currentLiveChannelItem) channel_Name = null;
         if (context == this) context = null;
         mHandler.removeCallbacksAndMessages(null);
+        background.onDestroy();
         super.onDestroy();
         if (mVideoView != null) {
             mVideoView.release();
@@ -517,7 +525,7 @@ public class LiveActivity extends BaseActivity {
         }
         showBottomEpg();
 
-        mVideoView.setUrl(currentLiveChannelItem.getUrl());
+        mVideoView.setUrl(currentLiveChannelItem.getUrl(), currentLiveChannelItem.getHeaders());
        // showChannelInfo();
         mVideoView.start();
         return true;
@@ -890,7 +898,7 @@ public class LiveActivity extends BaseActivity {
             case 2://播放解码
                 mVideoView.release();
                 livePlayerManager.changeLivePlayerType(mVideoView, position, currentLiveChannelItem.getChannelName());
-                mVideoView.setUrl(currentLiveChannelItem.getUrl());
+                mVideoView.setUrl(currentLiveChannelItem.getUrl(), currentLiveChannelItem.getHeaders());
                 mVideoView.start();
                 break;
             case 3://超时换源
@@ -1354,7 +1362,7 @@ public class LiveActivity extends BaseActivity {
     public void changePlayer(int position){
         mVideoView.release();
         livePlayerManager.changeLivePlayerType(mVideoView, position, currentLiveChannelItem.getChannelName());
-        mVideoView.setUrl(currentLiveChannelItem.getUrl());
+        mVideoView.setUrl(currentLiveChannelItem.getUrl(), currentLiveChannelItem.getHeaders());
         mVideoView.start();
     }
 

@@ -70,6 +70,7 @@ public abstract class BaseActivity extends AppCompatActivity implements CustomAd
         initStatusBar();
         initTitleBar();
         init();
+        com.kukuqi.tvbox.osc.ui.settings.ThemeColors.apply(getWindow().getDecorView());
         // Apply global wallpaper
         if (shouldApplyWallpaper()) WallpaperManager.get().applyToActivity(this);
         if (!App.getInstance().isNormalStart){
@@ -85,6 +86,7 @@ public abstract class BaseActivity extends AppCompatActivity implements CustomAd
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWallpaperChanged(com.kukuqi.tvbox.osc.event.WallpaperChangedEvent event) {
         if (shouldApplyWallpaper()) WallpaperManager.get().applyToActivity(this);
+        com.kukuqi.tvbox.osc.ui.settings.ThemeColors.apply(getWindow().getDecorView());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -94,6 +96,7 @@ public abstract class BaseActivity extends AppCompatActivity implements CustomAd
     protected void onResume() {
         super.onResume();
         if (shouldApplyWallpaper()) WallpaperManager.get().applyToActivity(this);
+        com.kukuqi.tvbox.osc.ui.settings.ThemeColors.apply(getWindow().getDecorView());
     }
 
 

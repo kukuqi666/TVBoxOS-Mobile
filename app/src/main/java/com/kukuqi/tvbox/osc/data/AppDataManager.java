@@ -142,6 +142,7 @@ public class AppDataManager {
         if (dbInstance != null && dbInstance.isOpen()) {
             dbInstance.close();
         }
+        dbInstance = null;
         File db = App.getInstance().getDatabasePath(dbPath());
         if (db.exists()) {
             FileUtils.copyFile(db, path);
@@ -152,16 +153,31 @@ public class AppDataManager {
     }
 
     public static boolean restore(File path) throws IOException {
+        if (!path.isFile() || path.length() < 16) return false;
+        try (java.io.FileInputStream input = new java.io.FileInputStream(path)) {
+            byte[] header = new byte[16];
+            if (input.read(header) != 16 || !new String(header, java.nio.charset.StandardCharsets.US_ASCII).equals("SQLite format 3\u0000")) return false;
+        }
+        File db = App.getInstance().getDatabasePath(dbPath());
+        if (!db.getParentFile().exists()) db.getParentFile().mkdirs();
+        // Validate the contents before closing or replacing the working database.
+        try (android.database.sqlite.SQLiteDatabase candidate = android.database.sqlite.SQLiteDatabase.openDatabase(path.getAbsolutePath(), null, android.database.sqlite.SQLiteDatabase.OPEN_READONLY);
+             android.database.Cursor check = candidate.rawQuery("PRAGMA quick_check", null)) {
+            if (!check.moveToFirst() || !"ok".equals(check.getString(0))) return false;
+            try (android.database.Cursor identity = candidate.rawQuery("SELECT identity_hash FROM room_master_table WHERE id=42", null);
+                 android.database.Cursor current = get().getOpenHelper().getReadableDatabase().query("SELECT identity_hash FROM room_master_table WHERE id=42")) {
+                if (!identity.moveToFirst() || !current.moveToFirst() || !identity.getString(0).equals(current.getString(0))) return false;
+            }
+        } catch (RuntimeException invalid) { return false; }
+        File temporary = new File(db.getPath() + ".restore");
+        FileUtils.copyFile(path, temporary);
         if (dbInstance != null && dbInstance.isOpen()) {
             dbInstance.close();
         }
-        File db = App.getInstance().getDatabasePath(dbPath());
-        if (db.exists()) {
-            db.delete();
-        }
-        if (!db.getParentFile().exists())
-            db.getParentFile().mkdirs();
-        FileUtils.copyFile(path, db);
+        dbInstance = null;
+        java.nio.file.Files.move(temporary.toPath(), db.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        new File(db.getPath() + "-wal").delete();
+        new File(db.getPath() + "-shm").delete();
         return true;
     }
 }

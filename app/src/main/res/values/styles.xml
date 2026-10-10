@@ -1,5 +1,18 @@
 <resources>
 
+    <style name="VideoLinkBaseTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+    </style>
+    <style name="VideoLinkDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/VideoLinkDialogShape</item>
+        <item name="colorSurface">@color/video_link_surface</item>
+        <item name="backgroundTint">@color/video_link_surface</item>
+    </style>
+    <style name="VideoLinkDialogShape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">28dp</item>
+    </style>
+
 
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!--应用的主要色调,actionBar默认使用该颜色,Toolbar导航栏的底色-->

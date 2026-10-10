@@ -62,6 +62,8 @@ public class UserFragment extends BaseLazyFragment {
     private GridAdapter homeHotVodAdapter;
     private List<Movie.Video> homeSourceRec;
     RecyclerView tvHotList1;
+    private androidx.swiperefreshlayout.widget.SwipeRefreshLayout swipeRefresh;
+    private com.kukuqi.tvbox.osc.viewmodel.SourceViewModel recommendations;
 
     public static UserFragment newInstance(List<Movie.Video> recVod) {
         return new UserFragment().setArguments(recVod);
@@ -77,7 +79,7 @@ public class UserFragment extends BaseLazyFragment {
         super.onFragmentResume();
 
         tvHotList1.setHasFixedSize(true);
-        tvHotList1.setLayoutManager(new GridLayoutManager(this.mContext, Utils.getPosterSpanCount(this.mContext)));
+        if (tvHotList1.getLayoutManager() == null) tvHotList1.setLayoutManager(new GridLayoutManager(this.mContext, Utils.getPosterSpanCount(this.mContext)));
     }
 
     @Override
@@ -96,7 +98,14 @@ public class UserFragment extends BaseLazyFragment {
     @Override
     protected void init() {
         tvHotList1 = findViewById(R.id.tvHotList1);
-        findViewById(R.id.btn_live).setOnClickListener(view -> jumpActivity(LiveActivity.class));
+        swipeRefresh = findViewById(R.id.swipeRefresh);
+        BrowseControls.attach(this, swipeRefresh, findViewById(R.id.btn_live), tvHotList1,
+                () -> tvHotList1, this::refreshContent, null);
+        recommendations = new androidx.lifecycle.ViewModelProvider(this).get(com.kukuqi.tvbox.osc.viewmodel.SourceViewModel.class);
+        recommendations.sortResult.observe(this, result -> {
+            homeSourceRec = result == null ? null : result.videoList;
+            initHomeHotVod(homeHotVodAdapter);
+        });
         homeHotVodAdapter = new GridAdapter();
         homeHotVodAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -143,6 +152,7 @@ public class UserFragment extends BaseLazyFragment {
             }else {
                 showEmpty();
             }
+            swipeRefresh.setRefreshing(false);
             return;
         }
         try {
@@ -159,16 +169,19 @@ public class UserFragment extends BaseLazyFragment {
                     if (hotMovies != null && hotMovies.size() > 0) {
                         showSuccess();
                         adapter.setNewData(hotMovies);
+                        swipeRefresh.setRefreshing(false);
                         return;
                     }
                 }
             }
             String doubanUrl = "https://movie.douban.com/j/new_search_subjects?sort=U&range=0,10&tags=&playable=1&start=0&year_range=" + year + "," + year;
             OkGo.<String>get(doubanUrl)
+                    .tag(this)
                     .headers("User-Agent", UA.randomOne())
                     .execute(new AbsCallback<String>() {
                         @Override
                         public void onSuccess(Response<String> response) {
+                            if (!isAdded() || mActivity.isDestroyed()) return;
                             String netJson = response.body();
                             Hawk.put("home_hot_day", today);
                             Hawk.put("home_hot", netJson);
@@ -176,6 +189,7 @@ public class UserFragment extends BaseLazyFragment {
                                 @Override
                                 public void run() {
                                     ArrayList<Movie.Video> videos = loadHots(netJson);
+                                    swipeRefresh.setRefreshing(false);
                                     if (videos.size()>0){
                                         showSuccess();
                                         adapter.setNewData(videos);
@@ -186,17 +200,41 @@ public class UserFragment extends BaseLazyFragment {
                             });
                         }
 
+                        @Override public void onError(Response<String> response) {
+                            if (!isAdded()) return;
+                            swipeRefresh.setRefreshing(false);
+                            if (adapter.getData().isEmpty()) showEmpty();
+                            ToastUtils.showShort("刷新失败，请稍后重试");
+                        }
+
                         @Override
                         public String convertResponse(okhttp3.Response response) throws Throwable {
                             return response.body().string();
                         }
                     });
         } catch (Throwable th) {
+            swipeRefresh.setRefreshing(false);
             th.printStackTrace();
             if (adapter.getData().isEmpty()){
                 showEmpty();
             }
         }
+    }
+
+    private void refreshContent() {
+        if (Hawk.get(HawkConfig.HOME_REC, 0) == 1) {
+            if (ApiConfig.get().getHomeSourceBean() == null) { swipeRefresh.setRefreshing(false); return; }
+            recommendations.getSort(ApiConfig.get().getHomeSourceBean().getKey());
+        } else {
+            Hawk.delete("home_hot_day");
+            OkGo.getInstance().cancelTag(this);
+            initHomeHotVod(homeHotVodAdapter);
+        }
+    }
+
+    @Override public void onDestroy() {
+        OkGo.getInstance().cancelTag(this);
+        super.onDestroy();
     }
 
     private ArrayList<Movie.Video> loadHots(String json) {

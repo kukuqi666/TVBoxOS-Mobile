@@ -12,21 +12,22 @@ import java.util.LinkedHashMap;
 
 public final class LiveSourceLoader {
     public interface Result { void onResult(JsonArray groups, String error); }
-    public static void load(String url, Result result) { load(url, 0, result); }
-    private static void load(String url, int depth, Result result) {
+    public static void load(String url, Result result) { load(url, java.util.Collections.emptyMap(), 0, result); }
+    private static void load(String url, java.util.Map<String, String> headers, int depth, Result result) {
         if (depth > 3) { result.onResult(null, "直播源存在循环引用，请更换来源"); return; }
-        SourceManager.read(url, (content, error) -> {
+        SourceManager.read(url, headers, (content, error) -> {
             if (content == null) { result.onResult(null, error); return; }
             try {
                 String json = ApiConfig.FindResult(content, null);
+                    if (json.trim().startsWith("{") && com.google.gson.JsonParser.parseString(json).getAsJsonObject().has("urls")) {
+                        SourceManager.readConfig(url, (resolved, failure) -> {
+                            if (resolved == null) result.onResult(null, failure);
+                            else parseConfig(url, resolved, depth, result);
+                        });
+                        return;
+                    }
                 if (json.trim().startsWith("{") || json.trim().startsWith("[")) {
-                    SourceDescriptor source = new SourceDescriptor(url, json);
-                    SourceManager.record(url, json);
-                    JsonArray groups = normalize(source.lives(), url);
-                    if (groups.size() > 0) { attachEpg(groups, source.rootEpg()); result.onResult(groups, ""); return; }
-                    java.util.List<String> playlists = source.playlists();
-                    if (playlists.isEmpty()) { result.onResult(null, "这个源未提供直播，请选择其他直播源"); return; }
-                    loadPlaylist(source, playlists, 0, depth + 1, result); return;
+                    parseConfig(url, json, depth, result); return;
                 }
                 LinkedHashMap<String, LinkedHashMap<String, ArrayList<String>>> channels = new LinkedHashMap<>();
                 TxtSubscribe.parse(channels, content);
@@ -37,11 +38,76 @@ public final class LiveSourceLoader {
             } catch (Exception e) { result.onResult(null, "直播内容无法解析，请检查来源格式"); }
         });
     }
+    private static void parseConfig(String url, String json, int depth, Result result) {
+        try {
+                    SourceDescriptor source = new SourceDescriptor(url, json);
+                    SourceManager.record(url, json);
+                    JsonArray groups = LiveConfigCompat.groups(source.lives(), url);
+                    if (groups.size() > 0) { attachEpg(groups, source.rootEpg()); result.onResult(groups, ""); return; }
+                    JsonObject plugin = null;
+                    String preferredPlugin = com.orhanobut.hawk.Hawk.get("live_playlist_url", "");
+                    for (JsonElement entry : source.lives()) if (entry.isJsonObject() && !SourceDescriptor.string(entry.getAsJsonObject(), "api").isEmpty()) {
+                        if (plugin == null) plugin = entry.getAsJsonObject();
+                        if (SourceDescriptor.resolve(url, SourceDescriptor.string(entry.getAsJsonObject(), "url")).equals(preferredPlugin)) { plugin = entry.getAsJsonObject(); break; }
+                    }
+                    if (plugin != null) { loadPlugin(source, plugin, result); return; }
+                    java.util.List<String> playlists = source.playlists();
+                    if (playlists.isEmpty()) { result.onResult(null, "这个源未提供直播，请选择其他直播源"); return; }
+                    String preferred = com.orhanobut.hawk.Hawk.get("live_playlist_url", "");
+                    if (playlists.remove(preferred)) playlists.add(0, preferred);
+                    loadPlaylist(source, playlists, 0, depth + 1, result); return;
+            } catch (Exception e) { result.onResult(null, "直播内容无法解析，请检查来源格式"); }
+    }
+    private static void loadPlugin(SourceDescriptor source, JsonObject live, Result result) {
+        HeavyTaskUtil.executeNewTask(() -> {
+            JsonArray ready = null; String error = "直播插件加载失败，请检查模块与来源";
+            try {
+                com.kukuqi.tvbox.osc.bean.SourceBean site = new com.kukuqi.tvbox.osc.bean.SourceBean();
+                site.setKey("live:" + source.url + ":" + SourceDescriptor.string(live, "name"));
+                JsonObject normalized = live.deepCopy(); ConfigCompat.normalize(normalized, source.url);
+                site.setApi(SourceDescriptor.string(normalized, "api"));
+                site.setExt(ConfigCompat.text(live.get("ext")));
+                String jar = SourceDescriptor.string(live, "jar");
+                if (jar.isEmpty() && source.content.isJsonObject()) jar = SourceDescriptor.string(source.content.getAsJsonObject(), "spider");
+                site.setJar(SourceDescriptor.resolve(source.url, jar));
+                Object spider = ApiConfig.get().getCSP(site);
+                String text = (String) spider.getClass().getMethod("liveContent", String.class).invoke(spider, SourceDescriptor.resolve(source.url, SourceDescriptor.string(live, "url")));
+                if (text.trim().startsWith("[") || text.trim().startsWith("{")) ready = LiveConfigCompat.groups(new SourceDescriptor(source.url, text).lives(), source.url);
+                else {
+                    LinkedHashMap<String, LinkedHashMap<String, ArrayList<String>>> channels = new LinkedHashMap<>();
+                    TxtSubscribe.parse(channels, text); ready = TxtSubscribe.live2JsonArray(channels);
+                    LivePlaylistMetadata.apply(ready, text, source.url);
+                }
+                attachEpg(ready, SourceDescriptor.resolve(source.url, SourceDescriptor.string(live, "epg")));
+                java.util.Map<String,String> headers = LiveConfigCompat.headers(live, java.util.Collections.emptyMap());
+                for (JsonElement group : ready) for (JsonElement channel : ConfigCompat.array(group.getAsJsonObject(), "channels")) {
+                    JsonObject object = new JsonObject(); java.util.Map<String,String> merged = new java.util.LinkedHashMap<>(headers);
+                    merged.putAll(ConfigCompat.headers(channel.getAsJsonObject().get("header"))); merged.forEach(object::addProperty);
+                    channel.getAsJsonObject().add("header", object);
+                }
+                if (ready.size() == 0) ready = null;
+            } catch (NoSuchMethodException unsupported) { error = "该直播插件未提供 liveContent，请更新兼容的模块"; }
+            catch (Exception failure) {}
+            JsonArray groups = ready; String message = error;
+            new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> result.onResult(groups, groups == null ? message : ""));
+        });
+    }
     private static void loadPlaylist(SourceDescriptor source, java.util.List<String> urls, int index, int depth, Result result) {
-        load(decode(urls.get(index)), depth, (groups, error) -> {
+        java.util.Map<String, String> headers = new java.util.LinkedHashMap<>();
+        for (JsonElement item : source.lives()) if (item.isJsonObject() && SourceDescriptor.resolve(source.url, SourceDescriptor.string(item.getAsJsonObject(), "url")).equals(urls.get(index))) {
+            headers = LiveConfigCompat.headers(item.getAsJsonObject(), headers); break;
+        }
+        java.util.Map<String, String> inherited = headers;
+        load(decode(urls.get(index)), headers, depth, (groups, error) -> {
             if (groups != null) {
                 String configured = source.epg(urls.get(index));
                 if (!configured.isEmpty()) for (JsonElement group : groups) group.getAsJsonObject().addProperty("epg", configured);
+                for (JsonElement group : groups) for (JsonElement channel : ConfigCompat.array(group.getAsJsonObject(), "channels")) {
+                    JsonObject header = new JsonObject();
+                    java.util.Map<String, String> merged = new java.util.LinkedHashMap<>(inherited);
+                    merged.putAll(ConfigCompat.headers(channel.getAsJsonObject().get("header"))); merged.forEach(header::addProperty);
+                    channel.getAsJsonObject().add("header", header);
+                }
                 result.onResult(groups, error);
             }
             else if (index + 1 == urls.size()) result.onResult(null, error);
@@ -67,39 +133,5 @@ public final class LiveSourceLoader {
             return ext.startsWith("http") || ext.startsWith("content://") || ext.startsWith("file://")
                     ? ext : new String(Base64.decode(ext, Base64.DEFAULT | Base64.URL_SAFE), "UTF-8");
         } catch (Exception e) { return value; }
-    }
-    private static JsonArray normalize(JsonArray input, String base) {
-        JsonArray result = new JsonArray();
-        for (JsonElement item : input) {
-            if (!item.isJsonObject()) continue;
-            JsonObject group = item.getAsJsonObject();
-            if (!group.has("channels") || !group.get("channels").isJsonArray()) continue;
-            JsonArray channels = new JsonArray();
-            for (JsonElement entry : group.getAsJsonArray("channels")) {
-                if (!entry.isJsonObject()) continue;
-                JsonObject original = entry.getAsJsonObject();
-                JsonArray urls = new JsonArray();
-                if (original.has("urls") && original.get("urls").isJsonArray()) {
-                    for (JsonElement link : original.getAsJsonArray("urls")) if (link.isJsonPrimitive() && !link.getAsString().startsWith("proxy://")) urls.add(SourceDescriptor.resolve(base, link.getAsString()));
-                } else if (!SourceDescriptor.string(original, "url").isEmpty()) urls.add(SourceDescriptor.resolve(base, SourceDescriptor.string(original, "url")));
-                if (urls.size() == 0) continue;
-                JsonObject channel = new JsonObject();
-                for (String field : new String[]{"tvg-id", "tvg-name"}) channel.addProperty(field, SourceDescriptor.string(original, field));
-                String guide = SourceDescriptor.string(original, "epg");
-                if (!guide.isEmpty()) {
-                    if (guide.contains("://") || guide.startsWith("/") || guide.contains("{") || guide.endsWith(".xml")) channel.addProperty("epg", SourceDescriptor.resolve(base, guide));
-                    else if (SourceDescriptor.string(channel, "tvg-id").isEmpty()) channel.addProperty("tvg-id", guide);
-                }
-                channel.addProperty("name", SourceDescriptor.string(original, "name")); channel.add("urls", urls); channels.add(channel);
-            }
-            if (channels.size() == 0) continue;
-            JsonObject output = new JsonObject();
-            String name = SourceDescriptor.string(group, "group");
-            if (name.isEmpty()) name = SourceDescriptor.string(group, "name");
-            output.addProperty("group", name.isEmpty() ? "直播" : name); output.add("channels", channels); result.add(output);
-            String epg = SourceDescriptor.string(group, "epg");
-            if (!epg.isEmpty()) output.addProperty("epg", SourceDescriptor.resolve(base, epg));
-        }
-        return result;
     }
 }

@@ -46,7 +46,7 @@ public final class SourceManager {
         } catch (Exception ignored) {}
     }
     public static void inspect(String url, Result result) {
-        read(url, (content, error) -> {
+        readConfig(url, (content, error) -> {
             if (content == null) { result.onResult(null, error); return; }
             try {
                 String json = ApiConfig.FindResult(content, null);
@@ -55,7 +55,52 @@ public final class SourceManager {
             } catch (Exception e) { result.onResult(null, "这个地址没有返回有效的订阅配置"); }
         });
     }
+    public static void readConfig(String url, ContentResult result) {
+        IO.execute(() -> {
+            String content = null, error = "这个地址没有返回有效的订阅配置";
+            try { content = ConfigCompat.resolve(configResource(url), SourceManager::configResource).toString(); }
+            catch (Exception e) { if (e.getMessage() != null) error = e.getMessage(); }
+            String ready = content, message = error;
+            MAIN.post(() -> result.onResult(ready, ready == null ? message : ""));
+        });
+    }
+    private static ConfigCompat.Resource configResource(String inputUrl) throws Exception {
+        String[] parts = inputUrl.split(";pk;", 2);
+        String url = parts[0], key = parts.length > 1 ? parts[1] : null;
+        String content;
+        if (url.startsWith("clan://")) url = ApiConfig.get().clanToAddress(url);
+        if (url.startsWith("assets://")) {
+            try (InputStream input = App.getInstance().getAssets().open(url.substring(9))) { content = text(input); }
+        } else if (url.startsWith("content://") || url.startsWith("file://")) {
+            try (InputStream input = App.getInstance().getContentResolver().openInputStream(Uri.parse(url))) { content = text(input); }
+        } else {
+            if (!url.startsWith("http://") && !url.startsWith("https://")) url = "http://" + url;
+            try (okhttp3.Response response = OkGo.getInstance().getOkHttpClient().newCall(new Request.Builder().url(url).header("User-Agent", "okhttp/3.15").build()).execute()) {
+                if (!response.isSuccessful() || response.body() == null) throw new java.io.IOException("拉取配置失败：HTTP " + response.code());
+                url = response.request().url().toString(); content = text(response.body().byteStream());
+            }
+        }
+        content = ApiConfig.FindResult(content, key);
+        if (inputUrl.startsWith("clan://")) content = ApiConfig.get().clanContentFix(url, content);
+        return new ConfigCompat.Resource(url, content);
+    }
     public static void read(String url, ContentResult result) {
+        read(url, java.util.Collections.emptyMap(), result);
+    }
+    public static boolean isLocal(String url) {
+        return url.startsWith("assets://") || url.startsWith("file://") || url.startsWith("content://");
+    }
+    public static void copyLocal(String url, File target) throws Exception {
+        if (target.exists() && !target.delete()) throw new java.io.IOException("无法替换本地模块缓存");
+        try (InputStream input = url.startsWith("assets://") ? App.getInstance().getAssets().open(url.substring(9))
+                : App.getInstance().getContentResolver().openInputStream(Uri.parse(url));
+             java.io.OutputStream output = new java.io.FileOutputStream(target)) {
+            if (input == null) throw new java.io.IOException("无法读取本地模块");
+            byte[] buffer = new byte[8192]; int count;
+            while ((count = input.read(buffer)) != -1) output.write(buffer, 0, count);
+        }
+    }
+    public static void read(String url, java.util.Map<String, String> headers, ContentResult result) {
         IO.execute(() -> {
             String content = null, error = "来源加载失败，请检查地址或网络";
             try {
@@ -64,11 +109,14 @@ public final class SourceManager {
                 } else if (url.startsWith("content://") || url.startsWith("file://")) {
                     try (InputStream input = App.getInstance().getContentResolver().openInputStream(Uri.parse(url))) { content = text(input); }
                 } else {
-                    try (okhttp3.Response response = OkGo.getInstance().getOkHttpClient().newCall(new Request.Builder().url(url).header("User-Agent", "okhttp/3.15").build()).execute()) {
+                    Request.Builder request = new Request.Builder().url(url).header("User-Agent", "okhttp/3.15");
+                    headers.forEach(request::header);
+                    try (okhttp3.Response response = OkGo.getInstance().getOkHttpClient().newCall(request.build()).execute()) {
                         if (response.isSuccessful() && response.body() != null) content = text(response.body().byteStream());
+                        else error = "HTTP " + response.code();
                     }
                 }
-            } catch (Exception ignored) {}
+            } catch (Exception failure) { error = failure.getClass().getSimpleName() + ": " + failure.getMessage(); }
             String ready = content, message = error; MAIN.post(() -> result.onResult(ready, ready == null ? message : ""));
         });
     }

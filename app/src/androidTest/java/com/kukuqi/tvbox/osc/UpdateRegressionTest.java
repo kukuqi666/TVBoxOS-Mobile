@@ -135,34 +135,32 @@ public class UpdateRegressionTest extends InstrumentationTestCase {
                         new android.content.Intent(context, com.kukuqi.tvbox.osc.ui.activity.MainActivity.class)
                                 .putExtra(com.kukuqi.tvbox.osc.ui.activity.MainActivity.EXTRA_START_DESTINATION, R.id.navigation_dashboard)
                                 .addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK));
-        com.kukuqi.tvbox.osc.ui.dialog.AboutDialog[] dialog = {null};
+        com.kukuqi.tvbox.osc.ui.activity.AboutActivity[] dialog = {null};
         try {
-            getInstrumentation().runOnMainSync(() -> {
-                dialog[0] = new com.kukuqi.tvbox.osc.ui.dialog.AboutDialog(activity);
-                new com.lxj.xpopup.XPopup.Builder(activity).asCustom(dialog[0]).show();
-            });
+            dialog[0] = openAbout(context);
             waitForButton(dialog[0]);
             getInstrumentation().runOnMainSync(() -> {
                 android.widget.TextView button = dialog[0].findViewById(R.id.btn_check_update);
                 assertFalse(button.isEnabled());
                 assertTrue(button.getText().toString().contains("后台下载"));
-                dialog[0].dismiss();
+                dialog[0].finish();
             });
             Thread.sleep(350);
             assertEquals(UpdateStore.DOWNLOADING, new UpdateStore(context).state());
             assertEquals(42, store.prefs.getInt("progress", 0));
-            getInstrumentation().runOnMainSync(() -> {
-                dialog[0] = new com.kukuqi.tvbox.osc.ui.dialog.AboutDialog(activity);
-                new com.lxj.xpopup.XPopup.Builder(activity).asCustom(dialog[0]).show();
-            });
+            dialog[0] = openAbout(context);
             waitForButton(dialog[0]);
             getInstrumentation().runOnMainSync(() -> assertTrue(((android.widget.TextView) dialog[0].findViewById(R.id.tv_update_progress))
                     .getText().toString().contains("42%")));
         } finally {
-            getInstrumentation().runOnMainSync(() -> { if (dialog[0] != null) dialog[0].dismiss(); activity.finish(); });
+            getInstrumentation().runOnMainSync(() -> { if (dialog[0] != null) dialog[0].finish(); activity.finish(); });
         }
     }
-    private void waitForButton(com.kukuqi.tvbox.osc.ui.dialog.AboutDialog dialog) throws Exception {
+    private com.kukuqi.tvbox.osc.ui.activity.AboutActivity openAbout(Context context) {
+        return (com.kukuqi.tvbox.osc.ui.activity.AboutActivity)getInstrumentation().startActivitySync(
+            new android.content.Intent(context,com.kukuqi.tvbox.osc.ui.activity.AboutActivity.class).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+    private void waitForButton(com.kukuqi.tvbox.osc.ui.activity.AboutActivity dialog) throws Exception {
         for (int attempt = 0; attempt < 60; attempt++) {
             boolean[] ready = {false};
             getInstrumentation().runOnMainSync(() -> ready[0] = dialog.findViewById(R.id.btn_check_update) != null);

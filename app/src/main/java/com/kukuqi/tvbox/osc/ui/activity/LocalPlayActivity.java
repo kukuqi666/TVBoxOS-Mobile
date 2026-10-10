@@ -45,6 +45,12 @@ public class LocalPlayActivity extends BaseVbActivity<ActivityLocalPlayBinding> 
 
 
     private MyVideoView mVideoView;
+    private final com.kukuqi.tvbox.osc.player.PlaybackBackground background =
+            new com.kukuqi.tvbox.osc.player.PlaybackBackground(this, () -> mVideoView,
+                    () -> this.mVideoList.isEmpty() ? "本地视频" : this.mVideoList.get(this.mPosition).getDisplayName(), () -> { if (this.mPosition > 0) { this.mPosition--; play(true); } }, () -> { if (this.mPosition + 1 < this.mVideoList.size()) { this.mPosition++; play(true); } });
+    @Override protected void onUserLeaveHint() { super.onUserLeaveHint(); background.onUserLeaveHint(); }
+    @Override protected void onStop() { super.onStop(); background.onStop(); }
+
     LocalVideoController mController;
     JSONObject mVodPlayerCfg;
     private List<VideoInfo> mVideoList = new ArrayList<>();
@@ -72,7 +78,7 @@ public class LocalPlayActivity extends BaseVbActivity<ActivityLocalPlayBinding> 
                     public void run() {
                         if (mVideoView == null || isFinishing() || isDestroyed()) return;
                         if (mVideoView.getCurrentPlayState() == VideoView.STATE_PREPARED){//不知道为啥部分长视频(不确定是不是因为时长/大小)会卡在准备完成状态,所以延迟重置下状态
-                            mVideoView.pause();
+                            if (!background.keepsPlaying()) mVideoView.pause();
                             mVideoView.resume();
                         }
                     }
@@ -96,9 +102,12 @@ public class LocalPlayActivity extends BaseVbActivity<ActivityLocalPlayBinding> 
         String path = videoInfo.getPath();
 
         String uri = "";
-        File file = new File(path);
-        if(file.exists()){
-            uri = Uri.parse("file://"+file.getAbsolutePath()).toString();
+        Uri selected = Uri.parse(path);
+        if ("content".equals(selected.getScheme())) {
+            uri = selected.toString();
+        } else {
+            File file = new File("file".equals(selected.getScheme()) ? selected.getPath() : path);
+            if (file.exists()) uri = Uri.fromFile(file).toString();
         }
         mController.setTitle(videoInfo.getDisplayName());
         mVideoView.setUrl(uri); //设置视频地址
@@ -107,6 +116,7 @@ public class LocalPlayActivity extends BaseVbActivity<ActivityLocalPlayBinding> 
             @Override
             public void saveProgress(String url, long progress) {// 就本地视频页面用sp,其余用Hawk
                 //有点本地文件确实总时长,设置下总时长,为什么用path,因为电影列表要通过媒体文件的path获取缓存的时长/进度,存取报纸缓存的key一直
+                if (Hawk.get(HawkConfig.PRIVATE_BROWSING, false)) return;
                 SPUtils.getInstance(CacheConst.VIDEO_DURATION_SP).put(path, mVideoView.getDuration());
                 SPUtils.getInstance(CacheConst.VIDEO_PROGRESS_SP).put(path, progress);
             }
@@ -124,6 +134,7 @@ public class LocalPlayActivity extends BaseVbActivity<ActivityLocalPlayBinding> 
         }else {
             mVideoView.start(); //开始播放，不调用则不自动播放
         }
+        mVideoView.setDanmakuContext(null, videoInfo.getDisplayName(), "");
     }
 
     private void initController() {
@@ -170,27 +181,35 @@ public class LocalPlayActivity extends BaseVbActivity<ActivityLocalPlayBinding> 
 
             @Override
             public void replay(boolean replay) {
-
+                long position = replay ? 0 : mVideoView.getCurrentPosition();
+                mVideoView.release();
+                PlayerHelper.updateCfg(mVideoView, mVodPlayerCfg);
+                mVideoView.setUrl(Uri.fromFile(new File(mVideoList.get(mPosition).getPath())).toString());
+                mVideoView.skipPositionWhenPlay((int) position);
+                mVideoView.start();
             }
 
             @Override
-            public void errReplay() {
-
-            }
+            public void errReplay() { ToastUtils.showShort("本地视频播放失败，请切换播放器或检查文件"); }
 
             @Override
             public void selectSubtitle() {
-
+                new android.app.AlertDialog.Builder(LocalPlayActivity.this).setTitle("字幕")
+                        .setItems(new String[]{"内置字幕", "选择本地字幕", "关闭字幕"}, (dialog, position) -> {
+                            if (position == 0) com.kukuqi.tvbox.osc.player.PlaybackTracks.select(LocalPlayActivity.this, mVideoView, mController.mSubtitleView, false);
+                            else if (position == 1) startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("*/*"), 9210);
+                            else { mController.mSubtitleView.destroy(); mController.mSubtitleView.isInternal = false; mController.mSubtitleView.setVisibility(android.view.View.GONE); }
+                        }).show();
             }
 
             @Override
             public void selectAudioTrack() {
-
+                com.kukuqi.tvbox.osc.player.PlaybackTracks.select(LocalPlayActivity.this, mVideoView, mController.mSubtitleView, true);
             }
 
             @Override
             public void prepared() {
-
+                com.kukuqi.tvbox.osc.player.PlaybackTracks.bind(mVideoView, mController.mSubtitleView);
             }
 
             @Override
@@ -236,20 +255,53 @@ public class LocalPlayActivity extends BaseVbActivity<ActivityLocalPlayBinding> 
         mController.setPlayerConfig(mVodPlayerCfg);
     }
 
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode != 9210 || resultCode != RESULT_OK || data == null || data.getData() == null) return;
+        Uri uri = data.getData();
+        new Thread(() -> {
+            try {
+                String name = "subtitle.srt";
+                try (android.database.Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+                    if (cursor != null && cursor.moveToFirst()) {
+                        int column = cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME);
+                        if (column >= 0) name = cursor.getString(column);
+                    }
+                }
+                String suffix = name != null && name.contains(".") ? name.substring(name.lastIndexOf('.')).toLowerCase(java.util.Locale.ROOT) : ".srt";
+                if (!java.util.Arrays.asList(".srt", ".ass", ".ssa", ".vtt", ".ttml", ".scc", ".stl").contains(suffix)) throw new java.io.IOException();
+                File file = new File(getCacheDir(), "local-subtitle" + suffix);
+                try (java.io.InputStream input = getContentResolver().openInputStream(uri); java.io.FileOutputStream output = new java.io.FileOutputStream(file)) {
+                    if (input == null) throw new java.io.IOException();
+                    byte[] buffer = new byte[8192]; int count, total = 0;
+                    while ((count = input.read(buffer)) != -1) { total += count; if (total > 8 * 1024 * 1024) throw new java.io.IOException(); output.write(buffer, 0, count); }
+                }
+                runOnUiThread(() -> {
+                    if (isDestroyed() || isFinishing()) return;
+                    mController.mSubtitleView.isInternal = false; mController.mSubtitleView.setVisibility(android.view.View.VISIBLE);
+                    mController.mSubtitleView.setSubtitlePath(file.getAbsolutePath());
+                });
+            } catch (Exception e) { runOnUiThread(() -> ToastUtils.showShort("字幕导入失败，请选择有效字幕文件")); }
+        }).start();
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
-        mVideoView.pause();
+        background.onPause();
+        if (!background.keepsPlaying()) mVideoView.pause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        background.onResume();
         mVideoView.resume();
     }
 
     @Override
     protected void onDestroy() {
+        background.onDestroy();
         super.onDestroy();
         unregisterReceiver(mBatteryReceiver);
         if (mVideoView != null) {

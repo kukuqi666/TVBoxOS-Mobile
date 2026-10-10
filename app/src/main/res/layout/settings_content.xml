@@ -19,6 +19,26 @@
     <TextView android:id="@+id/tvWallpaper" android:layout_width="0dp" android:layout_height="wrap_content" android:maxWidth="180dp" android:ellipsize="end" android:singleLine="true" android:textSize="16sp" android:textColor="@color/text_sub_foreground" android:layout_weight="1" android:gravity="end|center_vertical" android:maxLines="1" android:layout_marginStart="12dp" />
     <ImageView android:layout_width="26dp" android:layout_height="26dp" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" android:layout_marginStart="8dp" />
   </LinearLayout>
+  <LinearLayout android:id="@+id/llVodHome" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="首页站点" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <TextView  android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="end" android:textColor="@color/text_sub_foreground" android:textSize="16sp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llLiveHome" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="直播线路" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <TextView  android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="end" android:textColor="@color/text_sub_foreground" android:textSize="16sp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llSourceHistory" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="来源历史" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <TextView  android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="end" android:textColor="@color/text_sub_foreground" android:textSize="16sp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llModuleManager" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="模块管理" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <TextView  android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="end" android:textColor="@color/text_sub_foreground" android:textSize="16sp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" />
+  </LinearLayout>
   <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="外观与首页" android:textColor="@color/text_sub_foreground" android:textSize="13sp" android:paddingHorizontal="24dp" android:paddingTop="20dp" android:paddingBottom="8dp" />
   <LinearLayout android:id="@+id/llTheme" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="主题颜色" android:textColor="@color/text_foreground" android:textSize="16sp" />
@@ -32,7 +52,32 @@
     <TextView android:id="@+id/tvHomeRec" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="16sp" android:textColor="@color/text_sub_foreground" android:layout_weight="1" android:gravity="end|center_vertical" android:maxLines="1" android:ellipsize="end" android:layout_marginStart="12dp" />
     <ImageView android:layout_width="26dp" android:layout_height="26dp" android:layout_gravity="center" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" android:layout_marginStart="8dp" />
   </LinearLayout>
+  <LinearLayout android:id="@+id/llImageSize" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="图片尺寸" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <TextView android:id="@+id/tvImageSize" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="end" android:textColor="@color/text_sub_foreground" android:textSize="16sp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llThemeColor" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="主题色彩" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <TextView android:id="@+id/tvThemeColor" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="end" android:textColor="@color/text_sub_foreground" android:textSize="16sp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llHotSearch" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="热门搜索" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <TextView  android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="end" android:textColor="@color/text_sub_foreground" android:textSize="16sp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" />
+  </LinearLayout>
   <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="播放" android:textColor="@color/text_sub_foreground" android:textSize="13sp" android:paddingHorizontal="24dp" android:paddingTop="20dp" android:paddingBottom="8dp" />
+  <LinearLayout android:id="@+id/llPlaybackSettings" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="播放设置" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <TextView  android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="end" android:textColor="@color/text_sub_foreground" android:textSize="16sp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llDanmakuSettings" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="弹幕设置" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <TextView  android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="end" android:textColor="@color/text_sub_foreground" android:textSize="16sp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" />
+  </LinearLayout>
   <LinearLayout android:id="@+id/llPlay" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="播放器" android:textColor="@color/text_foreground" android:textSize="16sp" />
     <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />

@@ -57,6 +57,7 @@ public class GridFragment extends BaseLazyFragment {
     private int maxPage = 1;
     private boolean isLoad = false;
     private boolean isTop = true;
+    private androidx.swiperefreshlayout.widget.SwipeRefreshLayout swipeRefresh;
     private View focusedView = null;
     private class GridInfo{
         public String sortID="";
@@ -181,6 +182,13 @@ public class GridFragment extends BaseLazyFragment {
         this.createView();
         mGridView.setAdapter(gridAdapter);
         mGridView.setLayoutManager(new V7GridLayoutManager(this.mContext, Utils.getPosterSpanCount(this.mContext)));
+        swipeRefresh = findViewById(R.id.swipeRefresh);
+        BrowseControls.attach(this, swipeRefresh, findViewById(R.id.btn_filter), mGridView,
+                () -> mGridView, () -> {
+                    page = 1; maxPage = 1;
+                    gridAdapter.setEnableLoadMore(false);
+                    initData();
+                }, this::showFilter);
 
         gridAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -235,7 +243,6 @@ public class GridFragment extends BaseLazyFragment {
         });
         gridAdapter.setLoadMoreView(new LoadMoreView());
 
-        findViewById(R.id.btn_filter).setOnClickListener(view -> showFilter());
         setLoadSir2(mGridView);
     }
 
@@ -253,6 +260,7 @@ public class GridFragment extends BaseLazyFragment {
         sourceViewModel.listResult.observe(this, new Observer<AbsXml>() {
             @Override
             public void onChanged(AbsXml absXml) {
+                swipeRefresh.setRefreshing(false);
 //                if(mGridView != null) mGridView.requestFocus();
                 if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
                     if (page == 1) {
@@ -292,6 +300,7 @@ public class GridFragment extends BaseLazyFragment {
 
     private void initData() {
         if (ApiConfig.get().getHomeSourceBean().getApi()==null){// 系统杀死app恢复缓存的fragment后会直接getList,此时首页api都未加载完
+            swipeRefresh.setRefreshing(false);
             showEmpty();
             return;
         }
@@ -302,7 +311,7 @@ public class GridFragment extends BaseLazyFragment {
     }
 
     public boolean isTop() {
-        return isTop;
+        return mGridView == null || !mGridView.canScrollVertically(-1);
     }
 
     public void scrollTop() {

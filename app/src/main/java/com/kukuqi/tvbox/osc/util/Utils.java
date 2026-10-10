@@ -26,11 +26,10 @@ public class Utils {
     }
 
     public static int getPosterSpanCount(Context context) {
-        if (!isTablet(context)) return 3;
         int widthDp = context.getResources().getConfiguration().screenWidthDp;
-        if (widthDp >= 1200) return 6;
-        if (widthDp >= 900) return 5;
-        return 4;
+        int size = Math.max(0, Math.min(3, Hawk.get("poster_size", 2)));
+        int target = new int[]{60, 85, 110, 150}[size];
+        return Math.max(2, Math.min(10, widthDp / target));
     }
 
     public static boolean supportsPiPMode() {

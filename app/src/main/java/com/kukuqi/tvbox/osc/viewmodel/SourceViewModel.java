@@ -82,6 +82,7 @@ public class SourceViewModel extends ViewModel {
             return;
         }
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
+        if (sourceBean == null) { sortResult.postValue(null); return; }
         int type = sourceBean.getType();
         if (type == 3) {
             Runnable waitResponse = new Runnable() {
@@ -136,7 +137,7 @@ public class SourceViewModel extends ViewModel {
             };
             spThreadPool.execute(waitResponse);
         } else if (type == 0 || type == 1) {
-            OkGo.<String>get(sourceBean.getApi())
+            OkGo.<String>get(sourceBean.getApi()).headers(sourceBean.getHttpHeaders())
                     .tag(sourceBean.getKey() + "_sort")
                     .execute(new AbsCallback<String>() {
                         @Override
@@ -183,7 +184,7 @@ public class SourceViewModel extends ViewModel {
                         }
                     });
         }else if (type == 4) {
-            OkGo.<String>get(sourceBean.getApi())
+            OkGo.<String>get(sourceBean.getApi()).headers(sourceBean.getHttpHeaders())
                 .tag(sourceBean.getKey() + "_sort")
                 .params("filter", "true")
                 .execute(new AbsCallback<String>() {
@@ -250,7 +251,7 @@ public class SourceViewModel extends ViewModel {
                 }
             });
         } else if (type == 0 || type == 1) {
-            OkGo.<String>get(homeSourceBean.getApi())
+            OkGo.<String>get(homeSourceBean.getApi()).headers(homeSourceBean.getHttpHeaders())
                     .tag(homeSourceBean.getApi())
                     .params("ac", type == 0 ? "videolist" : "detail")
                     .params("t", sortData.id)
@@ -298,7 +299,7 @@ public class SourceViewModel extends ViewModel {
             }else {
                 ext = Base64.encodeToString("{}".getBytes(), Base64.DEFAULT |  Base64.NO_WRAP);
             }
-            OkGo.<String>get(homeSourceBean.getApi())
+            OkGo.<String>get(homeSourceBean.getApi()).headers(homeSourceBean.getHttpHeaders())
                 .tag(homeSourceBean.getApi())
                 .params("ac", "detail")
                 .params("filter", "true")
@@ -380,7 +381,7 @@ public class SourceViewModel extends ViewModel {
             };
             spThreadPool.execute(waitResponse);
         } else if (type == 0 || type == 1) {
-            OkGo.<String>get(sourceBean.getApi())
+            OkGo.<String>get(sourceBean.getApi()).headers(sourceBean.getHttpHeaders())
                     .tag("detail")
                     .params("ac", sourceBean.getType() == 0 ? "videolist" : "detail")
                     .params("ids", TextUtils.join(",", ids))
@@ -424,6 +425,19 @@ public class SourceViewModel extends ViewModel {
     }
     // detailContent
     public void getDetail(String sourceKey, String id) {
+        if (com.kukuqi.tvbox.osc.ui.dialog.VideoLinkDialog.SOURCE.equals(sourceKey)) {
+            Movie.Video video = new Movie.Video();
+            video.id = id; video.name = "链接播放"; video.sourceKey = sourceKey; video.pic = "";
+            video.urlBean = new Movie.Video.UrlBean();
+            Movie.Video.UrlBean.UrlInfo line = new Movie.Video.UrlBean.UrlInfo();
+            line.flag = "链接";
+            line.beanList = java.util.Collections.singletonList(new Movie.Video.UrlBean.UrlInfo.InfoBean("播放", id));
+            video.urlBean.infoList = java.util.Collections.singletonList(line);
+            AbsXml result = new AbsXml(); result.movie = new Movie();
+            result.movie.videoList = java.util.Collections.singletonList(video);
+            detailResult.postValue(result);
+            return;
+        }
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {
@@ -441,7 +455,7 @@ public class SourceViewModel extends ViewModel {
                 }
             });
         } else if (type == 0 || type == 1|| type == 4) {
-            OkGo.<String>get(sourceBean.getApi())
+            OkGo.<String>get(sourceBean.getApi()).headers(sourceBean.getHttpHeaders())
                     .tag("detail")
                     .params("ac", type == 0 ? "videolist" : "detail")
                     .params("ids", id)
@@ -496,7 +510,7 @@ public class SourceViewModel extends ViewModel {
                 json(searchResult, "", sourceBean.getKey());
             }
         } else if (type == 0 || type == 1) {
-            OkGo.<String>get(sourceBean.getApi())
+            OkGo.<String>get(sourceBean.getApi()).headers(sourceBean.getHttpHeaders())
                     .params("wd", wd)
                     .params(type == 1 ? "ac" : null, type == 1 ? "detail" : null)
                     .tag("search")
@@ -529,7 +543,7 @@ public class SourceViewModel extends ViewModel {
                         }
                     });
         }else if (type == 4) {
-            OkGo.<String>get(sourceBean.getApi())
+            OkGo.<String>get(sourceBean.getApi()).headers(sourceBean.getHttpHeaders())
                 .params("wd", wd)
                 .params("ac" ,"detail")
                 .params("quick" ,"false")
@@ -574,7 +588,7 @@ public class SourceViewModel extends ViewModel {
                 th.printStackTrace();
             }
         } else if (type == 0 || type == 1) {
-            OkGo.<String>get(sourceBean.getApi())
+            OkGo.<String>get(sourceBean.getApi()).headers(sourceBean.getHttpHeaders())
                     .params("wd", wd)
                     .params(type == 1 ? "ac" : null, type == 1 ? "detail" : null)
                     .tag("quick_search")
@@ -607,7 +621,7 @@ public class SourceViewModel extends ViewModel {
                         }
                     });
         }else if (type == 4) {
-            OkGo.<String>get(sourceBean.getApi())
+            OkGo.<String>get(sourceBean.getApi()).headers(sourceBean.getHttpHeaders())
                 .params("wd", wd)
                 .params("ac" ,"detail")
                 .params("quick" ,"true")
@@ -655,6 +669,7 @@ public class SourceViewModel extends ViewModel {
                         result.put("key", url);
                         result.put("proKey", progressKey);
                         result.put("subtKey", subtitleKey);
+                        if (!result.has("header")) result.put("header", new JSONObject(sourceBean.getHeaders()));
                         if (!result.has("flag"))
                             result.put("flag", playFlag);
                         playResult.postValue(result);
@@ -675,9 +690,11 @@ public class SourceViewModel extends ViewModel {
                 } else {
                     result.put("parse", 1);
                     result.put("url", url);
+                    if (com.kukuqi.tvbox.osc.ui.dialog.VideoLinkDialog.SOURCE.equals(sourceKey) && ApiConfig.get().getDefaultParse() != null) result.put("jx", 1);
                 }
                 result.put("proKey", progressKey);
                 result.put("subtKey", subtitleKey);
+                        if (!result.has("header")) result.put("header", new JSONObject(sourceBean.getHeaders()));
                 result.put("playUrl", playUrl);
                 result.put("flag", playFlag);
                 playResult.postValue(result);
@@ -686,7 +703,7 @@ public class SourceViewModel extends ViewModel {
                 playResult.postValue(null);
             }
         } else if (type == 4) {
-            OkGo.<String>get(sourceBean.getApi())
+            OkGo.<String>get(sourceBean.getApi()).headers(sourceBean.getHttpHeaders())
                 .params("play", url)
                 .params("flag" ,playFlag)
                 .tag("play")
@@ -709,6 +726,7 @@ public class SourceViewModel extends ViewModel {
                             result.put("key", url);
                             result.put("proKey", progressKey);
                             result.put("subtKey", subtitleKey);
+                        if (!result.has("header")) result.put("header", new JSONObject(sourceBean.getHeaders()));
                             if (!result.has("flag"))
                                 result.put("flag", playFlag);
                             playResult.postValue(result);
