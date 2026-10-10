@@ -14,7 +14,7 @@ permissions:
 # Production runs are serialized so a second merge cannot interrupt a release.
 concurrency:
   group: tvboxosc-${{ github.event_name == 'pull_request' && github.ref || github.repository }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build-apk:

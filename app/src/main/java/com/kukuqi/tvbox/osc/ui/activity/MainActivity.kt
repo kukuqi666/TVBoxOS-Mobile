@@ -40,6 +40,10 @@ class MainActivity : BaseVbActivity<ActivityMainBinding>() {
     private val updateListener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ -> showReadyUpdate() }
 
     override fun init() {
+        // Notification entry can start a fresh process; preserve its update destination.
+        if (intent.getBooleanExtra(UpdateCoordinator.OPEN_UPDATES, false)) {
+            com.kukuqi.tvbox.osc.base.App.getInstance().isNormalStart = true
+        }
         useCacheConfig = intent.extras?.getBoolean(IntentKey.CACHE_CONFIG_CHANGED, false) ?: false
         mBinding.vp.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount() = fragments.size
