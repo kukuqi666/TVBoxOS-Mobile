@@ -8,7 +8,6 @@ https://jihulab.com/xiaohutx/box/-/raw/main/0.json     小胡路线
 https://ghproxy.net/https://raw.githubusercontent.com/lllyin/assets/master/a.png     Lllyin路线
 https://ghproxy.com/https://raw.githubusercontent.com/xianyuyimu/TVBOX-/main/TVBox/一木自用.json     一木自用
 https://ghproxy.com/https://raw.githubusercontent.com/52670576/tvbox/main/ysc.json     运输车线
-https://ghproxy.com/https://raw.githubusercontent.com/FongMi/CatVodSpider/main/json/config.json     蜂蜜
 https://ghproxy.com/https://raw.githubusercontent.com/gaotianliuyun/gao/master/js.json     高天流云
 http://52bsj.vip:98/wuai     吾爱
 http://52bsj.vip:98/0805     吾爱2
@@ -61,7 +60,6 @@ https://raw.kgithub.com/2hacc/TVBox/main/drpy/xiaoya.json2哈社区2
 https://raw.kgithub.com/xianyuyimu/TVBOX-/main/TVBox/%E4%B8%80%E6%9C%A8%E8%87%AA%E7%94%A8.json一木自用
 https://raw.kgithub.com/xianyuyimu/TVBOX-/main/TVBox/%E5%A4%87%E7%94%A8.json一木备用
 https://raw.kgithub.com/xianyuyimu/TVBOX-/main/TVBox/%E4%B8%80%E6%9C%A8cs.json一木cs
-https://raw.kgithub.com/T00700/TVBoxSE/master/FongMi.jsonFongMi
 https://raw.kgithub.com/tuji-2015/miao/main/TVBox/tvbox.jsontuji-2015
 https://raw.kgithub.com/zzzlllmmm1/tv/main/zzz.jsonzzzlllmmm1
 https://raw.kgithub.com/c120487/00/main/00tv1.txtc120487_00tv1

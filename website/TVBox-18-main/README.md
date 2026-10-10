@@ -165,7 +165,6 @@ https://notabug.org/
 
 （1）唐三：https://hutool.ml/tang
 
-（2）Fongmi：https://raw.fastgit.org/FongMi/CatVodSpider/main/json/config.json
 
 （3）俊于：http://home.jundie.top:81/top98.json
 

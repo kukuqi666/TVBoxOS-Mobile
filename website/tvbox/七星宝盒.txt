@@ -64,10 +64,6 @@
       "name": "🚀小米线路"
     },
     {
-      "url": "http://www.fish2018.us.kg/z/FongMi.json",
-      "name": "🚀真心线路"
-    },
-    {
       "url": "https://gitlab.com/duomv/dzhipy/-/raw/main/index.json",
       "name": "🚀道长线路"
     },

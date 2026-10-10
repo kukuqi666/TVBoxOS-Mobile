@@ -110,14 +110,17 @@ android {
 def generatedNotes = layout.buildDirectory.dir('generated/releaseNotes')
 android.sourceSets.main.assets.srcDir(generatedNotes)
 def generateReleaseNotes = tasks.register('generateReleaseNotes') {
-    def notesSource = rootProject.file("docs/releases/${android.defaultConfig.versionName}.md")
+    def notesSource = rootProject.file('README.md')
     inputs.property('versionName', android.defaultConfig.versionName)
     inputs.files(notesSource)
     outputs.dir(generatedNotes)
     doLast {
         def directory = generatedNotes.get().asFile
         directory.mkdirs()
-        def notes = notesSource.exists() ? notesSource.getText('UTF-8') : "TVboxOSC ${android.defaultConfig.versionName}\n功能改进与问题修复。详细记录可通过项目地址查看。"
+        def entry = notesSource.exists() ? notesSource.readLines('UTF-8').find { line ->
+            line.contains("TVboxOSC v${android.defaultConfig.versionName}：")
+        } : null
+        def notes = entry ? "TVboxOSC ${android.defaultConfig.versionName}\n\n${entry.replaceFirst('^>\\*\\s*', '')}" : "TVboxOSC ${android.defaultConfig.versionName}\n功能改进与问题修复。详细记录可通过项目地址查看。"
         new File(directory, 'release-notes.txt').setText(notes.replaceAll('(?m)^#+ ', '').replace('**', '').replace('`', ''), 'UTF-8')
     }
 }

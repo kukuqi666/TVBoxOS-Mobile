@@ -7,7 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Set;
 
-/** Channel names survive playlist URL changes, as in FongMi's live keeps. */
+/** Keep channel favorites stable when playlist URLs change. */
 public final class LiveFavorites {
     public static final String KEY = "live_favorite_names";
     private LiveFavorites() {}

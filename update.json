@@ -1,9 +1,9 @@
 {
-  "version": "3.0.0",
-  "version_code": 300,
+  "version": "3.0.1",
+  "version_code": 301,
   "package_name": "com.kukuqi.tvbox.osc",
-  "apk_url": "https://github.com/kukuqi666/TVboxOSC/releases/download/v3.0.0/TVboxOSC-v3.0.0.apk",
-  "sha256": "cbbf0d4d5e1f8466a6e8d581384d8c5d22fe4e866216d493b47cb8c7d71c7104",
-  "size": 42895148,
+  "apk_url": "https://github.com/kukuqi666/TVboxOSC/releases/download/v3.0.1/TVboxOSC-v3.0.1.apk",
+  "sha256": "9aa8e970f9dc1b44fff9d8b00e6cfb2d3485e1f2939ce17399bb2c77820cdb20",
+  "size": 42894624,
   "signer_sha256": "4b9421de6d46778f6280b180179413fa6973845f0a0132c00f6800c06464e051"
 }

@@ -146,11 +146,7 @@ jobs:
           VERSION: ${{ needs.plan-release.outputs.version }}
         run: |
           if ! gh release view "$TAG" >/dev/null 2>&1; then
-            if [ -f "docs/releases/${VERSION}.md" ]; then
-              gh release create "$TAG" --target "$GITHUB_SHA" --title "TVboxOSC ${VERSION}" --draft --notes-file "docs/releases/${VERSION}.md"
-            else
-              gh release create "$TAG" --target "$GITHUB_SHA" --title "TVboxOSC ${VERSION}" --draft --generate-notes
-            fi
+            gh release create "$TAG" --target "$GITHUB_SHA" --title "TVboxOSC ${VERSION}" --draft --notes-file app/build/generated/releaseNotes/release-notes.txt
           fi
           gh release upload "$TAG" "app/build/outputs/apk/release/TVboxOSC-v${VERSION}.apk" build/release/update.json --clobber
           gh release edit "$TAG" --draft=false --latest

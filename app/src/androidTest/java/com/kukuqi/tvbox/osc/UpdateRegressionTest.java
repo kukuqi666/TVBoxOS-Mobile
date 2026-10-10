@@ -132,6 +132,28 @@ public class UpdateRegressionTest extends InstrumentationTestCase {
         }
         fail("About panel did not open");
     }
+    public void testNotificationOpensUpdatePanelOnColdStart() throws Exception {
+        com.kukuqi.tvbox.osc.base.App app = com.kukuqi.tvbox.osc.base.App.getInstance();
+        boolean originalStart = app.isNormalStart;
+        getInstrumentation().runOnMainSync(() -> app.isNormalStart = false);
+        android.app.Activity activity = getInstrumentation().startActivitySync(
+                new android.content.Intent(getInstrumentation().getTargetContext(), com.kukuqi.tvbox.osc.ui.activity.MainActivity.class)
+                        .putExtra(com.kukuqi.tvbox.osc.update.UpdateCoordinator.OPEN_UPDATES, true)
+                        .addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK));
+        try {
+            assertTrue(app.isNormalStart);
+            boolean found = false;
+            for (int attempt = 0; attempt < 50; attempt++) {
+                android.view.accessibility.AccessibilityNodeInfo root = getInstrumentation().getUiAutomation().getRootInActiveWindow();
+                if (root != null && !root.findAccessibilityNodeInfosByText("Wi-Fi 后台更新").isEmpty()) { found = true; break; }
+                Thread.sleep(100);
+            }
+            assertTrue("Update notification must open About even in a fresh app process", found);
+        } finally {
+            getInstrumentation().getUiAutomation().performGlobalAction(android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_BACK);
+            getInstrumentation().runOnMainSync(() -> { activity.finish(); app.isNormalStart = originalStart; });
+        }
+    }
 
     public static class FakeWorker extends UpdateWorker {
         static final ArrayDeque<String> bodies = new ArrayDeque<>();

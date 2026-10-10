@@ -493,7 +493,7 @@ public class ApiConfig {
 
                 } else {
 
-                    // if FongMi Live URL Formatting exists
+                    // Resolve the legacy proxy-style live playlist URL.
                     if (!lives.contains("type")) {
                         loadLives(infoJson.get("lives").getAsJsonArray());
                     } else {

@@ -93,10 +93,6 @@
       "url": "http://www.fish2018.us.kg/p/jsm.json"
     },
     {
-      "name": "真心📚拾光仓库",
-      "url": "http://www.fish2018.us.kg/z/FongMi.json"
-    },
-    {
       "name": "请勿贩卖📚拾光仓库",
       "url": "https://9071.kstore.vip/fhzx.txt"
     }

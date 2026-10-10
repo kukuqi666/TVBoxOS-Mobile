@@ -41,7 +41,7 @@ Fork → 开发 → 向 main 提交 PR → Review 合并。发布新版本只需
 | 手动推送 v* Tag | 校验 Tag 与 versionName 一致后发布，仍兼容旧方式 |
 | Release 发布完成 | 同步真实 APK 的 update.json、README 下载链接和更新记录到 main |
 
-已公开的版本不会重复发布。无需手动打 Tag；详细配置和失败重试见 [发布说明](docs/RELEASING.md)。
+已公开的版本不会重复发布。无需手动打 Tag；发布失败时可在 GitHub Actions 中重新运行对应流程。版本更新说明统一记录在本 README 的“更新记录”中。
 
 ## 推荐视频源仓库
 
@@ -56,13 +56,15 @@ https://github.com/UndCover/PyramidStore/
 
 ## 📲软件合集（软件安装）
 ### TVBox for Android
-- TVboxOSC：[下载 v3.0.0](https://github.com/kukuqi666/TVboxOSC/releases/download/v3.0.0/TVboxOSC-v3.0.0.apk) · [所有版本](https://github.com/kukuqi666/TVboxOSC/releases)
+- TVboxOSC：[下载 v3.0.1](https://github.com/kukuqi666/TVboxOSC/releases/download/v3.0.1/TVboxOSC-v3.0.1.apk) · [所有版本](https://github.com/kukuqi666/TVboxOSC/releases)
 
 
 ## 🎁福利18+
 - R18: [R18](https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/website/tvbox/R18.json)
 
 ## 𝟭. 更新记录
+
+>* **2026/10/10 TVboxOSC v3.0.1：** 修复等待 Wi-Fi 的后台任务阻塞手动更新、取消任务误删下载文件的问题；修复冷启动点击更新通知无法进入更新页面，同步签名 APK 和应用内更新清单。
 
 >* **2026/10/10 TVboxOSC v3.0.0：** 史诗级大更新：UI 重做，修复已知 Bug；完善来源、壁纸、直播、本地视频与关于页面，新增更新动画、自动检测及 Wi-Fi 后台下载，支持 main 版本变更自动发布。
 
