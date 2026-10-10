@@ -28,10 +28,21 @@ class ReleaseTest(unittest.TestCase):
         first = (self.root / 'README.md').read_text(encoding='utf-8')
         self.assertIn('史诗级大更新', first)
         self.assertIn('旧记录 v2.1.26', first)
-        self.assertIn(self.manifest['apk_url'], first)
+        self.assertIn(f"[下载 v3.0.0](https://gh-proxy.com/{self.manifest['apk_url']})", first)
         self.assertEqual(self.manifest, json.loads((self.root / 'update.json').read_text()))
         release.sync(self.manifest_path, self.root)
         self.assertEqual(first, (self.root / 'README.md').read_text(encoding='utf-8'))
+    def test_sync_existing_release_keeps_update_history_unchanged(self):
+        readme_path = self.root / 'README.md'
+        heading = '## 𝟭. 更新记录'
+        original = readme_path.read_text(encoding='utf-8').replace(
+            heading, heading + '\n\n>* **2026/10/10 TVboxOSC v3.0.0：** 原有更新说明。')
+        readme_path.write_text(original, encoding='utf-8')
+        release.sync(self.manifest_path, self.root)
+        updated = readme_path.read_text(encoding='utf-8')
+        self.assertEqual(original.split(heading, 1)[1], updated.split(heading, 1)[1])
+        self.assertIn(f"(https://gh-proxy.com/{self.manifest['apk_url']})", updated)
+        self.assertEqual(self.manifest, json.loads((self.root / 'update.json').read_text()))
     def test_sync_never_downgrades_main(self):
         (self.root / 'update.json').write_text('{"version":"3.0.1"}')
         with self.assertRaises(ValueError): release.sync(self.manifest_path, self.root)

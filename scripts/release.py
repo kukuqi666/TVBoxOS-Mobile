@@ -113,7 +113,7 @@ def sync(manifest_path, root=Path('.')):
     readme_path = root / 'README.md'
     text = readme_path.read_text(encoding='utf-8')
     text, count = re.subn(r'^- TVboxOSC：.*$',
-                         f"- TVboxOSC：[下载 v{version}]({manifest['apk_url']}) · [所有版本](https://github.com/"
+                         f"- TVboxOSC：[下载 v{version}](https://gh-proxy.com/{manifest['apk_url']}) · [所有版本](https://github.com/"
                          + os.environ.get('GITHUB_REPOSITORY', 'kukuqi666/TVboxOSC') + '/releases)', text, count=1, flags=re.M)
     if count != 1:
         raise ValueError('README TVboxOSC download entry missing')
