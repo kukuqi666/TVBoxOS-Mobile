@@ -25,8 +25,11 @@ public class UpdateRegressionTest extends InstrumentationTestCase {
     private UpdateStore store;
     private Map<String, ?> original;
     private ExecutorService executor;
-    private static final String MANIFEST = "{\"version\":\"3.0.2\",\"version_code\":" + (BuildConfig.VERSION_CODE + 1) + ",\"package_name\":\"com.kukuqi.tvbox.osc\","
-            + "\"apk_url\":\"https://github.com/kukuqi666/TVboxOSC/releases/download/v3.0.1/TVboxOSC-v3.0.1.apk\","
+    private static final String MIRROR = "https://gh-proxy.com/";
+    private static final String MANIFEST_URL = "https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/update.json";
+    private static final String APK_URL = "https://github.com/kukuqi666/TVboxOSC/releases/download/v3.0.3/TVboxOSC-v3.0.3.apk";
+    private static final String MANIFEST = "{\"version\":\"3.0.3\",\"version_code\":" + (BuildConfig.VERSION_CODE + 1) + ",\"package_name\":\"" + BuildConfig.APPLICATION_ID + "\","
+            + "\"apk_url\":\"" + APK_URL + "\","
             + "\"size\":3,\"sha256\":\"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\"}";
 
     @Override protected void setUp() throws Exception {
@@ -35,11 +38,9 @@ public class UpdateRegressionTest extends InstrumentationTestCase {
         original = store.prefs.getAll();
         store.prefs.edit().clear().putBoolean("auto_download", false).commit();
         executor = Executors.newSingleThreadExecutor();
-        FakeWorker.bodies.clear(); FakeWorker.urls.clear();
+        FakeWorker.bodies.clear(); FakeWorker.urls.clear(); FakeWorker.networkFailures = 0;
     }
     @Override protected void tearDown() throws Exception {
-        java.io.File partial = new java.io.File(getInstrumentation().getTargetContext().getFilesDir(), "updates/TVboxOSC-v3.0.1.part.apk");
-        partial.delete();
         SharedPreferences.Editor editor = store.prefs.edit().clear();
         for (Map.Entry<String, ?> entry : original.entrySet()) {
             Object value = entry.getValue();
@@ -54,6 +55,13 @@ public class UpdateRegressionTest extends InstrumentationTestCase {
         return TestWorkerBuilder.from(getInstrumentation().getTargetContext(), FakeWorker.class, executor)
                 .setInputData(new Data.Builder().putBoolean("download", download).putBoolean("manual", true).build()).build();
     }
+    public void testManifestUsesMirrorFirstWithoutDirectRequestOnSuccess() {
+        FakeWorker.bodies.add(MANIFEST);
+        assertEquals(androidx.work.ListenableWorker.Result.success(), worker(false).doWork());
+        assertEquals(UpdateStore.AVAILABLE, store.state());
+        assertEquals(1, FakeWorker.urls.size());
+        assertTrue(FakeWorker.urls.get(0).startsWith(MIRROR + MANIFEST_URL + "?t="));
+    }
     public void testManifestFallbackPersistsAcrossReopen() {
         FakeWorker.bodies.add("<html>unavailable</html>"); FakeWorker.bodies.add(MANIFEST);
         assertEquals(androidx.work.ListenableWorker.Result.success(), worker(false).doWork());
@@ -61,11 +69,20 @@ public class UpdateRegressionTest extends InstrumentationTestCase {
         assertEquals(UpdateStore.AVAILABLE, reopened.state());
         assertEquals((long) BuildConfig.VERSION_CODE + 1, reopened.manifest().versionCode);
         assertEquals(2, FakeWorker.urls.size());
-        assertTrue(FakeWorker.urls.get(0).startsWith("https://raw.githubusercontent.com/"));
-        assertTrue(FakeWorker.urls.get(1).startsWith("https://gh.xxooo.cf/"));
+        assertTrue(FakeWorker.urls.get(0).startsWith(MIRROR + MANIFEST_URL + "?t="));
+        assertTrue(FakeWorker.urls.get(1).startsWith(MANIFEST_URL + "?t="));
+    }
+    public void testManifestNetworkFailureFallsBackToOfficial() {
+        FakeWorker.networkFailures = 1;
+        FakeWorker.bodies.add(MANIFEST);
+        assertEquals(androidx.work.ListenableWorker.Result.success(), worker(false).doWork());
+        assertEquals(UpdateStore.AVAILABLE, store.state());
+        assertEquals(2, FakeWorker.urls.size());
+        assertTrue(FakeWorker.urls.get(0).startsWith(MIRROR + MANIFEST_URL + "?t="));
+        assertTrue(FakeWorker.urls.get(1).startsWith(MANIFEST_URL + "?t="));
     }
     public void testEqualVersionDoesNotDownload() {
-        FakeWorker.bodies.add(MANIFEST.replace("3.0.2", BuildConfig.VERSION_NAME).replace("\"version_code\":" + (BuildConfig.VERSION_CODE + 1), "\"version_code\":" + BuildConfig.VERSION_CODE));
+        FakeWorker.bodies.add(MANIFEST.replace("3.0.3", BuildConfig.VERSION_NAME).replace("\"version_code\":" + (BuildConfig.VERSION_CODE + 1), "\"version_code\":" + BuildConfig.VERSION_CODE));
         assertEquals(androidx.work.ListenableWorker.Result.success(), worker(false).doWork());
         assertEquals(UpdateStore.CURRENT, store.state());
         assertFalse(store.hasReadyUpdate());
@@ -78,12 +95,34 @@ public class UpdateRegressionTest extends InstrumentationTestCase {
     }
     public void testCorruptDownloadNeverBecomesInstallable() {
         store.prefs.edit().putString("manifest", MANIFEST).commit();
-        FakeWorker.bodies.add("abd"); FakeWorker.bodies.add("abd"); FakeWorker.bodies.add("abd");
+        FakeWorker.bodies.add("abd"); FakeWorker.bodies.add("abd");
         worker(true).doWork();
         assertEquals(UpdateStore.ERROR, store.state());
         assertFalse(store.hasReadyUpdate());
         assertFalse(store.apk(store.manifest()).exists());
-        assertEquals(3, FakeWorker.urls.size());
+        assertEquals(2, FakeWorker.urls.size());
+        assertEquals(MIRROR + APK_URL, FakeWorker.urls.get(0));
+        assertEquals(APK_URL, FakeWorker.urls.get(1));
+    }
+    public void testDownloadNetworkFailureFallsBackToOfficial() {
+        store.prefs.edit().putString("manifest", MANIFEST).commit();
+        FakeWorker.networkFailures = 1;
+        FakeWorker.bodies.add("abd");
+        worker(true).doWork();
+        assertEquals(2, FakeWorker.urls.size());
+        assertEquals(MIRROR + APK_URL, FakeWorker.urls.get(0));
+        assertEquals(APK_URL, FakeWorker.urls.get(1));
+        assertFalse(store.hasReadyUpdate());
+    }
+    public void testInvalidMirrorArchiveFallsBackToOfficial() {
+        store.prefs.edit().putString("manifest", MANIFEST).commit();
+        FakeWorker.bodies.add("abc"); // Correct checksum, but not an APK for this app.
+        FakeWorker.bodies.add("abd");
+        worker(true).doWork();
+        assertEquals(2, FakeWorker.urls.size());
+        assertEquals(MIRROR + APK_URL, FakeWorker.urls.get(0));
+        assertEquals(APK_URL, FakeWorker.urls.get(1));
+        assertFalse(store.hasReadyUpdate());
     }
 
     public void testAboutKeepsBackgroundDownloadStateWhenClosed() throws Exception {
@@ -158,9 +197,11 @@ public class UpdateRegressionTest extends InstrumentationTestCase {
     public static class FakeWorker extends UpdateWorker {
         static final ArrayDeque<String> bodies = new ArrayDeque<>();
         static final ArrayList<String> urls = new ArrayList<>();
+        static int networkFailures;
         public FakeWorker(Context context, WorkerParameters parameters) { super(context, parameters); }
         @Override protected Response request(String url) throws IOException {
             urls.add(url);
+            if (networkFailures > 0) { networkFailures--; throw new IOException("Test network failure"); }
             if (bodies.isEmpty()) throw new IOException("No test response");
             return new Response.Builder().request(new Request.Builder().url(url).build()).protocol(Protocol.HTTP_1_1)
                     .code(200).message("OK").body(ResponseBody.create(MediaType.get("application/octet-stream"), bodies.remove())).build();

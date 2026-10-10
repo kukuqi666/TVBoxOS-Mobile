@@ -27,8 +27,8 @@ android {
         applicationId 'com.kukuqi.tvbox.osc'
         minSdkVersion 24
         targetSdkVersion 34
-        versionCode 301
-        versionName '3.0.1'
+        versionCode 302
+        versionName '3.0.2'
         multiDexEnabled true
         testInstrumentationRunner 'com.kukuqi.tvbox.osc.RegressionTestRunner'
         //设置room的Schema的位置

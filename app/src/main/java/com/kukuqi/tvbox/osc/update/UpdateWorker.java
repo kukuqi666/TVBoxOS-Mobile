@@ -19,7 +19,8 @@ import okhttp3.Response;
 /** Persistent background work, independent of the About view or current Activity. */
 public class UpdateWorker extends Worker {
     private static final String MANIFEST_URL = "https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/update.json";
-    private static final String[] ROUTES = {"", "https://gh.xxooo.cf/", "https://gh-proxy.com/"};
+    // Use the same mirror-first order for every update check and APK download.
+    private static final String[] ROUTES = {"https://gh-proxy.com/", ""};
     private final OkHttpClient client = new OkHttpClient.Builder().connectTimeout(12, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS).callTimeout(2, TimeUnit.MINUTES).build();
     private volatile Call running;
@@ -124,7 +125,6 @@ public class UpdateWorker extends Worker {
                 return Result.success();
             } catch (Exception error) {
                 last = error;
-                if (error instanceof IllegalStateException) throw error;
             } finally { part.delete(); }
         }
         throw last == null ? new IOException("下载失败") : last;
