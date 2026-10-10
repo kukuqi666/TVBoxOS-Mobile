@@ -40,6 +40,19 @@ jobs:
           mkdir -p build
           set -o pipefail
           ./gradlew :app:assembleDebug :app:testDebugUnitTest --stacktrace --no-daemon 2>&1 | tee build/gradle-build.log
+      - name: Report build failure
+        if: failure()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          log = Path('build/gradle-build.log')
+          if log.exists():
+              text = log.read_text(errors='replace')
+              start = text.find('FAILURE: Build failed')
+              excerpt = text[start:start+6000] if start >= 0 else text[-6000:]
+              excerpt = excerpt.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+              print('::error title=Gradle build failure::' + excerpt)
+          PY
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
