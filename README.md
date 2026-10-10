@@ -56,13 +56,15 @@ https://github.com/UndCover/PyramidStore/
 
 ## 📲软件合集（软件安装）
 ### TVBox for Android
-- TVboxOSC：[kukuqi666/TVboxOSC](https://gh.xxooo.cf/https://github.com/kukuqi666/TVboxOSC/releases/download/v2.1.26/TVBox-Mobile-v2.1.26.apk)
+- TVboxOSC：[下载 v3.0.0](https://github.com/kukuqi666/TVboxOSC/releases/download/v3.0.0/TVboxOSC-v3.0.0.apk) · [所有版本](https://github.com/kukuqi666/TVboxOSC/releases)
 
 
 ## 🎁福利18+
 - R18: [R18](https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/website/tvbox/R18.json)
 
 ## 𝟭. 更新记录
+
+>* **2026/10/10 TVboxOSC v3.0.0：** 史诗级大更新：UI 重做，修复已知 Bug；完善来源、壁纸、直播、本地视频与关于页面，新增更新动画、自动检测及 Wi-Fi 后台下载，支持 main 版本变更自动发布。
 
 >* **2026/07/26 TVBox Mobile v2.1.26：** 全局壁纸界面改为半透明效果；点播源、直播源和壁纸支持独立入口及独立导入，保留原有链接导入和本地文件导入逻辑；修复壁纸历史配置缺失导致 GitHub Actions 构建失败的问题。
 
