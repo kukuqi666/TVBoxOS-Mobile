@@ -7,7 +7,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
-import com.github.tvbox.osc.player.R;
+import com.kukuqi.tvbox.osc.player.R;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.util.Assertions;

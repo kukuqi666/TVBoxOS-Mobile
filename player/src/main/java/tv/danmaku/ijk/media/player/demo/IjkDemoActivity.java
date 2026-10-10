@@ -9,7 +9,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.github.tvbox.osc.player.R;
+import com.kukuqi.tvbox.osc.player.R;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;

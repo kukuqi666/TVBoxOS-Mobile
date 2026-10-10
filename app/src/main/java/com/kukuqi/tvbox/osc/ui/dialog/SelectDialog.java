@@ -1,0 +1,77 @@
+package com.kukuqi.tvbox.osc.ui.dialog;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.blankj.utilcode.util.ConvertUtils;
+import com.kukuqi.tvbox.osc.R;
+import com.kukuqi.tvbox.osc.ui.adapter.SelectDialogAdapter;
+import com.owen.tvrecyclerview.widget.TvRecyclerView;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
+import java.util.List;
+
+public class SelectDialog<T> extends BaseDialog {
+
+    public SelectDialog(@NonNull @NotNull Context context) {
+        super(context);
+        setContentView(R.layout.dialog_select);
+    }
+
+    public SelectDialog(@NonNull @NotNull Context context, int resId) {
+        super(context);
+        setContentView(resId);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(getWindow().getAttributes());
+        lp.gravity = Gravity.CENTER;
+        lp.width = ConvertUtils.dp2px(330);
+        getWindow().setAttributes(lp);
+        getWindow().setWindowAnimations(R.style.DialogFadeAnimation); // Set the animation style
+        findViewById(R.id.iv_close).setOnClickListener(view -> dismiss());
+    }
+
+    public void setTip(String tip) {
+        ((TextView) findViewById(R.id.title)).setText(tip);
+    }
+
+    public void setAdapter(SelectDialogAdapter.SelectDialogInterface<T> sourceBeanSelectDialogInterface, DiffUtil.ItemCallback<T> sourceBeanItemCallback, List<T> data, int select) {
+        SelectDialogAdapter<T> adapter = new SelectDialogAdapter(sourceBeanSelectDialogInterface, sourceBeanItemCallback);
+        List<T> items = data == null ? Collections.emptyList() : data;
+        int itemCount = items.size();
+        int selectedPosition = itemCount == 0 ? RecyclerView.NO_POSITION : Math.max(0, Math.min(select, itemCount - 1));
+        adapter.setData(items, selectedPosition);
+        TvRecyclerView tvRecyclerView = ((TvRecyclerView) findViewById(R.id.list));
+        tvRecyclerView.setAdapter(adapter);
+        if (selectedPosition == RecyclerView.NO_POSITION) {
+            return;
+        }
+        tvRecyclerView.setSelectedPosition(selectedPosition);
+        tvRecyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                if (tvRecyclerView.getAdapter() != adapter || adapter.getItemCount() <= selectedPosition) {
+                    return;
+                }
+                tvRecyclerView.smoothScrollToPosition(selectedPosition);
+                tvRecyclerView.setSelectionWithSmooth(selectedPosition);
+            }
+        });
+    }
+}

@@ -1,118 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="480dp"
-    android:orientation="vertical"
-    android:background="@color/white">
-
-    <!-- Preview area -->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:background="#F0F0F0">
-
-        <ImageView
-            android:id="@+id/iv_wp_preview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/wallpaper_gradient_blue" />
-    </FrameLayout>
-
-    <!-- Tabs -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="16dp"
-        android:background="#FAFAFA"
-        android:elevation="2dp">
-
-        <TextView
-            android:id="@+id/tv_tab_builtin"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="内置壁纸"
-            android:textSize="15sp"
-            android:textColor="#2196F3" />
-
-        <TextView
-            android:id="@+id/tv_tab_sub"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="订阅壁纸"
-            android:textSize="15sp"
-            android:textColor="#666666" />
-
-        <TextView
-            android:id="@+id/tv_tab_online"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="在线壁纸"
-            android:textSize="15sp"
-            android:textColor="#666666" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical" android:padding="20dp" android:background="@drawable/bg_large_round_popup">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="48dp" android:gravity="center_vertical" android:orientation="horizontal">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="壁纸" android:textColor="@color/text_foreground" android:textSize="20sp" android:textStyle="bold" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_wp_close" android:layout_width="wrap_content"
+            android:layout_height="48dp" android:text="完成" style="@style/Widget.MaterialComponents.Button.TextButton" />
     </LinearLayout>
-
-    <!-- Wallpaper grid -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/vp_wallpaper"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="8dp" />
-
-    <!-- Bottom buttons -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingHorizontal="16dp"
-        android:background="#FAFAFA"
-        android:elevation="2dp">
-
-        <TextView
-            android:id="@+id/btn_wp_import"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="6dp"
-            android:gravity="center"
-            android:text="导入图片"
-            android:textSize="14sp"
-            android:textColor="#666666"
-            android:background="@drawable/bg_large_round_gray" />
-
-        <TextView
-            android:id="@+id/btn_wp_close"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:layout_marginHorizontal="6dp"
-            android:gravity="center"
-            android:text="取消"
-            android:textSize="15sp"
-            android:textColor="#666666"
-            android:background="@drawable/bg_large_round_gray" />
-
-        <TextView
-            android:id="@+id/btn_wp_apply"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:layout_marginStart="6dp"
-            android:gravity="center"
-            android:text="应用壁纸"
-            android:textSize="15sp"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/selector_common_dp_5_blue" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+        <TextView android:id="@+id/wp_source" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+            android:textColor="@color/text_sub_foreground" android:textSize="13sp" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/wp_change_source" android:layout_width="wrap_content"
+            android:layout_height="48dp" android:text="更换来源" style="@style/Widget.MaterialComponents.Button.TextButton" />
     </LinearLayout>
-
+    <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp" app:cardElevation="0dp" app:cardBackgroundColor="@color/windowBackground" app:strokeWidth="0dp">
+        <ImageView android:id="@+id/iv_wp_preview" android:layout_width="match_parent" android:layout_height="156dp"
+            android:scaleType="centerCrop" android:background="@color/windowBackground" />
+    </com.google.android.material.card.MaterialCardView>
+    <TextView android:id="@+id/tv_wp_status" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:paddingVertical="8dp" android:textColor="@color/text_sub_foreground" android:textSize="12sp" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="40dp" android:gravity="center_vertical" android:orientation="horizontal">
+        <TextView android:id="@+id/tv_wp_softness" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textColor="@color/text_foreground" android:textSize="12sp" />
+        <SeekBar android:id="@+id/sb_wp_softness" android:layout_width="0dp" android:layout_height="match_parent"
+            android:layout_weight="1" android:max="80" android:layout_marginStart="12dp" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="48dp" android:gravity="end" android:orientation="horizontal">
+        <com.google.android.material.button.MaterialButton android:id="@+id/wp_remove" android:layout_width="wrap_content"
+            android:layout_height="48dp" android:text="关闭壁纸" style="@style/Widget.MaterialComponents.Button.TextButton" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/wp_refresh" android:layout_width="wrap_content"
+            android:layout_height="48dp" android:text="换一张" style="@style/Widget.MaterialComponents.Button.TextButton" />
+    </LinearLayout>
 </LinearLayout>

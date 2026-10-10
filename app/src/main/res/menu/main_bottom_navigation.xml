@@ -14,10 +14,10 @@
         android:title="直播"/>
 
     <item
-        android:id="@+id/navigation_subscription"
-        android:icon="@drawable/ic_database_48"
+        android:id="@+id/navigation_local"
+        android:icon="@drawable/ic_local_video_48"
         android:orderInCategory="2"
-        android:title="订阅"/>
+        android:title="本地视频"/>
 
     <item
         android:id="@+id/navigation_dashboard"

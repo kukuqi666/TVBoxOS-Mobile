@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        app:title="订阅管理"
+        app:title="点播源"
         app:rightIcon="@drawable/ic_add_24"
         >
 
@@ -48,8 +48,4 @@
         android:maxWidth="840dp"
         tools:listitem="@layout/item_subscription"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-
-    <include
-        android:id="@+id/bottom_nav"
-        layout="@layout/include_bottom_navigation" />
 </LinearLayout>

@@ -1,0 +1,11 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:minHeight="68dp" android:padding="10dp" android:gravity="center_vertical">
+    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+        <TextView android:id="@+id/epg_programme_title" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:maxLines="2" android:ellipsize="end" android:textSize="15sp" android:textColor="@color/text_foreground" />
+        <TextView android:id="@+id/epg_programme_time" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="4dp" android:textSize="12sp" android:textColor="@color/text_sub_foreground" />
+    </LinearLayout>
+    <TextView android:id="@+id/epg_programme_state" android:layout_width="56dp" android:layout_height="wrap_content"
+        android:gravity="end" android:textSize="12sp" android:textColor="@color/colorPrimary" />
+</LinearLayout>

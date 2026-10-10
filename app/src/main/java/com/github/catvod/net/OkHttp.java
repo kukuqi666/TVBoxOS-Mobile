@@ -6,7 +6,7 @@ import androidx.collection.ArrayMap;
 
 import com.github.catvod.utils.Path;
 import com.github.catvod.utils.Util;
-import com.github.tvbox.osc.bean.Doh;
+import com.kukuqi.tvbox.osc.bean.Doh;
 import com.google.common.net.HttpHeaders;
 
 import java.util.Map;

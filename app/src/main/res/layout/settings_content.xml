@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='utf-8'?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="来源" android:textColor="@color/text_sub_foreground" android:textSize="13sp" android:paddingHorizontal="24dp" android:paddingTop="20dp" android:paddingBottom="8dp" />
+  <LinearLayout android:id="@+id/llVodApi" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="点播源" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <TextView android:id="@+id/tvVodApi" android:layout_width="0dp" android:layout_height="wrap_content" android:maxWidth="180dp" android:ellipsize="end" android:singleLine="true" android:textSize="16sp" android:textColor="@color/text_sub_foreground" android:layout_weight="1" android:gravity="end|center_vertical" android:maxLines="1" android:layout_marginStart="12dp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" android:layout_marginStart="8dp" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llLiveApi" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="直播源" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <TextView android:id="@+id/tvLiveApi" android:layout_width="0dp" android:layout_height="wrap_content" android:maxWidth="180dp" android:ellipsize="end" android:singleLine="true" android:textSize="16sp" android:textColor="@color/text_sub_foreground" android:layout_weight="1" android:gravity="end|center_vertical" android:maxLines="1" android:layout_marginStart="12dp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:layout_gravity="center" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" android:layout_marginStart="8dp" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llWallpaper" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="壁纸源" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <TextView android:id="@+id/tvWallpaper" android:layout_width="0dp" android:layout_height="wrap_content" android:maxWidth="180dp" android:ellipsize="end" android:singleLine="true" android:textSize="16sp" android:textColor="@color/text_sub_foreground" android:layout_weight="1" android:gravity="end|center_vertical" android:maxLines="1" android:layout_marginStart="12dp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" android:layout_marginStart="8dp" />
+  </LinearLayout>
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="外观与首页" android:textColor="@color/text_sub_foreground" android:textSize="13sp" android:paddingHorizontal="24dp" android:paddingTop="20dp" android:paddingBottom="8dp" />
+  <LinearLayout android:id="@+id/llTheme" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="主题颜色" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <TextView android:id="@+id/tvTheme" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="16sp" android:textColor="@color/text_sub_foreground" android:layout_weight="1" android:gravity="end|center_vertical" android:maxLines="1" android:ellipsize="end" android:layout_marginStart="12dp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:layout_gravity="center" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" android:layout_marginStart="8dp" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llHomeRec" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="主页内容" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <TextView android:id="@+id/tvHomeRec" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="16sp" android:textColor="@color/text_sub_foreground" android:layout_weight="1" android:gravity="end|center_vertical" android:maxLines="1" android:ellipsize="end" android:layout_marginStart="12dp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:layout_gravity="center" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" android:layout_marginStart="8dp" />
+  </LinearLayout>
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="播放" android:textColor="@color/text_sub_foreground" android:textSize="13sp" android:paddingHorizontal="24dp" android:paddingTop="20dp" android:paddingBottom="8dp" />
+  <LinearLayout android:id="@+id/llPlay" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="播放器" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <TextView android:id="@+id/tvPlay" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="16sp" android:textColor="@color/text_sub_foreground" android:layout_weight="1" android:gravity="end|center_vertical" android:maxLines="1" android:ellipsize="end" android:layout_marginStart="12dp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:layout_gravity="center" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" android:layout_marginStart="8dp" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llBackgroundPlay" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="后台播放" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <TextView android:id="@+id/tvBackgroundPlayType" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="16sp" android:textColor="@color/text_sub_foreground" android:layout_weight="1" android:gravity="end|center_vertical" android:maxLines="1" android:ellipsize="end" android:layout_marginStart="12dp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:layout_gravity="center" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" android:layout_marginStart="8dp" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llPressSpeed" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="长按倍速" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <TextView android:id="@+id/tvSpeed" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="16sp" android:textColor="@color/text_sub_foreground" android:layout_weight="1" android:gravity="end|center_vertical" android:maxLines="1" android:ellipsize="end" android:layout_marginStart="12dp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:layout_gravity="center" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" android:layout_marginStart="8dp" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llScale" android:layout_width="match_parent" android:layout_height="60dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="画面缩放" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <TextView android:id="@+id/tvScaleType" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="16sp" android:textColor="@color/text_sub_foreground" android:layout_weight="1" android:gravity="end|center_vertical" android:maxLines="1" android:ellipsize="end" android:layout_marginStart="12dp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:layout_gravity="center" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" android:layout_marginStart="8dp" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llMediaCodec" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="IJK解码方式" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <TextView android:id="@+id/tvMediaCodec" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="16sp" android:textColor="@color/text_sub_foreground" android:layout_weight="1" android:gravity="end|center_vertical" android:maxLines="1" android:ellipsize="end" android:layout_marginStart="12dp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:layout_gravity="center" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" android:layout_marginStart="8dp" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llRender" android:layout_width="match_parent" android:layout_height="60dp" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="渲染方式" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <TextView android:id="@+id/tvRenderType" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="16sp" android:textColor="@color/text_sub_foreground" android:layout_weight="1" android:gravity="end|center_vertical" android:maxLines="1" android:ellipsize="end" android:layout_marginStart="12dp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:layout_gravity="center" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" android:layout_marginStart="8dp" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llVideoPurify" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="广告过滤" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/switchVideoPurify" android:layout_width="wrap_content" android:layout_height="wrap_content" android:clickable="false" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llIjkCachePlay" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="IJK缓存" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/switchIjkCachePlay" android:layout_width="wrap_content" android:layout_height="wrap_content" android:clickable="false" />
+  </LinearLayout>
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="数据与隐私" android:textColor="@color/text_sub_foreground" android:textSize="13sp" android:paddingHorizontal="24dp" android:paddingTop="20dp" android:paddingBottom="8dp" />
+  <LinearLayout android:id="@+id/llPrivateBrowsing" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="无痕浏览" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/switchPrivateBrowsing" android:layout_width="wrap_content" android:layout_height="wrap_content" android:clickable="false" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llHistoryNum" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="历史保留数量" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <TextView android:id="@+id/tvHistoryNum" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="16sp" android:textColor="@color/text_sub_foreground" android:layout_weight="1" android:gravity="end|center_vertical" android:maxLines="1" android:ellipsize="end" android:layout_marginStart="12dp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:layout_gravity="center" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" android:layout_marginStart="8dp" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llDns" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="安全DNS" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <TextView android:id="@+id/tvDns" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="16sp" android:textColor="@color/text_sub_foreground" android:layout_weight="1" android:gravity="end|center_vertical" android:maxLines="1" android:ellipsize="end" android:layout_marginStart="12dp" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:layout_gravity="center" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" android:layout_marginStart="8dp" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llBackup" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="数据备份还原" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:layout_gravity="center" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" android:layout_marginStart="8dp" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/llClearCache" android:layout_width="match_parent" android:layout_height="60dp" android:focusable="true" android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="24dp" android:foreground="?android:selectableItemBackground">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="清空缓存" android:textColor="@color/text_foreground" android:textSize="16sp" />
+    <Space android:layout_width="12dp" android:layout_height="wrap_content" android:layout_weight="0" />
+    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:layout_gravity="center" android:alpha="0.75" android:src="@drawable/icon_pre" app:tint="@color/text_foreground" android:layout_marginStart="8dp" />
+  </LinearLayout>
+</LinearLayout>

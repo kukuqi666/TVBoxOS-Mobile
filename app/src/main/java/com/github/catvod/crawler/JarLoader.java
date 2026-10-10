@@ -2,8 +2,8 @@ package com.github.catvod.crawler;
 
 import android.content.Context;
 
-import com.github.tvbox.osc.base.App;
-import com.github.tvbox.osc.util.MD5;
+import com.kukuqi.tvbox.osc.base.App;
+import com.kukuqi.tvbox.osc.util.MD5;
 import com.lzy.okgo.OkGo;
 
 import org.json.JSONObject;

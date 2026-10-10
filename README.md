@@ -1,4 +1,4 @@
-# <p align="center"><img src="https://github.com/kukuqi666/TVBoxOS-Mobile/blob/main/website/tvbox/images/logo.png?raw=true" width="150px" /><br>​<p align="center">[TVBoxOS-Mobile](https://github.com/kukuqi666/TVBoxOS-Mobile "TVBoxOS-Mobile")   <p align="center">一个开源免费无广告的TVBox🏅
+# <p align="center"><img src="https://github.com/kukuqi666/TVboxOSC/blob/main/website/tvbox/images/logo.png?raw=true" width="150px" /><br>​<p align="center">[TVboxOSC](https://github.com/kukuqi666/TVboxOSC "TVboxOSC")   <p align="center">一个开源免费无广告的TVBox🏅
 
 <div align="center">
 
@@ -12,62 +12,36 @@
 
 <div align="center">
 
-[![GitHub stars](https://img.shields.io/github/stars/kukuqi666/TVBoxOS-Mobile?logo=Undertale)](https://github.com/kukuqi666/TVBoxOS-Mobile/stargazers)
-![forks](https://img.shields.io/github/forks/kukuqi666/TVBoxOS-Mobile.svg) 
-![tag](https://img.shields.io/github/tag/kukuqi666/TVBoxOS-Mobile.svg) 
-![release](https://img.shields.io/github/release/kukuqi666/TVBoxOS-Mobile.svg) 
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kukuqi666/TVBoxOS-Mobile)](https://github.com/kukuqi666/TVBoxOS-Mobile/pulls)
+[![GitHub stars](https://img.shields.io/github/stars/kukuqi666/TVboxOSC?logo=Undertale)](https://github.com/kukuqi666/TVboxOSC/stargazers)
+![forks](https://img.shields.io/github/forks/kukuqi666/TVboxOSC.svg)
+![tag](https://img.shields.io/github/tag/kukuqi666/TVboxOSC.svg)
+![release](https://img.shields.io/github/release/kukuqi666/TVboxOSC.svg)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kukuqi666/TVboxOSC)](https://github.com/kukuqi666/TVboxOSC/pulls)
 
 </div>
 
-> 🤝 **招募开发者：** 由于工作原因，项目更新可能不及时。如果你对 TVBox 感兴趣，愿意一起维护和改进这个项目，非常欢迎加入我们的大家庭！无论是提 PR、修 Bug、优化代码还是贡献接口源，任何形式的参与都非常感谢。感兴趣的话可以直接 Fork 项目提交 Pull Request，或者通过 Issue 联系我，一起让这个项目变得更好～
-
-## 🛠 协作开发指南
-
-本项目使用 **GitHub Actions** 自动构建和发布，代码合并后即可自动触发构建和 Release，无需手动操作。
-
-### 参与方式
-
-1. **Fork 本仓库** → 在你自己 Fork 的仓库中进行开发
-2. **提交 Pull Request** → 开发完成后向 `main` 分支提交 PR
-3. **代码审查合并** → 维护者 Review 通过后合并到主分支
-
-### 自动构建流程
-
-| 触发条件 | 行为 |
-|---------|------|
-| 推送代码到 `main` 分支 | 自动构建 Debug APK，上传到 Artifacts（保留 14 天） |
-| PR 提交 | 自动构建 Debug APK，用于验证代码是否正常编译 |
-| 推送 `v*` 格式的 Tag（如 `v2.1.27`） | 自动构建签名 APK → 创建 GitHub Release → 同步更新 `update.json` 和 README |
-
-### 如何发布新版本
-
-发布 Release 只需两步：
-
-1. **更新版本号**：修改 `app/build.gradle` 中的 `versionCode` 和 `versionName`
-   ```
-   versionCode 237
-   versionName '2.1.27'
-   ```
-2. **推送 Tag 触发发布**：
-   ```bash
-   git tag v2.1.27
-   git push origin v2.1.27
-   ```
-   > ⚠️ Tag 版本号必须与 `app/build.gradle` 中的 `versionName` 完全一致，否则构建会失败。
-
-推送 Tag 后，GitHub Actions 会自动执行以下操作：
-- 使用固定签名密钥构建 Release APK
-- 将 APK 和 `update.json` 上传到 GitHub Releases
-- 自动更新 README 中的下载链接和更新记录
-- 推送更新后的 `update.json` 和 README 回 `main` 分支
-
-### 注意事项
-
-- PR 合并后会触发普通构建验证，但不会自动发布 Release —— 只有推送 Tag 才会走发布流程
 
 ## 📖介绍
 - 本仓库聚合了APP、解析源、直播源等项目，总之你要的一个仓库全搞定(拉到👇有福利)
+
+**3.0.0 史诗级大更新：UI 重做，修复已知 Bug，完善核心功能。**
+TVboxOSC 从 **3.0.0** 开始使用应用名 `TVboxOSC`、包名 `com.kukuqi.tvbox.osc`。
+保留原有半透明风格，完善来源、壁纸、直播和本地视频功能，历史和收藏在首页，设置集中在“我的”。
+关于页面重新设计，新增更新动画、自动检测新版本和 Wi-Fi 后台下载，完成后由用户确认安装。
+2.x 使用不同包名，首次安装 3.x 为独立应用，旧数据不会自动迁移。
+
+### 开发与自动发布
+
+Fork → 开发 → 向 main 提交 PR → Review 合并。发布新版本只需提高 `app/build.gradle` 中的 `versionCode` 和 `versionName` 后合并到 main。
+
+| 触发条件 | 自动行为 |
+| --- | --- |
+| PR / 普通 main 提交 | 构建 Debug、运行测试，Artifacts 保留 14 天 |
+| main 合并版本变更 | 验证通过后构建固定签名 Release，自动创建 Tag 和 Release |
+| 手动推送 v* Tag | 校验 Tag 与 versionName 一致后发布，仍兼容旧方式 |
+| Release 发布完成 | 同步真实 APK 的 update.json、README 下载链接和更新记录到 main |
+
+已公开的版本不会重复发布。无需手动打 Tag；详细配置和失败重试见 [发布说明](docs/RELEASING.md)。
 
 ## 推荐视频源仓库
 
@@ -82,11 +56,11 @@ https://github.com/UndCover/PyramidStore/
 
 ## 📲软件合集（软件安装）
 ### TVBox for Android
-- TVbox-Mobile：[kukuqi666/TVBoxOS-Mobile](https://gh.xxooo.cf/https://github.com/kukuqi666/TVBoxOS-Mobile/releases/download/v2.1.26/TVBox-Mobile-v2.1.26.apk)
+- TVboxOSC：[kukuqi666/TVboxOSC](https://gh.xxooo.cf/https://github.com/kukuqi666/TVboxOSC/releases/download/v2.1.26/TVBox-Mobile-v2.1.26.apk)
 
 
 ## 🎁福利18+
-- R18: [R18](https://raw.githubusercontent.com/kukuqi666/TVBoxOS-Mobile/main/website/tvbox/R18.json)
+- R18: [R18](https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/website/tvbox/R18.json)
 
 ## 𝟭. 更新记录
 

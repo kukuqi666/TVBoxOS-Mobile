@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/bar_arrows_left_black"/>
-        <com.github.tvbox.osc.ui.widget.ClearEditText
+        <com.kukuqi.tvbox.osc.ui.widget.ClearEditText
             android:id="@+id/et_search"
             android:layout_width="0dp"
             android:layout_weight="1"

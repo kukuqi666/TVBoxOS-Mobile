@@ -1,0 +1,17 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+    <LinearLayout android:id="@+id/source_item_select" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+        android:minHeight="64dp" android:gravity="center_vertical" android:orientation="horizontal" android:foreground="?android:selectableItemBackground">
+        <RadioButton android:id="@+id/source_item_check" android:layout_width="40dp" android:layout_height="48dp"
+            android:clickable="false" android:focusable="false" android:importantForAccessibility="no" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:paddingVertical="8dp" android:orientation="vertical">
+            <TextView android:id="@+id/source_item_name" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:textColor="@color/text_foreground" android:textSize="15sp" android:singleLine="true" android:ellipsize="end" />
+            <TextView android:id="@+id/source_item_url" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" android:textColor="@color/text_sub_foreground" android:textSize="12sp" android:singleLine="true" android:ellipsize="middle" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView android:id="@+id/source_item_more" android:layout_width="48dp" android:layout_height="48dp" android:gravity="center"
+        android:text="⋯" android:textSize="24sp" android:textColor="@color/text_sub_foreground" android:contentDescription="来源操作"
+        android:foreground="?android:selectableItemBackground" />
+</LinearLayout>

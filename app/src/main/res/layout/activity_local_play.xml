@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.LocalPlayActivity">
 
-    <com.github.tvbox.osc.player.MyVideoView
+    <com.kukuqi.tvbox.osc.player.MyVideoView
         android:id="@+id/player"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

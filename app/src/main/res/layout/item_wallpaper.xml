@@ -9,9 +9,9 @@
     <ImageView
         android:id="@+id/ivWallpaper"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="64dp"
         android:scaleType="centerCrop"
-        android:background="@drawable/wallpaper_gradient_blue" />
+        android:background="@color/bg_gray" />
 
     <TextView
         android:id="@+id/tvWallpaperName"

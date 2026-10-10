@@ -1,0 +1,28 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:fillViewport="true" android:background="@drawable/bg_large_round_popup">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="20dp" android:orientation="vertical">
+        <TextView android:id="@+id/source_add_title" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/text_foreground" android:textSize="20sp" android:textStyle="bold" />
+        <TextView android:id="@+id/source_add_hint" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" android:textColor="@color/text_sub_foreground" android:textSize="12sp" />
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense" android:hint="名称（选填）">
+            <com.google.android.material.textfield.TextInputEditText android:id="@+id/source_name" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:singleLine="true" android:maxLength="40" android:textSize="14sp" android:textColor="@color/text_foreground" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense" android:hint="来源地址">
+            <com.google.android.material.textfield.TextInputEditText android:id="@+id/source_url" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:singleLine="true" android:inputType="textUri" android:textSize="14sp" android:textColor="@color/text_foreground" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="end"
+            android:layout_marginTop="12dp" android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton android:id="@+id/source_cancel" android:layout_width="wrap_content"
+                android:layout_height="48dp" android:minWidth="0dp" android:text="取消" style="@style/Widget.MaterialComponents.Button.TextButton" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/source_save" android:layout_width="wrap_content"
+                android:layout_height="48dp" android:minWidth="0dp" android:text="保存" style="@style/Widget.MaterialComponents.Button.TextButton" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/source_apply" android:layout_width="wrap_content"
+                android:layout_height="48dp" android:minWidth="0dp" android:text="保存并使用" style="@style/Widget.MaterialComponents.Button.TextButton" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -7,7 +7,7 @@
     android:background="@android:color/black">
 
 
-    <com.github.tvbox.osc.player.MyVideoView
+    <com.kukuqi.tvbox.osc.player.MyVideoView
         android:id="@+id/mVideoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -1,39 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/bg"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_gravity="center"
-    android:background="@color/bg_popup"
-    android:paddingTop="20dp"
-    android:paddingBottom="10dp"
-    android:gravity="center_horizontal">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mGroupGridView"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:fadeScrollbars="false"
-        android:listSelector="@drawable/item_bg_selector_left"
-        android:paddingHorizontal="10dp"
-        android:scrollbars="none"
-        android:layout_gravity="center"
-        android:layout_marginLeft="40dp"
-        tools:listitem="@layout/item_live_channel_group_new"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mChannelGridView"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        android:fadeScrollbars="false"
-        android:focusable="true"
-        android:listSelector="@drawable/item_bg_selector_right"
-        android:scrollbars="none"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="40dp"
-        tools:listitem="@layout/item_live_channel_new"/>
+    android:id="@+id/bg" android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/bg_popup" android:padding="16dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="48dp" android:gravity="center_vertical">
+        <TextView android:id="@+id/channels_all" android:layout_width="0dp" android:layout_height="match_parent"
+            android:layout_weight="1" android:gravity="center" android:text="全部频道" android:textSize="16sp" android:textColor="@color/text_foreground" />
+        <TextView android:id="@+id/channels_favorites" android:layout_width="0dp" android:layout_height="match_parent"
+            android:layout_weight="1" android:gravity="center" android:text="我的收藏" android:textSize="16sp" android:textColor="@color/text_foreground" />
+        <TextView android:id="@+id/channels_close" android:layout_width="48dp" android:layout_height="match_parent"
+            android:gravity="center" android:text="关闭" android:textColor="@color/text_sub_foreground" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="8dp"
+        android:gravity="center_vertical" android:background="@drawable/bg_r_common_stroke_primary">
+        <EditText android:id="@+id/channel_query" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+            android:background="@null" android:paddingHorizontal="12dp" android:singleLine="true" android:inputType="text"
+            android:imeOptions="actionSearch" android:hint="搜索频道、分组或频道号" android:textSize="14sp"
+            android:textColor="@color/text_foreground" android:textColorHint="@color/text_sub_foreground" />
+        <TextView android:id="@+id/channel_clear" android:layout_width="48dp" android:layout_height="match_parent"
+            android:gravity="center" android:text="清空" android:textColor="@color/colorPrimary" android:visibility="gone" />
+    </LinearLayout>
+    <TextView android:id="@+id/channel_hint" android:layout_width="match_parent" android:layout_height="36dp"
+        android:gravity="center_vertical" android:text="长按频道收藏，再次长按取消" android:textSize="12sp" android:textColor="@color/text_sub_foreground" />
+    <LinearLayout android:id="@+id/channel_groups" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/mGroupGridView" android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="match_parent" android:scrollbars="none" />
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/mChannelGridView" android:layout_width="0dp" android:layout_weight="1.5"
+            android:layout_height="match_parent" android:layout_marginStart="12dp" android:scrollbars="none" />
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/channel_results" android:layout_width="match_parent"
+        android:layout_height="0dp" android:layout_weight="1" android:visibility="gone" android:scrollbars="none" />
+    <TextView android:id="@+id/channel_empty" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:gravity="center" android:text="没有匹配的频道" android:textColor="@color/text_sub_foreground" android:visibility="gone" />
 </LinearLayout>

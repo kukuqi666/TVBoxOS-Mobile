@@ -1,7 +1,7 @@
 <resources>
 
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!--应用的主要色调,actionBar默认使用该颜色,Toolbar导航栏的底色-->
         <item name="colorPrimary">@color/colorPrimary</item>
         <!--CheckBox,RadioButton,SwitchCompat等一般控件的选中效果默认采用该颜色-->
@@ -11,7 +11,7 @@
     </style>
 
     <style name="SplashTheme" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/bg_splash</item>
+        <item name="android:windowBackground">@color/white</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>
     </style>

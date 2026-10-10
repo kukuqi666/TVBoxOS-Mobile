@@ -6,17 +6,31 @@ def tvBoxKeyAlias = System.getenv('TVBOX_KEY_ALIAS') ?: 'TVBoxOSC'
 def tvBoxKeyPassword = System.getenv('TVBOX_KEY_PASSWORD') ?: 'TVBoxOSC'
 def tvBoxStorePassword = System.getenv('TVBOX_STORE_PASSWORD') ?: 'TVBoxOSC'
 
+def verifyReleaseSigning = tasks.register('verifyReleaseSigning') {
+    doLast {
+        if (!tvBoxSigningStore.exists()) {
+            throw new GradleException('Release requires TVBoxOSC.jks and the fixed TVBOX signing credentials. Use assembleDebug for local development.')
+        }
+    }
+}
+tasks.configureEach { task ->
+    if (task.name == 'preReleaseBuild') task.dependsOn(verifyReleaseSigning)
+}
+
 android {
-    namespace 'com.github.tvbox.osc'
+    namespace 'com.kukuqi.tvbox.osc'
     compileSdkVersion 34
+    useLibrary 'android.test.runner'
+    useLibrary 'android.test.base'
 
     defaultConfig {
-        applicationId 'com.github.tvbox.osc'
+        applicationId 'com.kukuqi.tvbox.osc'
         minSdkVersion 24
         targetSdkVersion 34
-        versionCode 236
-        versionName '2.1.26'
+        versionCode 300
+        versionName '3.0.0'
         multiDexEnabled true
+        testInstrumentationRunner 'com.kukuqi.tvbox.osc.RegressionTestRunner'
         //设置room的Schema的位置
         javaCompileOptions {
             annotationProcessorOptions {
@@ -36,7 +50,7 @@ android {
 
         // Apk 输出配置
         variant.outputs.all { output ->
-            outputFileName = 'TVBox-Mobile-v' + variant.versionName + '.apk'
+            outputFileName = 'TVboxOSC-v' + variant.versionName + '.apk'
         }
     }
 
@@ -85,6 +99,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 
     packagingOptions {//引入dlna-cast时的文件冲突
@@ -92,13 +107,34 @@ android {
     }
 }
 
+def generatedNotes = layout.buildDirectory.dir('generated/releaseNotes')
+android.sourceSets.main.assets.srcDir(generatedNotes)
+def generateReleaseNotes = tasks.register('generateReleaseNotes') {
+    def notesSource = rootProject.file("docs/releases/${android.defaultConfig.versionName}.md")
+    inputs.property('versionName', android.defaultConfig.versionName)
+    inputs.files(notesSource)
+    outputs.dir(generatedNotes)
+    doLast {
+        def directory = generatedNotes.get().asFile
+        directory.mkdirs()
+        def notes = notesSource.exists() ? notesSource.getText('UTF-8') : "TVboxOSC ${android.defaultConfig.versionName}\n功能改进与问题修复。详细记录可通过项目地址查看。"
+        new File(directory, 'release-notes.txt').setText(notes.replaceAll('(?m)^#+ ', '').replace('**', '').replace('`', ''), 'UTF-8')
+    }
+}
+tasks.configureEach { task ->
+    if (task.name.startsWith('merge') && task.name.endsWith('Assets')) task.dependsOn(generateReleaseNotes)
+}
+
 dependencies {
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.work:work-testing:2.9.1'
     api fileTree(dir: "libs", include: ['*.jar', '*.aar'])
 
     implementation 'com.google.android.material:material:1.12.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.work:work-runtime:2.9.1'
 
     implementation 'org.nanohttpd:nanohttpd:2.3.1'
     implementation 'com.google.zxing:core:3.4.1'
@@ -112,8 +148,8 @@ dependencies {
     implementation 'org.conscrypt:conscrypt-android:2.5.2'
 
     implementation 'com.squareup.okhttp3:okhttp:3.12.11'
-    annotationProcessor 'androidx.room:room-compiler:2.3.0'
-    implementation 'androidx.room:room-runtime:2.3.0'
+    annotationProcessor 'androidx.room:room-compiler:2.6.1'
+    implementation 'androidx.room:room-runtime:2.6.1'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.squareup.okio:okio:2.8.0'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45-androidx'

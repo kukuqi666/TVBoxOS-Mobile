@@ -2,7 +2,7 @@ package com.github.catvod.crawler;
 
 import android.content.Context;
 
-import com.github.tvbox.osc.util.OkGoHelper;
+import com.kukuqi.tvbox.osc.util.OkGoHelper;
 
 import java.util.HashMap;
 import java.util.List;

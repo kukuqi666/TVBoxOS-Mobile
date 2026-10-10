@@ -1,155 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_gravity="center"
-              android:background="@drawable/bg_bottom_dialog"
-              android:orientation="vertical"
-              android:paddingHorizontal="20dp"
-              android:paddingTop="20dp"
-              android:paddingBottom="30dp">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:background="@drawable/bg_about_panel" android:scrollbars="none" android:clipToPadding="false">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:paddingHorizontal="24dp" android:paddingTop="12dp" android:paddingBottom="28dp">
+        <View android:layout_width="36dp" android:layout_height="4dp" android:layout_gravity="center_horizontal"
+            android:background="@drawable/bg_large_round_gray" android:backgroundTint="@color/disable_text" android:alpha="0.45" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="22dp" android:gravity="center_vertical">
+            <ImageView android:layout_width="64dp" android:layout_height="64dp" android:src="@mipmap/ic_launcher"
+                android:contentDescription="@string/app_name" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:layout_marginStart="16dp" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/app_name"
+                    android:textSize="24sp" android:textStyle="bold" android:textColor="@color/text_foreground" />
+                <TextView android:id="@+id/tv_about_version" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp" android:textSize="13sp" android:textColor="@color/text_sub_foreground" />
+            </LinearLayout>
+            <ImageView android:id="@+id/iv_close" android:layout_width="44dp" android:layout_height="44dp" android:padding="12dp"
+                android:src="@drawable/ic_close_24" app:tint="@color/text_sub_foreground" android:contentDescription="关闭"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+        </LinearLayout>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp"
+            android:text="开源 · 免费 · 无广告" android:textColor="@color/text_sub_foreground" android:textSize="14sp" />
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
-
-        <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:contentDescription="TVBox Mobile"
-                android:src="@drawable/app_icon" />
-
-        <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-            <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TVBox Mobile"
-                    android:textColor="@color/text_foreground"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-            <TextView
-                    android:id="@+id/tv_about_version"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:textColor="@color/text_sub_foreground"
-                    android:textSize="13sp"
-                    tools:text="Version 2.1.8" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp"
+            android:orientation="vertical" android:background="@drawable/bg_large_round_gray" android:padding="18dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+                <ImageView android:id="@+id/iv_update_animation" android:layout_width="28dp" android:layout_height="28dp"
+                    android:src="@drawable/ic_update_status" app:tint="@color/colorPrimary" android:importantForAccessibility="no" />
+                <TextView android:id="@+id/tv_update_title" android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:layout_marginStart="12dp" android:text="版本更新"
+                    android:textSize="16sp" android:textStyle="bold" android:textColor="@color/text_foreground" />
+            </LinearLayout>
+            <TextView android:id="@+id/tv_update_progress" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" android:text="自动检查新版本，下载后由你确认安装" android:maxLines="3" android:ellipsize="end"
+                android:lineSpacingExtra="3dp" android:textSize="13sp" android:textColor="@color/text_sub_foreground" />
+            <LinearLayout android:id="@+id/layout_update_progress" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:visibility="gone" android:layout_marginTop="14dp">
+                <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/pb_update_progress"
+                    android:layout_width="match_parent" android:layout_height="wrap_content" android:max="100"
+                    app:indicatorColor="@color/colorPrimary" app:trackColor="@color/light_gray_color"
+                    app:trackThickness="4dp" app:trackCornerRadius="2dp" />
+            </LinearLayout>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btn_check_update"
+                style="@style/Widget.MaterialComponents.Button" android:layout_width="match_parent" android:layout_height="48dp"
+                android:layout_marginTop="16dp" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="14dp"
+                android:text="检查更新" android:textSize="14sp" android:textColor="@color/white" app:backgroundTint="@color/colorPrimary" />
+            <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/switch_auto_update"
+                android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="10dp"
+                android:text="Wi-Fi 后台更新" android:textColor="@color/text_foreground" android:textSize="14sp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="开启后自动下载；关闭此页也会继续"
+                android:textSize="12sp" android:textColor="@color/text_sub_foreground" />
         </LinearLayout>
 
-        <ImageView
-                android:id="@+id/iv_close"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/ic_close_24"
-                android:padding="10dp"/>
+        <LinearLayout android:id="@+id/row_release_notes" android:layout_width="match_parent" android:layout_height="52dp"
+            android:layout_marginTop="14dp" android:gravity="center_vertical" android:background="?attr/selectableItemBackground">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:text="更新记录" android:textSize="14sp" android:textColor="@color/text_foreground" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="查看 ›"
+                android:textSize="13sp" android:textColor="@color/text_sub_foreground" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/row_github" android:layout_width="match_parent" android:layout_height="48dp"
+            android:gravity="center_vertical" android:background="?attr/selectableItemBackground">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                android:text="项目地址" android:textSize="14sp" android:textColor="@color/text_foreground" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="GitHub ›"
+                android:textSize="13sp" android:textColor="@color/text_sub_foreground" />
+        </LinearLayout>
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginVertical="8dp"
+            android:background="@color/gray_darker_press_alpha" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp"
+            android:text="联系作者" android:textSize="12sp" android:textColor="@color/text_sub_foreground" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp"
+            android:text="WeChat：wnfng666   ·   QID：wnfng66" android:textSize="13sp" android:textIsSelectable="true"
+            android:textColor="@color/text_foreground" />
     </LinearLayout>
-
-    <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="18dp"
-            android:background="@color/light_gray_color" />
-
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:lineSpacingExtra="6dp"
-            android:text="@string/about"
-            android:textColor="@color/text_sub_foreground"
-            android:textSize="14sp" />
-
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:text="项目地址"
-            android:textColor="@color/text_foreground"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="https://github.com/kukuqi666/TVBoxOS-Mobile"
-            android:textIsSelectable="true"
-            android:textColor="@color/text_sub_foreground"
-            android:layout_marginTop="5dp"
-            android:textSize="14sp" />
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:text="联系方式"
-            android:textColor="@color/text_foreground"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lineSpacingExtra="4dp"
-            android:layout_marginTop="5dp"
-            android:textIsSelectable="true"
-            android:textColor="@color/text_sub_foreground"
-            android:text="WeChat：wnfng666"
-            android:textSize="14sp" />
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textIsSelectable="true"
-            android:textColor="@color/text_sub_foreground"
-            android:text="QID：wnfng66"
-            android:textSize="14sp" />
-
-    <LinearLayout
-            android:id="@+id/layout_update_progress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-        <TextView
-                android:id="@+id/tv_update_progress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_sub_foreground"
-                android:textSize="13sp"
-                tools:text="正在下载 0%" />
-
-        <ProgressBar
-                android:id="@+id/pb_update_progress"
-                style="@android:style/Widget.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:max="100"
-                android:progress="0" />
-    </LinearLayout>
-
-    <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_check_update"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:text="检查更新"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/colorPrimary"
-            style="@style/Widget.MaterialComponents.Button" />
-
-</LinearLayout>
+</ScrollView>

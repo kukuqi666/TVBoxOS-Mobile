@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/windowBackground">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,9 +19,24 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/sleep_timer"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="12dp"
+                android:paddingHorizontal="12dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_r_common_stroke_primary"
+                android:text="定时停止 · 未开启"
+                android:textColor="@color/text_foreground"
+                android:textSize="15sp" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="倍速"
+                android:id="@+id/custom_speed"
+                android:text="倍速 · 自定义"
+                android:minHeight="48dp"
+                android:gravity="center_vertical"
                 android:textColor="?android:attr/textColorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold"

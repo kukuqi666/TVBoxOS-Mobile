@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/bg"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center"
@@ -10,8 +10,20 @@
     android:paddingTop="20dp"
     android:paddingBottom="10dp"
     android:gravity="center_horizontal"
+    android:orientation="vertical"
     >
 
+    <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+        android:orientation="horizontal" android:paddingHorizontal="20dp" android:gravity="center_vertical">
+        <TextView android:id="@+id/live_setting_epg" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
+            android:gravity="center_vertical" android:text="节目表 ›" android:textSize="15sp" android:textColor="@color/colorPrimary"
+            android:foreground="?android:selectableItemBackground" />
+        <TextView android:id="@+id/live_setting_sleep_timer" android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
+            android:gravity="end|center_vertical" android:maxLines="2" android:text="定时停止 · 未开启"
+            android:textSize="12sp" android:textColor="@color/text_sub_foreground" android:foreground="?android:selectableItemBackground" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:orientation="horizontal" android:baselineAligned="false">
     <com.owen.tvrecyclerview.widget.TvRecyclerView
         android:id="@+id/mSettingGroupView"
         android:layout_width="0dp"
@@ -34,4 +46,5 @@
         app:tv_selectedItemIsCentered="true"
         app:tv_verticalSpacingWithMargins="10dp" />
 
+    </LinearLayout>
 </LinearLayout>
