@@ -42,7 +42,8 @@ public final class UpdateCoordinator {
     }
 
     public static void download(Context context, boolean manual) {
-        WorkManager.getInstance(context).enqueueUniqueWork(DOWNLOAD, ExistingWorkPolicy.KEEP,
+        // A user download must replace a queued Wi-Fi task so the current network is used immediately.
+        WorkManager.getInstance(context).enqueueUniqueWork(DOWNLOAD, manual ? ExistingWorkPolicy.REPLACE : ExistingWorkPolicy.KEEP,
                 new OneTimeWorkRequest.Builder(UpdateWorker.class)
                         .setInputData(new androidx.work.Data.Builder().putBoolean("download", true).putBoolean("manual", manual).build())
                         .setConstraints(network(manual ? NetworkType.CONNECTED : NetworkType.UNMETERED)).build());

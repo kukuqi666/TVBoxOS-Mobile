@@ -25,7 +25,7 @@ public class UpdateRegressionTest extends InstrumentationTestCase {
     private UpdateStore store;
     private Map<String, ?> original;
     private ExecutorService executor;
-    private static final String MANIFEST = "{\"version\":\"3.0.1\",\"version_code\":301,\"package_name\":\"com.kukuqi.tvbox.osc\","
+    private static final String MANIFEST = "{\"version\":\"3.0.2\",\"version_code\":" + (BuildConfig.VERSION_CODE + 1) + ",\"package_name\":\"com.kukuqi.tvbox.osc\","
             + "\"apk_url\":\"https://github.com/kukuqi666/TVboxOSC/releases/download/v3.0.1/TVboxOSC-v3.0.1.apk\","
             + "\"size\":3,\"sha256\":\"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\"}";
 
@@ -59,13 +59,13 @@ public class UpdateRegressionTest extends InstrumentationTestCase {
         assertEquals(androidx.work.ListenableWorker.Result.success(), worker(false).doWork());
         UpdateStore reopened = new UpdateStore(getInstrumentation().getTargetContext());
         assertEquals(UpdateStore.AVAILABLE, reopened.state());
-        assertEquals(301L, reopened.manifest().versionCode);
+        assertEquals((long) BuildConfig.VERSION_CODE + 1, reopened.manifest().versionCode);
         assertEquals(2, FakeWorker.urls.size());
         assertTrue(FakeWorker.urls.get(0).startsWith("https://raw.githubusercontent.com/"));
         assertTrue(FakeWorker.urls.get(1).startsWith("https://gh.xxooo.cf/"));
     }
     public void testEqualVersionDoesNotDownload() {
-        FakeWorker.bodies.add(MANIFEST.replace("3.0.1", "3.0.0").replace("301", "300"));
+        FakeWorker.bodies.add(MANIFEST.replace("3.0.2", BuildConfig.VERSION_NAME).replace("\"version_code\":" + (BuildConfig.VERSION_CODE + 1), "\"version_code\":" + BuildConfig.VERSION_CODE));
         assertEquals(androidx.work.ListenableWorker.Result.success(), worker(false).doWork());
         assertEquals(UpdateStore.CURRENT, store.state());
         assertFalse(store.hasReadyUpdate());

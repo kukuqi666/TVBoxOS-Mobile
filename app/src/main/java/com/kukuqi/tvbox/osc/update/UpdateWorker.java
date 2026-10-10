@@ -85,7 +85,8 @@ public class UpdateWorker extends Worker {
         File apk = store.apk(manifest);
         File directory = apk.getParentFile();
         if (!directory.isDirectory() && !directory.mkdirs()) throw new IOException("无法创建下载目录");
-        File part = new File(directory, "TVboxOSC-v" + manifest.version + ".part.apk");
+        // Distinct files prevent a cancelled Wi-Fi worker from deleting a replacement task's download.
+        File part = new File(directory, "TVboxOSC-v" + manifest.version + "." + getId() + ".part.apk");
         Exception last = null;
         for (String route : ROUTES) {
             if (isStopped()) return Result.failure();
