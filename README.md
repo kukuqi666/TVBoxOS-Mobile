@@ -56,13 +56,15 @@ https://github.com/UndCover/PyramidStore/
 
 ## 📲软件合集（软件安装）
 ### TVBox for Android
-- TVboxOSC：[下载 v3.0.2](https://gh-proxy.com/https://github.com/kukuqi666/TVboxOSC/releases/download/v3.0.2/TVboxOSC-v3.0.2.apk) · [所有版本](https://github.com/kukuqi666/TVboxOSC/releases)
+- TVboxOSC：[下载 v3.0.3](https://gh-proxy.com/https://github.com/kukuqi666/TVboxOSC/releases/download/v3.0.3/TVboxOSC-v3.0.3.apk) · [所有版本](https://github.com/kukuqi666/TVboxOSC/releases)
 
 
 ## 🎁福利18+
 - R18: [R18](https://raw.githubusercontent.com/kukuqi666/TVboxOSC/main/website/tvbox/R18.json)
 
 ## 𝟭. 更新记录
+
+>* **2026/10/10 TVboxOSC v3.0.3：** 发布签名 APK，同步应用内更新清单和下载链接。
 
 >* **2026/10/10 TVboxOSC v3.0.2：** 优化应用内更新：自动检测、手动检查、Wi-Fi 后台下载和手动下载统一优先使用 gh-proxy.com 加速镜像，失败后回退 GitHub 官方直连；保留更新包完整性、应用版本和签名校验，同步签名 APK 和应用内更新清单。
 
