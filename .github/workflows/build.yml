@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   build-apk:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
@@ -26,9 +26,8 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - uses: android-actions/setup-android@v3
       - name: Install Android API 34
-        run: sdkmanager 'platforms;android-34' 'build-tools;34.0.0'
+        run: '"$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-34" "build-tools;34.0.0"'
       - uses: gradle/actions/setup-gradle@v4
       - uses: actions/setup-python@v5
         with:
@@ -61,7 +60,7 @@ jobs:
 
   plan-release:
     if: github.repository == 'kukuqi666/TVboxOSC' && github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       mode: ${{ steps.plan.outputs.mode }}
       tag: ${{ steps.plan.outputs.tag }}
@@ -82,7 +81,7 @@ jobs:
   publish-release:
     needs: [build-apk, plan-release]
     if: needs.plan-release.outputs.mode == 'publish'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 35
     permissions:
       contents: write
@@ -94,8 +93,8 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - uses: android-actions/setup-android@v3
-      - run: sdkmanager 'platforms;android-34' 'build-tools;34.0.0'
+      - name: Install Android API 34
+        run: '"$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-34" "build-tools;34.0.0"'
       - uses: gradle/actions/setup-gradle@v4
       - uses: actions/setup-python@v5
         with:
@@ -149,7 +148,7 @@ jobs:
   sync-metadata:
     needs: [build-apk, plan-release, publish-release]
     if: always() && needs.build-apk.result == 'success' && needs.plan-release.result == 'success' && (needs.publish-release.result == 'success' || needs.plan-release.outputs.mode == 'sync')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:
